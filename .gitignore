@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+data/
+recon/dump/
+recon/*.html
+recon/cookies.txt
+recon/cj.txt
+.playwright-mcp/
+.pytest_cache/

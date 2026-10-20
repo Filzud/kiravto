@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "kiravto": {
+      "command": "python",
+      "args": ["-m", "kiravto.mcp_server"],
+      "env": { "PYTHONIOENCODING": "utf-8" }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@0.0.41"]
+    }
+  }
+}
