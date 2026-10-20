@@ -1,0 +1,17 @@
+{
+ "id": "msg_rec_2",
+ "type": "message",
+ "role": "assistant",
+ "model": "claude-haiku-5-5",
+ "content": [
+  {
+   "type": "text",
+   "text": "```json\n{\"facts\": [{\"fact\": \"Гарантия РОЛЬФ 2 года\", \"quote\": \"2 года гарантии РОЛЬФ\"}, {\"fact\": \"Машина без ДТП\", \"quote\": \"автомобиль не участвовал в ДТП\"}]}\n```"
+  }
+ ],
+ "stop_reason": "end_turn",
+ "usage": {
+  "input_tokens": 1402,
+  "output_tokens": 98
+ }
+}

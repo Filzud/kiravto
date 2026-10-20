@@ -1,0 +1,37 @@
+# docker compose up — сборщик по расписанию, бот модерации, HTTP API. Общая база в ./data.
+# Секреты — только в .env (создаётся командой `python -m kiravto secrets`).
+x-app: &app
+  build: .
+  env_file:
+    - path: .env
+      required: false
+  volumes:
+    - ./data:/app/data
+  restart: unless-stopped
+
+services:
+  collector:
+    <<: *app
+    command: ["python", "-m", "kiravto", "collector"]
+    shm_size: 512m
+
+  bot:
+    <<: *app
+    command: ["python", "-m", "kiravto", "bot"]
+    depends_on: [collector]
+
+  api:
+    <<: *app
+    command: ["python", "-m", "kiravto", "api", "--port", "8080"]
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health')"]
+      interval: 60s
+      timeout: 5s
+
+  tests:
+    <<: *app
+    profiles: ["test"]
+    restart: "no"
+    command: ["python", "-m", "pytest", "-q"]

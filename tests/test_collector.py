@@ -5,6 +5,7 @@ import pytest
 
 from kiravto.collector import Collector, relist_match
 from kiravto.source.parse import SourceFormatError
+from tests.conftest import load_json
 
 
 def run(conn, source, settings, clock, **kw):
@@ -167,3 +168,30 @@ def test_relist_match_rules():
     assert relist_match(base, {**base, "vin": "Z94**************"}) is None   # видимая часть VIN другая
     assert relist_match({**base, "vin": "XWEAAAAAAAAAAAAAA", "vin_full": True},
                         {**base, "year": 2019, "vin": "XWEAAAAAAAAAAAAAA", "vin_full": True}) == "VIN"
+
+
+def test_listing_lags_behind_card_removed(conn, source, settings, clock):
+    """Выдача ещё показывает машину, карточка уже REMOVED: снимаем, и статус не «мигает»."""
+    stale = source.offers["new"][1]
+    removed = load_json("card_removed_1160201304.json")
+    source.cards[f"{stale['id']}-{stale['hash']}"] = {**removed, "id": stale["id"]}
+    r = run(conn, source, settings, clock)
+    assert r["status"] == "complete" and r["removed_count"] == 1
+    for _ in range(2):                                   # дальше висит в выдаче — остаётся снятым
+        clock.advance(minutes=45)
+        r = run(conn, source, settings, clock)
+        assert r["returned_count"] == 0
+    assert conn.execute("SELECT status FROM offers WHERE id=?", (str(stale["id"]),)).fetchone()[0] == "removed"
+    assert len(events(conn, "returned")) == 0
+    # а когда карточка снова активна — это настоящий возврат
+    del source.cards[f"{stale['id']}-{stale['hash']}"]
+    clock.advance(minutes=45)
+    assert run(conn, source, settings, clock)["returned_count"] == 1
+
+
+def test_failed_run_counters_do_not_lie(conn, source, settings, clock):
+    del source.offers["used"][2]["price_info"]
+    with pytest.raises(SourceFormatError):
+        run(conn, source, settings, clock)
+    row = conn.execute("SELECT new_count, cards_fetched FROM runs").fetchone()
+    assert tuple(row) == (0, 0)

@@ -159,6 +159,11 @@ def parse_card(raw: dict) -> dict | None:
         if raw.get("action_kind") == "NEED_AUTH" or raw.get("error") in ("ACTION_REQUIRED", "CAPTCHA"):
             raise SourceBlocked(f"карточка: {raw.get('error')}")
         raise SourceFormatError(f"карточка вернула ошибку {raw.get('error')}")
+    status = raw.get("status")
+    if status and status != "ACTIVE":
+        # Снятое объявление: выдача ещё показывает его, а карточка уже REMOVED и без цены
+        # (поймано живым прогоном 21.10.2026 на #1160201304). Это не смена формата.
+        return {"id": str(raw.get("id")), "status_source": status, "inactive": True}
     offer = parse_offer(raw)
     if "description" not in raw:
         raise SourceFormatError(f"в карточке {offer['id']} нет поля 'description'")

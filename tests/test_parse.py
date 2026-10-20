@@ -86,3 +86,9 @@ def test_anomalies_marked_not_dropped():
     o = {"price": 1, "section": "used", "mileage": 0, "year": 2031, "mark_code": "KIA", "model_code": "RIO"}
     an = nz.find_anomalies(o, med)
     assert {"price_too_low", "zero_mileage_used", "year_in_future", "price_10x_below_median"} <= set(an)
+
+
+def test_removed_card_is_not_format_change():
+    # реальный ответ 21.10.2026: в выдаче объявление ещё есть, карточка уже REMOVED и без цены
+    c = parse_card(load_json("card_removed_1160201304.json"))
+    assert c == {"id": "1160201304", "status_source": "REMOVED", "inactive": True}

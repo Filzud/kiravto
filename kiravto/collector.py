@@ -56,6 +56,7 @@ class Collector:
         self.clock = clock
         self.run_id: int | None = None
         self.stats: dict = {}
+        self._maybe_returned: dict[str, str] = {}
         self.photo_requests = 0
 
     # ---------------------------------------------------------------- run
@@ -109,12 +110,14 @@ class Collector:
             return self.summary()
         except SourceFormatError as e:
             self.conn.rollback()
+            self.stats = dict.fromkeys(self.stats, 0)
             notes.append(f"СМЕНА ФОРМАТА ИСТОЧНИКА: {e}")
             self._finish("failed", None, 0, 0.0, False, t0, notes)
             self.conn.commit()
             raise
         except Exception as e:  # неожиданное — прогон помечаем, исключение пробрасываем
             self.conn.rollback()
+            self.stats = dict.fromkeys(self.stats, 0)
             notes.append(f"ошибка: {e.__class__.__name__}: {e}")
             self._finish("failed", None, 0, 0.0, blocked, t0, notes)
             self.conn.commit()
@@ -179,46 +182,47 @@ class Collector:
                 note = (note or "") + f"{section}: {len(section_ids)} из {section_total}. "
         return found, source_total, blocked, note
 
-    def _upsert_listing(self, offers: dict[str, dict]) -> set[str]:
+    def _upsert_listing(self, offers: dict[str, dict]) -> None:
         now = iso(self.clock())
-        st = self.stats
         for oid, o in offers.items():
-            row = self.conn.execute("SELECT * FROM offers WHERE id=?", (oid,)).fetchone()
-            sig = listing_signature(o)
+            row = self.conn.execute("SELECT status FROM offers WHERE id=?", (oid,)).fetchone()
             if row is None:
-                self._insert_offer(o, sig, now)
-                st["new_count"] += 1
-                continue
-            changed = False
-            if row["status"] != "active":
-                self._event(oid, "returned", row["status"], "active",
-                            f"снова в выдаче после {row['removed_at'] or '?'}")
-                self.conn.execute("UPDATE offers SET status='active', removed_at=NULL, sold_at=NULL WHERE id=?", (oid,))
-                st["returned_count"] += 1
-            if row["price"] != o["price"] or row["price_discount"] != o["price_discount"]:
-                if row["price"] != o["price"]:
-                    self._event(oid, "price_changed", row["price"], o["price"])
-                if row["price_discount"] != o["price_discount"]:
-                    self._event(oid, "discount_changed", row["price_discount"], o["price_discount"])
-                self.conn.execute("INSERT INTO price_history(offer_id, ts, price, price_discount, run_id) VALUES(?,?,?,?,?)",
-                                  (oid, now, o["price"], o["price_discount"], self.run_id))
+                self._insert_offer(o, listing_signature(o), now)
+                self.stats["new_count"] += 1
+            elif row["status"] != "active":
+                # снова в выдаче — но выдача отстаёт от карточек, поэтому «вернулось» подтверждаем карточкой
+                self._maybe_returned[oid] = row["status"]
+                self.conn.execute("UPDATE offers SET last_seen=? WHERE id=?", (now, oid))
+            else:
+                self._update_from_listing(oid, o)
+
+    def _update_from_listing(self, oid: str, o: dict) -> None:
+        now = iso(self.clock())
+        row = self.conn.execute("SELECT * FROM offers WHERE id=?", (oid,)).fetchone()
+        changed = False
+        if row["price"] != o["price"] or row["price_discount"] != o["price_discount"]:
+            if row["price"] != o["price"]:
+                self._event(oid, "price_changed", row["price"], o["price"])
+            if row["price_discount"] != o["price_discount"]:
+                self._event(oid, "discount_changed", row["price_discount"], o["price_discount"])
+            self.conn.execute("INSERT INTO price_history(offer_id, ts, price, price_discount, run_id) VALUES(?,?,?,?,?)",
+                              (oid, now, o["price"], o["price_discount"], self.run_id))
+            changed = True
+        for field, ev in TRACKED_LISTING.items():
+            if row[field] != o[field] and o[field] is not None:
+                self._event(oid, ev, row[field], o[field])
                 changed = True
-            for field, ev in TRACKED_LISTING.items():
-                if row[field] != o[field] and o[field] is not None:
-                    self._event(oid, ev, row[field], o[field])
-                    changed = True
-            if changed:
-                st["changed_count"] += 1
-            cols = {c: o[c] for c in OFFER_COLUMNS}
-            cols["vin_full"] = int(bool(o["vin_full"]))
-            cols["customs_cleared"] = None if o["customs_cleared"] is None else int(o["customs_cleared"])
-            if row["details_at"] is None:  # пока нет карточки — берём фото из выдачи
-                cols["photos"] = json.dumps(o["photos"])
-                cols["photo_count"] = o["photo_count"]
-            sets = ", ".join(f"{c}=?" for c in cols)
-            self.conn.execute(f"UPDATE offers SET {sets}, last_seen=?, listing_sig=? WHERE id=?",
-                              (*cols.values(), now, sig, oid))
-        return set(offers)
+        if changed:
+            self.stats["changed_count"] += 1
+        cols = {c: o[c] for c in OFFER_COLUMNS}
+        cols["vin_full"] = int(bool(o["vin_full"]))
+        cols["customs_cleared"] = None if o["customs_cleared"] is None else int(o["customs_cleared"])
+        if row["details_at"] is None:  # пока нет карточки — берём фото из выдачи
+            cols["photos"] = json.dumps(o["photos"])
+            cols["photo_count"] = o["photo_count"]
+        sets = ", ".join(f"{c}=?" for c in cols)
+        self.conn.execute(f"UPDATE offers SET {sets}, last_seen=?, listing_sig=? WHERE id=?",
+                          (*cols.values(), now, listing_signature(o), oid))
 
     def _insert_offer(self, o: dict, sig: str, now: str) -> None:
         cols = {c: o[c] for c in OFFER_COLUMNS}
@@ -245,8 +249,29 @@ class Collector:
             return None
 
     # ----------------------------------------------------------- details
+    def _confirm_returned(self, offers: dict[str, dict]) -> str | None:
+        for oid, old_status in list(self._maybe_returned.items()):
+            o = offers[oid]
+            try:
+                raw = self.source.card(f"{oid}-{o['hash']}")
+            except SourceBlocked as e:
+                return f"проверка вернувшихся: блокировка ({e})"
+            card = parse_card(raw)
+            self.stats["cards_fetched"] += 1
+            if card is None or card.get("inactive"):
+                continue  # в выдаче висит, но карточка снята — остаётся снятым
+            row = self.conn.execute("SELECT removed_at FROM offers WHERE id=?", (oid,)).fetchone()
+            self._event(oid, "returned", old_status, "active", f"снова в продаже после {row['removed_at'] or '?'}")
+            self.conn.execute("UPDATE offers SET status='active', removed_at=NULL, sold_at=NULL WHERE id=?", (oid,))
+            self.stats["returned_count"] += 1
+            self._update_from_listing(oid, o)
+        return None
+
     def _fetch_details(self, offers: dict[str, dict]) -> str | None:
         """Карточки только новым и изменившимся (и тем, что не успели в прошлый раз)."""
+        note = self._confirm_returned(offers)
+        if note:
+            return note
         need = [r["id"] for r in self.conn.execute(
             "SELECT id FROM offers WHERE status='active' AND (details_at IS NULL OR details_sig IS NULL "
             "OR details_sig != listing_sig) ORDER BY first_seen DESC")]
@@ -262,8 +287,11 @@ class Collector:
                 return f"карточки: блокировка ({e}), остальное доделает следующий прогон"
             card = parse_card(raw)
             self.stats["cards_fetched"] += 1
-            if card is None:
-                continue  # пропала между выдачей и карточкой — разберёмся при проверке снятий
+            if card is None or card.get("inactive"):
+                # выдача отстаёт от карточек: объявление уже снято, хотя ещё в списке
+                self._mark_removed(oid, "карточка не найдена" if card is None
+                                   else f"статус карточки {card['status_source']}, хотя ещё в выдаче")
+                continue
             self._apply_card(oid, card)
         return None
 
@@ -313,11 +341,14 @@ class Collector:
                 self._event(r["id"], "still_active", None, None, "нет в выдаче, но карточка активна")
                 self.conn.execute("UPDATE offers SET last_seen=? WHERE id=?", (now, r["id"]))
                 continue
-            reason = "карточка не найдена" if card is None else f"статус карточки {card.get('status_source')}"
-            self._event(r["id"], "removed", "active", "removed", reason)
-            self.conn.execute("UPDATE offers SET status='removed', removed_at=? WHERE id=?", (now, r["id"]))
-            self.stats["removed_count"] += 1
+            self._mark_removed(r["id"], "карточка не найдена" if card is None
+                               else f"статус карточки {card.get('status_source')}")
         return None
+
+    def _mark_removed(self, oid: str, reason: str) -> None:
+        self._event(oid, "removed", "active", "removed", reason)
+        self.conn.execute("UPDATE offers SET status='removed', removed_at=? WHERE id=?", (iso(self.clock()), oid))
+        self.stats["removed_count"] += 1
 
     def _detect_relisted(self) -> None:
         now = self.clock()
