@@ -63,6 +63,9 @@ class Collector:
     def run(self) -> dict:
         started = self.clock()
         t0 = time.monotonic()
+        # процесс убили посреди прогона — такой прогон честно помечаем прерванным
+        self.conn.execute("UPDATE runs SET status='failed', note=COALESCE(note, 'прогон прерван (процесс остановлен)') "
+                          "WHERE status='running'")
         prev_active = self.conn.execute("SELECT COUNT(*) FROM offers WHERE status='active'").fetchone()[0]
         cur = self.conn.execute("INSERT INTO runs(started_at, status, prev_active) VALUES(?, 'running', ?)",
                                 (iso(started), prev_active))
@@ -278,8 +281,10 @@ class Collector:
         need = [oid for oid in need if oid in offers]
         todo, rest = need[: self.s.max_cards_per_run], need[self.s.max_cards_per_run:]
         self.stats["details_pending"] = len(rest)
-        for oid in todo:
+        for i, oid in enumerate(todo, 1):
             o = offers[oid]
+            if i % 20 == 0:
+                log.info("карточки: %s из %s", i, len(todo))
             try:
                 raw = self.source.card(f"{oid}-{o['hash']}")
             except SourceBlocked as e:

@@ -195,3 +195,11 @@ def test_failed_run_counters_do_not_lie(conn, source, settings, clock):
         run(conn, source, settings, clock)
     row = conn.execute("SELECT new_count, cards_fetched FROM runs").fetchone()
     assert tuple(row) == (0, 0)
+
+
+def test_killed_run_marked_failed(conn, source, settings, clock):
+    conn.execute("INSERT INTO runs(started_at, status) VALUES('2026-10-20T08:00:00+00:00', 'running')")
+    conn.commit()
+    run(conn, source, settings, clock)
+    row = conn.execute("SELECT status, note FROM runs WHERE id=1").fetchone()
+    assert row["status"] == "failed" and "прерван" in row["note"]

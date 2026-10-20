@@ -164,6 +164,8 @@ def cmd_dump_fixtures(args) -> None:
 
 def main(argv: list[str] | None = None) -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    # httpx на INFO пишет каждый запрос (и полный URL, где может быть токен бота)
+    logging.getLogger("httpx").setLevel(logging.WARNING)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     p = argparse.ArgumentParser(prog="kiravto")

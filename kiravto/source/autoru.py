@@ -25,12 +25,22 @@ CARD_EP = "/-/ajax/desktop-search/getOfferCard/"
 UNHIDE_FILTERS = {"has_image": False, "damage_group": "ANY", "customs_state_group": "DOESNT_MATTER"}
 PAGE_SIZE = 50  # больше источник не отдаёт
 
-FETCH_JS = """async ([ep, body]) => {
+# Таймаут обязателен: прогон #3 (21.10.2026) завис навсегда на fetch без ответа.
+FETCH_JS = """async ([ep, body, timeoutMs]) => {
   const csrf = (document.cookie.match(/_csrf_token=([^;]+)/) || [])[1] || '';
-  const r = await fetch(ep, {method: 'POST', credentials: 'include',
-      headers: {'content-type': 'application/json', 'x-csrf-token': csrf}, body: JSON.stringify(body)});
-  return {status: r.status, url: r.url, text: await r.text()};
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs || 30000);
+  try {
+    const r = await fetch(ep, {method: 'POST', credentials: 'include', signal: ctrl.signal,
+        headers: {'content-type': 'application/json', 'x-csrf-token': csrf}, body: JSON.stringify(body)});
+    return {status: r.status, url: r.url, text: await r.text()};
+  } catch (e) {
+    return {status: 0, url: ep, text: '', error: String(e)};
+  } finally {
+    clearTimeout(timer);
+  }
 }"""
+FETCH_TIMEOUT_MS = 30_000
 
 
 class Source(Protocol):
@@ -55,6 +65,8 @@ def _decode(resp: dict, what: str) -> dict:
     if "auth.auto.ru" in url:
         raise SourceBlocked(f"{what}: редирект на вход")
     status = resp.get("status", 0)
+    if resp.get("error"):
+        raise TransientError(f"{what}: {resp['error'][:80]}")
     if status in (429,) or status >= 500:
         raise TransientError(f"{what}: HTTP {status}")
     if status == 403:
@@ -128,7 +140,7 @@ class AutoruBrowserSource:
             time.sleep(random.uniform(*self.pause))
             self.requests += 1
             try:
-                resp = page.evaluate(FETCH_JS, [ep, body])
+                resp = page.evaluate(FETCH_JS, [ep, body, FETCH_TIMEOUT_MS])
                 return _decode(resp, what)
             except TransientError as e:
                 self.errors += 1

@@ -117,3 +117,19 @@ def test_source_retries_empty_then_succeeds(monkeypatch):
     answers[:] = [{"status": 200, "url": "u", "text": ""}] * 3
     with pytest.raises(SourceBlocked):
         src.card("1-a")
+
+
+def test_fetch_timeout_is_transient(monkeypatch):
+    from kiravto.source import autoru
+    monkeypatch.setattr(autoru.time, "sleep", lambda s: None)
+    answers = [{"status": 0, "url": "u", "text": "", "error": "AbortError: signal is aborted"},
+               {"status": 200, "url": "u", "text": '{"ok": 1}'}]
+
+    class Page:
+        def evaluate(self, js, args):
+            assert args[2] == autoru.FETCH_TIMEOUT_MS
+            return answers.pop(0)
+
+    src = autoru.AutoruBrowserSource("d", "1", pause=(0, 0))
+    src._page = Page()
+    assert src.card("1-a") == {"ok": 1}
