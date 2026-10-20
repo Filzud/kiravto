@@ -123,7 +123,8 @@ def cmd_sample(args) -> None:
     from .db import row_to_offer
 
     conn = connect(load_settings().db_path)
-    rows = conn.execute("SELECT * FROM offers WHERE status='active'").fetchall()
+    sql = "SELECT * FROM offers WHERE status='active'" + (" AND details_at IS NOT NULL" if args.with_details else "")
+    rows = conn.execute(sql).fetchall()
     pick = random.Random(args.seed).sample(rows, min(args.n, len(rows)))
     out = []
     for r in pick:
@@ -186,6 +187,7 @@ def main(argv: list[str] | None = None) -> None:
     sp = sub.add_parser("sample", help="N случайных машин для сверки")
     sp.add_argument("n", type=int, nargs="?", default=20)
     sp.add_argument("--seed", type=int, default=None)
+    sp.add_argument("--with-details", action="store_true", help="только машины, у которых уже есть карточка")
     sp.set_defaults(f=cmd_sample)
     sub.add_parser("report", help="пересобрать HTML-отчёт").set_defaults(f=cmd_report)
     sp = sub.add_parser("dump-fixtures", help="сохранить свежие ответы источника")

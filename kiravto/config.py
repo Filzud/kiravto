@@ -38,6 +38,7 @@ class Settings:
     completeness_threshold: float = 0.9
     sold_after_days: int = 7
     max_cards_per_run: int = 120
+    refresh_cards_per_run: int = 60   # сколько уже известных карточек освежать по кругу за прогон
     max_verify_per_run: int = 40
     request_pause_s: tuple[float, float] = (2.0, 4.5)
     headless: bool = True
@@ -91,6 +92,7 @@ def load_settings(env_path: Path | None = None) -> Settings:
         completeness_threshold=float(g("COMPLETENESS_THRESHOLD", "0.9")),
         sold_after_days=int(g("SOLD_AFTER_DAYS", "7")),
         max_cards_per_run=int(g("MAX_CARDS_PER_RUN", "120")),
+        refresh_cards_per_run=int(g("REFRESH_CARDS_PER_RUN", "60")),
         max_verify_per_run=int(g("MAX_VERIFY_PER_RUN", "40")),
         headless=g("HEADLESS", "1") != "0",
         drop_min_pct=float(g("DROP_MIN_PCT", "3")),

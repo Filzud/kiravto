@@ -93,7 +93,7 @@ class Clock:
 
 @pytest.fixture
 def settings(tmp_path) -> Settings:
-    return Settings(db_path=tmp_path / "t.db", report_path=tmp_path / "report.html", max_cards_per_run=500,
+    return Settings(db_path=tmp_path / "t.db", report_path=tmp_path / "report.html", max_cards_per_run=500, refresh_cards_per_run=0,
                     max_verify_per_run=50, request_pause_s=(0, 0), api_token="secret-test-token")
 
 

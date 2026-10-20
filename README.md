@@ -110,6 +110,8 @@ python -m pytest -q            # тесты, без сети
 ## Подключение MCP к агенту
 
 В репозитории `.mcp.json` — Claude Code подхватит сервер `kiravto` сам при запуске в корне проекта.
+Команда в нём — `python`, поэтому `claude` запускайте из окружения, где стоят зависимости:
+`source .venv/bin/activate` (Windows: `.venv\Scripts\activate`), затем `claude`. Проверить: `/mcp` в Claude Code.
 Вручную: `claude mcp add kiravto -- python -m kiravto.mcp_server` (из корня репозитория; база —
 `DB_PATH` или `data/kiravto.db`). Другие клиенты — stdio-команда `python -m kiravto.mcp_server`.
 

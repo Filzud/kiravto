@@ -186,9 +186,12 @@ class Collector:
         return found, source_total, blocked, note
 
     def _upsert_listing(self, offers: dict[str, dict]) -> None:
+        """Выдача — индекс ID и подсказка «что-то поменялось». Цены в ней отстают на дни
+        (сверка 21.10.2026: update_date в выдаче 11.10, в карточке — сегодня), поэтому у машин
+        с карточкой поля из выдачи не перезаписываются — их обновляет только карточка."""
         now = iso(self.clock())
         for oid, o in offers.items():
-            row = self.conn.execute("SELECT status FROM offers WHERE id=?", (oid,)).fetchone()
+            row = self.conn.execute("SELECT status, details_at FROM offers WHERE id=?", (oid,)).fetchone()
             if row is None:
                 self._insert_offer(o, listing_signature(o), now)
                 self.stats["new_count"] += 1
@@ -196,12 +199,26 @@ class Collector:
                 # снова в выдаче — но выдача отстаёт от карточек, поэтому «вернулось» подтверждаем карточкой
                 self._maybe_returned[oid] = row["status"]
                 self.conn.execute("UPDATE offers SET last_seen=? WHERE id=?", (now, oid))
+            elif row["details_at"] is None:
+                # карточки ещё нет — держим предварительные данные выдачи, без событий
+                self._write_fields(oid, o, extra={"photos": json.dumps(o["photos"]), "photo_count": o["photo_count"]})
+                self.conn.execute("UPDATE offers SET last_seen=?, listing_sig=? WHERE id=?",
+                                  (now, listing_signature(o), oid))
             else:
-                self._update_from_listing(oid, o)
+                self.conn.execute("UPDATE offers SET last_seen=?, listing_sig=? WHERE id=?",
+                                  (now, listing_signature(o), oid))
 
-    def _update_from_listing(self, oid: str, o: dict) -> None:
+    def _write_fields(self, oid: str, o: dict, extra: dict | None = None) -> None:
+        cols = {c: o[c] for c in OFFER_COLUMNS}
+        cols["vin_full"] = int(bool(o["vin_full"]))
+        cols["customs_cleared"] = None if o["customs_cleared"] is None else int(o["customs_cleared"])
+        cols.update(extra or {})
+        sets = ", ".join(f"{c}=?" for c in cols)
+        self.conn.execute(f"UPDATE offers SET {sets} WHERE id=?", (*cols.values(), oid))
+
+    def _diff_tracked(self, oid: str, row, o: dict) -> bool:
+        """События по ценам и отслеживаемым полям: старое значение из базы, новое — из карточки."""
         now = iso(self.clock())
-        row = self.conn.execute("SELECT * FROM offers WHERE id=?", (oid,)).fetchone()
         changed = False
         if row["price"] != o["price"] or row["price_discount"] != o["price_discount"]:
             if row["price"] != o["price"]:
@@ -215,17 +232,7 @@ class Collector:
             if row[field] != o[field] and o[field] is not None:
                 self._event(oid, ev, row[field], o[field])
                 changed = True
-        if changed:
-            self.stats["changed_count"] += 1
-        cols = {c: o[c] for c in OFFER_COLUMNS}
-        cols["vin_full"] = int(bool(o["vin_full"]))
-        cols["customs_cleared"] = None if o["customs_cleared"] is None else int(o["customs_cleared"])
-        if row["details_at"] is None:  # пока нет карточки — берём фото из выдачи
-            cols["photos"] = json.dumps(o["photos"])
-            cols["photo_count"] = o["photo_count"]
-        sets = ", ".join(f"{c}=?" for c in cols)
-        self.conn.execute(f"UPDATE offers SET {sets}, last_seen=?, listing_sig=? WHERE id=?",
-                          (*cols.values(), now, listing_signature(o), oid))
+        return changed
 
     def _insert_offer(self, o: dict, sig: str, now: str) -> None:
         cols = {c: o[c] for c in OFFER_COLUMNS}
@@ -267,7 +274,7 @@ class Collector:
             self._event(oid, "returned", old_status, "active", f"снова в продаже после {row['removed_at'] or '?'}")
             self.conn.execute("UPDATE offers SET status='active', removed_at=NULL, sold_at=NULL WHERE id=?", (oid,))
             self.stats["returned_count"] += 1
-            self._update_from_listing(oid, o)
+            self._apply_card(oid, card)
         return None
 
     def _fetch_details(self, offers: dict[str, dict]) -> str | None:
@@ -275,12 +282,20 @@ class Collector:
         note = self._confirm_returned(offers)
         if note:
             return note
+        # 1) нет карточки, 2) в выдаче что-то поменялось, 3) по кругу — самые давно проверенные:
+        # выдача отстаёт, и изменение цены в ней можно вообще не увидеть
         need = [r["id"] for r in self.conn.execute(
             "SELECT id FROM offers WHERE status='active' AND (details_at IS NULL OR details_sig IS NULL "
-            "OR details_sig != listing_sig) ORDER BY first_seen DESC")]
+            "OR details_sig != listing_sig) ORDER BY details_at IS NOT NULL, first_seen DESC")]
         need = [oid for oid in need if oid in offers]
         todo, rest = need[: self.s.max_cards_per_run], need[self.s.max_cards_per_run:]
         self.stats["details_pending"] = len(rest)
+        room = max(0, min(self.s.refresh_cards_per_run, self.s.max_cards_per_run - len(todo)))
+        if room:
+            stale = [r["id"] for r in self.conn.execute(
+                "SELECT id FROM offers WHERE status='active' AND details_at IS NOT NULL ORDER BY details_at LIMIT ?",
+                (room + len(todo),))]
+            todo += [oid for oid in stale if oid in offers and oid not in todo][:room]
         for i, oid in enumerate(todo, 1):
             o = offers[oid]
             if i % 20 == 0:
@@ -301,11 +316,20 @@ class Collector:
         return None
 
     def _apply_card(self, oid: str, card: dict) -> None:
+        """Карточка — источник истины по цене, скидкам, наличию, пробегу, описанию и фото."""
         row = self.conn.execute("SELECT * FROM offers WHERE id=?", (oid,)).fetchone()
         had_details = row["details_at"] is not None
         old_photos = json.loads(row["photos"]) if row["photos"] else []
         changed = False
-        if had_details:
+        if not had_details:
+            # первая карточка уточняет предварительные данные выдачи — это не «изменение цены»
+            self.conn.execute(
+                "UPDATE price_history SET price=?, price_discount=? WHERE rowid=(SELECT MIN(rowid) FROM price_history "
+                "WHERE offer_id=?)", (card["price"], card["price_discount"], oid))
+            if row["price"] != card["price"]:
+                self.conn.execute("UPDATE events SET new=? WHERE offer_id=? AND type='appeared'", (card["price"], oid))
+        else:
+            changed = self._diff_tracked(oid, row, card)
             if (row["description"] or "") != (card["description"] or ""):
                 self._event(oid, "description_changed", (row["description"] or "")[:300], (card["description"] or "")[:300])
                 changed = True
@@ -318,11 +342,10 @@ class Collector:
                 changed = True
         if changed:
             self.stats["changed_count"] += 1
-        self.conn.execute(
-            """UPDATE offers SET description=?, photos=?, photo_count=?, vin=COALESCE(?, vin), color=?,
-                   complectation=COALESCE(?, complectation), details_at=?, details_sig=listing_sig WHERE id=?""",
-            (card["description"], json.dumps(card["photos"]), len(card["photos"]), card["vin"], card["color"],
-             card["complectation"], iso(self.clock()), oid))
+        self._write_fields(oid, card, extra={
+            "description": card["description"], "photos": json.dumps(card["photos"]),
+            "photo_count": len(card["photos"]), "details_at": iso(self.clock())})
+        self.conn.execute("UPDATE offers SET details_sig=listing_sig WHERE id=?", (oid,))
         if row["photo_hash"] is None and card.get("photo_preview"):
             h = self._photo_hash(card["photo_preview"])
             if h:

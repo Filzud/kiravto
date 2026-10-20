@@ -227,3 +227,53 @@ def test_offers_seen_in_same_run_never_relisted(conn, source, settings, clock):
     source.cards[f"{orig['id']}-{orig['hash']}"] = {**removed, "id": orig["id"]}
     r = run(conn, source, settings, clock)
     assert r["removed_count"] == 1 and r["relisted_count"] == 0
+
+
+def _set_card_price(source, offer, new_price):
+    card = copy.deepcopy(offer)
+    card["price_info"]["price"] = new_price
+    card.setdefault("description", "x")
+    source.cards[f"{offer['id']}-{offer['hash']}"] = card
+
+
+def test_stale_listing_price_ignored_card_wins(conn, source, settings, clock):
+    """Сверка 21.10.2026: выдача отдаёт цену 11.10, карточка и сайт — актуальную.
+    Сервис должен держать цену карточки, а при обходе по кругу поймать изменение, которого выдача не видит."""
+    o = source.offers["new"][2]
+    old_price = o["price_info"]["price"]
+    run(conn, source, settings, clock)
+    _set_card_price(source, o, old_price + 200_000)       # на сайте подорожала, выдача молчит
+    settings.refresh_cards_per_run = 50
+    clock.advance(minutes=45)
+    r = run(conn, source, settings, clock)
+    assert r["changed_count"] >= 1
+    assert conn.execute("SELECT price FROM offers WHERE id=?", (str(o["id"]),)).fetchone()[0] == old_price + 200_000
+    ev = events(conn, "price_changed")
+    assert [(int(e["old"]), int(e["new"])) for e in ev] == [(old_price, old_price + 200_000)]
+    # следующий прогон: в выдаче всё та же старая цена — откатываться назад нельзя
+    clock.advance(minutes=45)
+    run(conn, source, settings, clock)
+    assert conn.execute("SELECT price FROM offers WHERE id=?", (str(o["id"]),)).fetchone()[0] == old_price + 200_000
+    assert len(events(conn, "price_changed")) == 1
+
+
+def test_first_card_corrects_listing_price_without_fake_drop(conn, source, settings, clock):
+    o = source.offers["used"][6]
+    _set_card_price(source, o, o["price_info"]["price"] - 300_000)   # выдача устарела уже при первом знакомстве
+    run(conn, source, settings, clock)
+    assert events(conn, "price_changed") == []                          # это не «снижение цены»
+    hist = conn.execute("SELECT price FROM price_history WHERE offer_id=?", (str(o["id"]),)).fetchall()
+    assert [h[0] for h in hist] == [o["price_info"]["price"] - 300_000]
+
+
+def test_refresh_rotation_is_bounded(conn, source, settings, clock):
+    run(conn, source, settings, clock)
+    settings.refresh_cards_per_run = 5
+    source.card_calls.clear()
+    clock.advance(minutes=45)
+    assert run(conn, source, settings, clock)["cards_fetched"] == 5     # бережно: только 5 самых давних
+    first = set(source.card_calls)
+    source.card_calls.clear()
+    clock.advance(minutes=45)
+    run(conn, source, settings, clock)
+    assert not first & set(source.card_calls)                           # по кругу, а не одни и те же
