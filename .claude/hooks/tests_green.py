@@ -22,6 +22,7 @@ def python_exe() -> str:
 
 
 def main() -> None:
+    sys.stdout.reconfigure(encoding="utf-8")
     try:
         data = json.load(sys.stdin)
     except json.JSONDecodeError:

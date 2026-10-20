@@ -66,6 +66,9 @@ def check(tool: str, inp: dict) -> str | None:
 
 
 def main() -> None:
+    # Claude Code шлёт и читает UTF-8; без этого на Windows причина отказа уходит в cp1251
+    sys.stdin.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     try:
         data = json.load(sys.stdin)
     except json.JSONDecodeError:

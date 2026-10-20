@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def main() -> None:
+    sys.stdout.reconfigure(encoding="utf-8")
     db = Path(os.environ.get("KIRAVTO_DB", ROOT / "data" / "kiravto.db"))
     lines = ["## Состояние сервиса Киравто (хук session_state)"]
     if not db.exists():

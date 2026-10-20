@@ -59,6 +59,9 @@ def _decode(resp: dict, what: str) -> dict:
         raise TransientError(f"{what}: HTTP {status}")
     if status == 403:
         raise SourceBlocked(f"{what}: HTTP 403")
+    if not text.strip():
+        # разовый пустой ответ (прогон #2, 21.10.2026); тот же запрос через минуту отдал карточку целиком
+        raise TransientError(f"{what}: пустой ответ (HTTP {status})")
     try:
         return json.loads(text)
     except json.JSONDecodeError:

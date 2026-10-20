@@ -92,3 +92,28 @@ def test_removed_card_is_not_format_change():
     # реальный ответ 21.10.2026: в выдаче объявление ещё есть, карточка уже REMOVED и без цены
     c = parse_card(load_json("card_removed_1160201304.json"))
     assert c == {"id": "1160201304", "status_source": "REMOVED", "inactive": True}
+
+
+def test_empty_body_is_transient_not_format_change():
+    from kiravto.source.autoru import TransientError
+    with pytest.raises(TransientError):
+        _decode({"status": 200, "url": "https://auto.ru/-/ajax/desktop-search/getOfferCard/", "text": ""}, "t")
+
+
+def test_source_retries_empty_then_succeeds(monkeypatch):
+    """Пустой ответ → повтор с паузой → нормальная карточка; после всех неудач — блокировка, а не падение."""
+    from kiravto.source import autoru
+    monkeypatch.setattr(autoru.time, "sleep", lambda s: None)
+    answers = [{"status": 200, "url": "u", "text": ""}, {"status": 200, "url": "u", "text": '{"ok": 1}'}]
+
+    class Page:
+        def evaluate(self, js, args):
+            return answers.pop(0)
+
+    src = autoru.AutoruBrowserSource("d", "1", pause=(0, 0))
+    src._page = Page()
+    assert src.card("1-a") == {"ok": 1}
+    assert src.errors == 1 and src.requests == 2
+    answers[:] = [{"status": 200, "url": "u", "text": ""}] * 3
+    with pytest.raises(SourceBlocked):
+        src.card("1-a")
