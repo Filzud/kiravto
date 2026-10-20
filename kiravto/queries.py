@@ -128,7 +128,7 @@ def stock_summary(conn: sqlite3.Connection, now: datetime | None = None) -> dict
         "price_median": _median([r[0] for r in conn.execute("SELECT price FROM offers WHERE status='active'")]),
         "price_max": c("SELECT MAX(price) FROM offers WHERE status='active'"),
         "top_marks": top_marks,
-        "last_run": last_runs(conn, 1)[0] if last_runs(conn, 1) else None,
+        "last_run": next(iter(last_runs(conn, 1)), None),
     }
 
 
@@ -152,4 +152,4 @@ def last_success(conn: sqlite3.Connection) -> dict | None:
 def post_queue(conn: sqlite3.Connection) -> list[dict]:
     return [dict(r) for r in conn.execute(
         "SELECT id, kind, status, source, created_at, attempts, last_error FROM posts "
-        "WHERE status IN ('new','moderation','approved','failed') ORDER BY id")]
+        "WHERE status IN ('new','moderation','approved','sending','failed') ORDER BY id")]

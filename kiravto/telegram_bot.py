@@ -191,6 +191,8 @@ class ModerationBot:
         head = [f"📝 <b>Пост #{row['id']}</b> · {KIND_RU.get(row['kind'], escape(str(row['kind'])))}"]
         if row["source"] == "mcp":
             head.append("🤖 <i>предложено ИИ-агентом</i>")
+            if payload.get("moderator_note"):
+                head.append("Комментарий агента: " + escape(str(payload["moderator_note"])))
         if len(photos) > 1:
             head.append(f"📷 Фото: {len(photos)} (в канал уйдёт альбом из {min(len(photos), ALBUM_LIMIT)})")
         elif photos:

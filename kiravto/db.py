@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS posts (
     offer_ids TEXT,                      -- JSON
     payload TEXT NOT NULL,               -- JSON: text, photos
     source TEXT DEFAULT 'service',       -- service | mcp
-    status TEXT NOT NULL DEFAULT 'new',  -- new | moderation | approved | rejected | sent | failed
+    status TEXT NOT NULL DEFAULT 'new',  -- new | moderation | approved | sending | rejected | sent | failed
     target_chat TEXT,
     admin_message_id INTEGER,
     created_at TEXT NOT NULL,
