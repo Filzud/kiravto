@@ -203,3 +203,27 @@ def test_killed_run_marked_failed(conn, source, settings, clock):
     run(conn, source, settings, clock)
     row = conn.execute("SELECT status, note FROM runs WHERE id=1").fetchone()
     assert row["status"] == "failed" and "прерван" in row["note"]
+
+
+def test_same_batch_new_cars_are_not_relisted(conn, source, settings, clock):
+    """Живой прогон #4: две новые RAV4 одной партии (каталожное фото, VIN LFM***) — это не перевыставление."""
+    base = {"mark_code": "TOYOTA", "model_code": "RAV_4", "year": 2026, "section": "new", "vin": "LFM**************",
+            "vin_full": False, "generation": "VI", "complectation_id": "1", "engine_power": 171,
+            "transmission": "вариатор", "drive": "полный", "color_hex": "040001", "body": "Внедорожник 5 дв.",
+            "mileage": 0, "photo_hash": "85cc5c5ae2f0d0ac"}
+    assert relist_match(base, dict(base), catalog_hashes={"85cc5c5ae2f0d0ac"}) is None
+    assert relist_match(base, dict(base)) is None                    # даже если фото кажется уникальным
+    full = {**base, "vin": "LFMAAAAAAAAAAAAAA", "vin_full": True}
+    assert relist_match(full, dict(full)) == "VIN"
+
+
+def test_offers_seen_in_same_run_never_relisted(conn, source, settings, clock):
+    # копия машины в той же выдаче + снятый «оригинал» — увидены одновременно, значит это две машины
+    twin = copy.deepcopy(source.offers["used"][0])
+    twin["id"], twin["hash"] = "1999999998", "eeeeeeee"
+    source.offers["used"].append(twin)
+    orig = source.offers["used"][0]
+    removed = load_json("card_removed_1160201304.json")
+    source.cards[f"{orig['id']}-{orig['hash']}"] = {**removed, "id": orig["id"]}
+    r = run(conn, source, settings, clock)
+    assert r["removed_count"] == 1 and r["relisted_count"] == 0

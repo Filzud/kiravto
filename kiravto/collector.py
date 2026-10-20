@@ -370,7 +370,8 @@ class Collector:
         used: set[str] = set()
         for new in recent:
             for old in gone:
-                if old["id"] in used or old["id"] == new["id"] or old["first_seen"] > new["first_seen"]:
+                # перевыставление — новый ID, появившийся ПОЗЖЕ старого; увиденные в одном прогоне — разные машины
+                if old["id"] in used or old["id"] == new["id"] or new["first_seen"] <= old["first_seen"]:
                     continue
                 how = relist_match(dict(old), dict(new), catalog)
                 if how:
@@ -447,6 +448,10 @@ def relist_match(old: dict, new: dict, catalog_hashes: set[str] = frozenset()) -
         return "VIN"
     if not _same_car_basics(old, new):
         return None
+    if new["section"] == "new":
+        # Новые машины одной партии одинаковы, фото каталожные, от VIN видно 3 символа.
+        # Живой прогон #4 дал так 8 ложных совпадений — для новых признаём только полный VIN.
+        return None
     if old.get("photo_hash") and new.get("photo_hash") and new["photo_hash"] not in catalog_hashes and \
             hamming(old["photo_hash"], new["photo_hash"]) <= PHOTO_HASH_MAX_DISTANCE:
         return "хеш первого фото"
@@ -460,9 +465,6 @@ def relist_match(old: dict, new: dict, catalog_hashes: set[str] = frozenset()) -
         if m2 >= m1 and m2 - m1 <= max(500, m1 * 0.03):
             return "характеристики + пробег"
         return None
-    # у новых машин характеристик мало — считаем совпадением только при видимой части VIN
-    if old.get("vin") and new.get("vin") and old["vin"] == new["vin"]:
-        return "характеристики + видимая часть VIN"
     return None
 
 
