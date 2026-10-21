@@ -30,6 +30,15 @@ def _req(obj: dict, path: str):
     return cur
 
 
+def _generation(sg: dict) -> str | None:
+    # у поколения без названия сайт пишет годы: SWM G01F — «2018-2026» (сверка 22.10.2026)
+    if sg.get("name"):
+        return sg["name"]
+    if sg.get("year_from") and sg.get("year_to"):
+        return f"{sg['year_from']}-{sg['year_to']}"
+    return None
+
+
 def _opt(obj: dict, path: str, default=None):
     cur = obj
     for part in path.split("."):
@@ -113,7 +122,7 @@ def parse_offer(raw: dict) -> dict:
         "mark": nz.mark_name(nz.resolve_mark(mark_info.get("code")), mark_info.get("name")),
         "model_code": model_info.get("code"),
         "model": model_info.get("name"),
-        "generation": _opt(vi, "super_gen.name") or None,
+        "generation": _generation(vi.get("super_gen") or {}),
         "complectation": _opt(vi, "complectation.name") or None,
         "complectation_id": _opt(vi, "complectation.id") or None,
         "year": docs.get("year"),

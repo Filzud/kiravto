@@ -49,6 +49,16 @@ def test_card_hongqi_matches_site():
     assert "РОЛЬФ" in c["description"]
 
 
+def test_generation_without_name_shown_as_years():
+    # SWM G01F, сверка 22.10.2026: super_gen.name пустой, сайт пишет поколение годами «2018-2026»
+    raw = copy.deepcopy(load_json("listing_used_p1.json")["offers"][0])
+    raw["vehicle_info"]["super_gen"] = {"id": "23568883", "name": "", "year_from": 2018, "year_to": 2026}
+    assert parse_offer(raw)["generation"] == "2018-2026"
+    raw["vehicle_info"]["super_gen"] = {"id": "1", "name": "", "year_from": 2021}   # как сайт пишет — не видели
+    assert parse_offer(raw)["generation"] is None
+    assert parse_offer(raw)["generation"] is None
+
+
 def test_card_not_found_is_none():
     assert parse_card(load_json("card_1000000001-deadbeef.json")) is None
 
