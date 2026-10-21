@@ -7,7 +7,8 @@ from kiravto import __main__ as cli
 from kiravto.config import load_env_file
 from kiravto.telegram_bot import BotAPI
 
-SECRET = "x" * 12 + "-hidden-value"   # не похоже на настоящий токен — хук не ругается
+# токен правильной формы собираем на лету, чтобы в файле не было строки, похожей на настоящий токен
+SECRET = "1" * 10 + ":" + "Ab_-" * 8 + "xyz"
 
 
 def test_secrets_hidden_input_writes_env(tmp_path, monkeypatch, capsys):
@@ -54,3 +55,20 @@ def test_tg_check_reports_chats_and_rights(settings):
     assert "– боевой канал: ID не задан" in text
     assert "тестовый канал" in lines[-1]
     assert SECRET not in text
+
+
+def test_token_shape_explains_paste_errors():
+    good = cli.token_shape(SECRET)
+    assert "формат верный" in good[1]
+    assert any("Ctrl+V" in x for x in cli.token_shape(chr(22)))                    # вставка Ctrl+V в скрытом вводе
+    assert any("не целиком" in x for x in cli.token_shape(SECRET[:-5]))
+    assert any("слова bot" in x for x in cli.token_shape("bot" + SECRET))
+    assert all(SECRET not in x for x in cli.token_shape(SECRET))                  # значение не печатается
+
+
+def test_tg_check_404_shows_shape_not_token(settings):
+    settings.tg_token = SECRET[:-3]
+    api = BotAPI("https://tg.example", settings.tg_token, client=httpx.Client(transport=httpx.MockTransport(
+        lambda r: httpx.Response(404, json={"ok": False, "error_code": 404, "description": "Not Found"}))))
+    text = "\n".join(cli.tg_check(settings, api))
+    assert "не узнал токен" in text and "не целиком" in text and settings.tg_token not in text

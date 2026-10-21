@@ -40,6 +40,13 @@ def cmd_secrets(_args) -> None:
             import secrets
             val = secrets.token_urlsafe(32)
             print("  API_TOKEN сгенерирован (посмотреть можно только в самом .env)")
+        if val and key == "TG_BOT_TOKEN":
+            shape = token_shape(val)
+            if "формат верный" not in " ".join(shape):
+                print("  ⚠ токен выглядит неправильно: " + "; ".join(shape[1:-1] or shape))
+                if input("  Сохранить всё равно? (y/N): ").strip().lower() != "y":
+                    print("  Не сохранён — запустите команду ещё раз.")
+                    continue
         if val:
             current[key] = val
     for key, prompt in PLAIN_KEYS:
@@ -105,6 +112,32 @@ def cmd_serve(args) -> None:
     cmd_api(args)
 
 
+def token_shape(token: str) -> list[str]:
+    """Описание формы токена без самого значения: длина, формат, типичные ошибки вставки."""
+    import re
+
+    t = token or ""
+    lines = [f"длина {len(t)} символов (обычно 44–46)"]
+    if re.fullmatch(r"\d{8,10}:[A-Za-z0-9_-]{35}", t):
+        lines.append("формат верный (цифры:35 символов) — значит, токен отозван или от другого бота; "
+                     "возьмите свежий в @BotFather → /mybots → API Token")
+        return lines
+    if any(ord(c) < 32 for c in t):
+        lines.append("есть управляющие символы — при скрытом вводе нажали Ctrl+V; вставляйте ПРАВОЙ кнопкой мыши")
+    if t != t.strip() or " " in t:
+        lines.append("есть пробелы")
+    if t.lower().startswith("bot"):
+        lines.append("начинается со слова bot — его не нужно, только сам токен")
+    if ":" not in t:
+        lines.append("нет двоеточия — вставилось не целиком")
+    elif not re.fullmatch(r"\d{8,10}", t.split(":", 1)[0].strip()):
+        lines.append("до двоеточия должны быть только цифры")
+    elif len(t.split(":", 1)[1]) != 35:
+        lines.append(f"после двоеточия {len(t.split(':', 1)[1])} символов вместо 35 — вставилось не целиком")
+    lines.append("Исправить: снова `python -m kiravto secrets` и вставить токен правой кнопкой мыши.")
+    return lines
+
+
 def tg_check(settings, api) -> list[str]:
     """Проверка настройки Telegram. Возвращает строки для человека; токен не печатается."""
     from .telegram_bot import TelegramError
@@ -113,7 +146,13 @@ def tg_check(settings, api) -> list[str]:
     try:
         me = api.call("getMe")
     except TelegramError as e:
-        return [f"✗ бот не отвечает: {e}. Проверьте токен и TG_PROXY (без прокси Telegram может быть недоступен)."]
+        out.append(f"✗ бот не отвечает: {e}.")
+        if "404" in str(e) or "401" in str(e):
+            out += ["Telegram не узнал токен. Форма сохранённого токена (значение не показывается):"]
+            out += ["   " + line for line in token_shape(settings.tg_token)]
+        else:
+            out.append("Похоже на сеть: проверьте TG_PROXY (на этой машине Telegram открывается через прокси).")
+        return out
     out.append(f"✓ бот @{me.get('username')} отвечает")
     try:
         updates = api.call("getUpdates", timeout=0, allowed_updates=["message", "channel_post", "my_chat_member"])
