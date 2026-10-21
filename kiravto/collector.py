@@ -323,8 +323,9 @@ class Collector:
             todo += [oid for oid in stale if oid in offers and oid not in todo][:room]
         for i, oid in enumerate(todo, 1):
             o = offers[oid]
+            # каждая карточка — своя короткая транзакция: бот ждёт базу не дольше 30 с, а 20 карточек — это минута
+            self.conn.commit()
             if i % 20 == 0:
-                self.conn.commit()
                 log.info("карточки: %s из %s", i, len(todo))
             try:
                 raw = self.source.card(f"{oid}-{o['hash']}")

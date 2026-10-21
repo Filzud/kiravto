@@ -257,7 +257,14 @@ class ModerationBot:
         elif "message" in update:
             msg = update["message"] or {}
             chat_id = (msg.get("chat") or {}).get("id")
+            if msg.get("migrate_to_chat_id") and str(chat_id) == self.admin_chat:
+                # Telegram превратил группу в супергруппу — у неё новый ID, старый перестаёт работать
+                log.error("админ-группа стала супергруппой: новый ID %s — впишите его в TG_ADMIN_CHAT_ID "
+                          "(python -m kiravto secrets)", msg["migrate_to_chat_id"])
+                return
             if not self.admin_chat or str(chat_id) != self.admin_chat:
+                if (msg.get("text") or "").startswith("/"):
+                    log.info("команда из чужого чата %s проигнорирована (админ-чат: %s)", chat_id, self.admin_chat)
                 return
             text = (msg.get("text") or "").strip()
             if not text.startswith("/"):
