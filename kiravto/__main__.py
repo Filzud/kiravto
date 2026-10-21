@@ -5,6 +5,7 @@ import argparse
 import getpass
 import json
 import logging
+import os
 import random
 import sys
 import threading
@@ -260,7 +261,14 @@ def cmd_dump_fixtures(args) -> None:
 
 
 def main(argv: list[str] | None = None) -> None:
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    handlers: list[logging.Handler] = [logging.StreamHandler()]
+    log_file = os.environ.get("KIRAVTO_LOG_FILE")
+    if log_file:
+        # пишем лог сами, в UTF-8: перенаправление stderr в Windows PowerShell 5.1 ломает и кодировку, и скрипт
+        Path(log_file).parent.mkdir(parents=True, exist_ok=True)
+        handlers = [logging.FileHandler(log_file, encoding="utf-8")]
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+                        handlers=handlers)
     # httpx на INFO пишет каждый запрос (и полный URL, где может быть токен бота)
     logging.getLogger("httpx").setLevel(logging.WARNING)
     if hasattr(sys.stdout, "reconfigure"):

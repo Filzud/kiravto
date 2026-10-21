@@ -1,4 +1,4 @@
-# Автозапуск сервиса при входе в Windows (задача планировщика «Kiravto»). Запускает человек, не агент.
+﻿# Автозапуск сервиса при входе в Windows (задача планировщика «Kiravto»). Запускает человек, не агент.
 # Удалить: Unregister-ScheduledTask -TaskName Kiravto -Confirm:$false
 $root = Split-Path -Parent $PSScriptRoot
 $action = New-ScheduledTaskAction -Execute "powershell.exe" `
