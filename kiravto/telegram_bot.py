@@ -504,6 +504,14 @@ class ModerationBot:
                                 allowed_updates=["message", "callback_query"]) or []
         handled = 0
         for upd in updates:
+            kinds = [k for k in upd if k != "update_id"]
+            obj = upd.get(kinds[0]) if kinds else {}
+            obj = obj if isinstance(obj, dict) else {}
+            chat = (obj.get("chat") or (obj.get("message") or {}).get("chat") or {})
+            text = obj.get("text") or obj.get("data") or ""
+            # без содержимого: только тип, чат и признак команды — чтобы разбирать «бот молчит»
+            log.info("обновление %s: %s, чат %s (%s), команда=%s", upd.get("update_id"), ",".join(kinds),
+                     chat.get("id"), chat.get("type"), str(text).startswith("/"))
             try:
                 self.handle_update(upd)
             except Exception:  # noqa: BLE001 — одно кривое обновление не должно стопорить очередь
