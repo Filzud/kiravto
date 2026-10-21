@@ -277,3 +277,12 @@ def test_refresh_rotation_is_bounded(conn, source, settings, clock):
     clock.advance(minutes=45)
     run(conn, source, settings, clock)
     assert not first & set(source.card_calls)                           # по кругу, а не одни и те же
+
+
+def test_other_dealer_refuses_to_touch_history(conn, source, settings, clock):
+    from kiravto.collector import DealerMismatch
+    run(conn, source, settings, clock)
+    settings.dealer_code = "fresh_x_syndicate_moskva"
+    with pytest.raises(DealerMismatch, match="отдельный DB_PATH"):
+        run(conn, source, settings, clock)
+    assert conn.execute("SELECT COUNT(*) FROM offers WHERE status!='active'").fetchone()[0] == 0

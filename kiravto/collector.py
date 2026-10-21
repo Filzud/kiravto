@@ -45,6 +45,10 @@ PHOTO_HASH_MAX_DISTANCE = 6
 RELIST_WINDOW_DAYS = 30
 
 
+class DealerMismatch(Exception):
+    """Настройки указывают на другой салон, чем тот, для которого ведётся база."""
+
+
 class Collector:
     def __init__(self, conn, source: Source, settings: Settings,
                  photo_fetch: Callable[[str], bytes] | None = None,
@@ -61,6 +65,14 @@ class Collector:
 
     # ---------------------------------------------------------------- run
     def run(self) -> dict:
+        # одна база — один салон: иначе первый прогон по другому салону «снимет» весь прежний склад
+        bound = kv_get(self.conn, "dealer_code")
+        if bound and bound != self.s.dealer_code:
+            raise DealerMismatch(f"база заведена для салона {bound}, а в настройках {self.s.dealer_code}. "
+                                 "Для другого салона укажите отдельный DB_PATH.")
+        if not bound:
+            kv_set(self.conn, "dealer_code", self.s.dealer_code)
+            self.conn.commit()
         started = self.clock()
         t0 = time.monotonic()
         # процесс убили посреди прогона — такой прогон честно помечаем прерванным
