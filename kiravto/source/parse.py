@@ -162,6 +162,9 @@ def listing_signature(o: dict) -> str:
     return hashlib.sha1(json.dumps(key, ensure_ascii=False).encode()).hexdigest()[:16]
 
 
+GONE_STATUSES = {"REMOVED", "INACTIVE", "BANNED", "SOLD"}
+
+
 def parse_card(raw: dict) -> dict | None:
     """Карточка объявления. None — объявления больше нет (OFFER_NOT_FOUND)."""
     if raw.get("status") == "ERROR":
@@ -174,7 +177,10 @@ def parse_card(raw: dict) -> dict | None:
     if status and status != "ACTIVE":
         # Снятое объявление: выдача ещё показывает его, а карточка уже REMOVED и без цены
         # (поймано живым прогоном 21.10.2026 на #1160201304). Это не смена формата.
-        return {"id": str(raw.get("id")), "status_source": status, "inactive": True}
+        # EXPIRED / NEED_ACTIVATION — временное: у новых машин дилер перевыставляет склад, и через
+        # часы карточка снова ACTIVE (Docker 21.10.2026: 11 из 15 «снятых» по ним снова в продаже).
+        return {"id": str(raw.get("id")), "status_source": status, "inactive": True,
+                "gone": status in GONE_STATUSES}
     offer = parse_offer(raw)
     if "description" not in raw:
         raise SourceFormatError(f"в карточке {offer['id']} нет поля 'description'")

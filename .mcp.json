@@ -5,6 +5,10 @@
       "args": ["-m", "kiravto.mcp_server"],
       "env": { "PYTHONIOENCODING": "utf-8" }
     },
+    "kiravto-docker": {
+      "command": "docker",
+      "args": ["exec", "-i", "kiravto-api-1", "python", "-m", "kiravto.mcp_server"]
+    },
     "playwright": {
       "command": "npx",
       "args": ["-y", "@playwright/mcp@0.0.41"]

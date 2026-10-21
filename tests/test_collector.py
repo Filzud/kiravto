@@ -191,6 +191,37 @@ def test_listing_lags_behind_card_removed(conn, source, settings, clock):
     assert run(conn, source, settings, clock)["returned_count"] == 1
 
 
+def test_expired_card_while_listed_is_not_removed(conn, source, settings, clock):
+    """Docker 21.10.2026: 186 новых машин сняты по EXPIRED / NEED_ACTIVATION, через часы 11 из 15 снова ACTIVE."""
+    run(conn, source, settings, clock)
+    car = source.offers["new"][1]
+    ref = f"{car['id']}-{car['hash']}"
+    car["price_info"]["price"] += 1000                   # выдача поменялась — сборщик тянет карточку
+    source.cards[ref] = {**load_json("card_removed_1160201304.json"), "id": car["id"], "status": "EXPIRED"}
+    clock.advance(minutes=45)
+    r = run(conn, source, settings, clock)
+    assert r["status"] == "complete" and r["removed_count"] == 0
+    assert conn.execute("SELECT status FROM offers WHERE id=?", (str(car["id"]),)).fetchone()[0] == "active"
+    del source.cards[ref]                                # карточка снова ACTIVE
+    clock.advance(minutes=45)
+    r = run(conn, source, settings, clock)
+    assert r["returned_count"] == 0 and events(conn, "removed") == []
+    assert len(events(conn, "price_changed")) == 1
+
+
+def test_wrongly_removed_expired_comes_back_on_recheck(conn, source, settings, clock):
+    """Снятые старым правилом по EXPIRED: при перепроверке временный статус возвращает машину в продажу."""
+    run(conn, source, settings, clock)
+    car = source.offers["new"][1]
+    ref = f"{car['id']}-{car['hash']}"
+    conn.execute("UPDATE offers SET status='removed', removed_at=? WHERE id=?", ("2026-01-01T00:00:00+00:00", str(car["id"])))
+    source.cards[ref] = {**load_json("card_removed_1160201304.json"), "id": car["id"], "status": "NEED_ACTIVATION"}
+    clock.advance(hours=13)
+    r = run(conn, source, settings, clock)
+    assert r["returned_count"] == 1
+    assert conn.execute("SELECT status FROM offers WHERE id=?", (str(car["id"]),)).fetchone()[0] == "active"
+
+
 def test_removed_but_listed_rechecked_rarely(conn, source, settings, clock):
     """Прогон №8: 100 проданных висели в выдаче и каждый прогон тянули свою карточку. Теперь — раз в 12 ч."""
     stale = source.offers["new"][1]

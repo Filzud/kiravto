@@ -91,7 +91,14 @@ def test_anomalies_marked_not_dropped():
 def test_removed_card_is_not_format_change():
     # реальный ответ 21.10.2026: в выдаче объявление ещё есть, карточка уже REMOVED и без цены
     c = parse_card(load_json("card_removed_1160201304.json"))
-    assert c == {"id": "1160201304", "status_source": "REMOVED", "inactive": True}
+    assert c == {"id": "1160201304", "status_source": "REMOVED", "inactive": True, "gone": True}
+
+
+def test_expired_card_is_not_gone():
+    # Docker 21.10.2026: у новых машин карточка на время EXPIRED / NEED_ACTIVATION, через часы снова ACTIVE
+    for status in ("EXPIRED", "NEED_ACTIVATION"):
+        c = parse_card({**load_json("card_removed_1160201304.json"), "status": status})
+        assert c["inactive"] is True and c["gone"] is False
 
 
 def test_empty_body_is_transient_not_format_change():

@@ -136,6 +136,11 @@ Windows без Docker: `powershell -File scripts\run_local.ps1` (сборщик 
 Вручную: `claude mcp add kiravto -- python -m kiravto.mcp_server` (из корня репозитория; база —
 `DB_PATH` или `data/kiravto.db`). Другие клиенты — stdio-команда `python -m kiravto.mcp_server`.
 
+Если сервис работает в `docker compose`, база лежит в томе контейнера, а не в `data/`. Для неё в `.mcp.json`
+есть второй сервер `kiravto-docker`: тот же MCP, запущенный внутри контейнера
+(`docker exec -i kiravto-api-1 python -m kiravto.mcp_server`). Вручную:
+`claude mcp add kiravto-docker -- docker exec -i kiravto-api-1 python -m kiravto.mcp_server`.
+
 Инструменты: `search_offers`, `get_offer`, `get_offer_history`, `get_price_drops`, `get_stock_summary`,
 `get_runs_status` (чтение) и `propose_post` — ставит пост в модерацию и возвращает предупреждение.
 Инструмента «опубликовать» нет.

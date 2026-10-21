@@ -290,7 +290,7 @@ class Collector:
                 return f"проверка вернувшихся: блокировка ({e})"
             card = parse_card(raw)
             self.stats["cards_fetched"] += 1
-            if card is None or card.get("inactive"):
+            if card is None or card.get("gone"):
                 # в выдаче висит, но карточка снята — остаётся снятым; запоминаем, когда проверяли
                 self.conn.execute("UPDATE offers SET details_at=?, listing_sig=? WHERE id=?",
                                   (iso(self.clock()), listing_signature(o), oid))
@@ -299,6 +299,10 @@ class Collector:
             self._event(oid, "returned", old_status, "active", f"снова в продаже после {row['removed_at'] or '?'}")
             self.conn.execute("UPDATE offers SET status='active', removed_at=NULL, sold_at=NULL WHERE id=?", (oid,))
             self.stats["returned_count"] += 1
+            if card.get("inactive"):
+                # снята старым правилом по временному статусу: в продаже с прежними данными, карточка — позже
+                self.conn.execute("UPDATE offers SET details_sig=NULL WHERE id=?", (oid,))
+                continue
             self._apply_card(oid, card)
         return None
 
@@ -334,10 +338,14 @@ class Collector:
                 return f"карточки: блокировка ({e}), остальное доделает следующий прогон"
             card = parse_card(raw)
             self.stats["cards_fetched"] += 1
-            if card is None or card.get("inactive"):
+            if card is None or card.get("gone"):
                 # выдача отстаёт от карточек: объявление уже снято, хотя ещё в списке
                 self._mark_removed(oid, "карточка не найдена" if card is None
                                    else f"статус карточки {card['status_source']}, хотя ещё в выдаче")
+                continue
+            if card.get("inactive"):
+                # временный статус: машина остаётся в продаже с прежними данными, карточку перечитаем позже
+                log.info("карточка %s: временный статус %s, не снимаем", oid, card["status_source"])
                 continue
             self._apply_card(oid, card)
         return None
