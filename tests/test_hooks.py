@@ -85,3 +85,48 @@ def test_session_state_reports_runs_and_queue(tmp_path):
     assert "собрано 453" in p.stdout
     assert "два последних прогона неполные" in p.stdout
     assert "moderation=1" in p.stdout
+
+
+GREEN = ROOT / ".claude" / "hooks" / "tests_green.py"
+
+
+def _stop_hook(project, payload):
+    env = {**os.environ, "KIRAVTO_ROOT": str(project), "PYTHONIOENCODING": "utf-8"}
+    p = subprocess.run([sys.executable, str(GREEN)], input=json.dumps(payload), capture_output=True, text=True,
+                       encoding="utf-8", env=env, timeout=120)
+    return p.returncode, p.stdout
+
+
+def _project(tmp_path, body):
+    (tmp_path / "test_x.py").write_text(f"def test_x():\n    {body}\n", encoding="utf-8")
+    return tmp_path
+
+
+def test_stop_hook_blocks_on_red_tests(tmp_path):
+    code, out = _stop_hook(_project(tmp_path, "assert 1 == 2"), {})
+    assert code == 0
+    data = json.loads(out)
+    assert data["decision"] == "block" and "Тесты красные" in data["reason"]
+
+
+def test_stop_hook_passes_on_green_tests(tmp_path):
+    code, out = _stop_hook(_project(tmp_path, "assert True"), {})
+    assert code == 0 and out.strip() == ""
+
+
+def test_stop_hook_no_loop_when_already_active(tmp_path):
+    # повторная остановка после блокировки не блокируется снова — иначе агент зациклится
+    code, out = _stop_hook(_project(tmp_path, "assert 1 == 2"), {"stop_hook_active": True})
+    assert code == 0 and out.strip() == ""
+
+
+@pytest.mark.parametrize("cmd", ["cat .e*", "type .en?", "Get-Content .env*", "ls .[e]nv",
+                                 "python -c \"open('.'+'env').read()\"", "Get-Content \".en`v\""])
+def test_guard_denies_env_masks(cmd):
+    code, _ = guard("Bash", command=cmd)
+    assert code == 2, cmd
+
+
+def test_guard_denies_github_tokens():
+    for tok in ("gho_" + "a" * 36, "github_pat_" + "B" * 40):
+        assert guard("Write", file_path="x.md", content=f"token {tok}")[0] == 2

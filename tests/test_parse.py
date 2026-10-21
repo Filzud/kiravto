@@ -150,3 +150,18 @@ def test_color_names_checked_on_site():
     # сверка 21.10.2026: Audi A3 #1134053898 с кодом 4A2197 сайт называет «Фиолетовый»
     assert nz.COLORS["4A2197"] == "фиолетовый"
     assert nz.COLORS["FFD600"] == "жёлтый"      # Hongqi HS5 #1160027054
+
+
+def test_network_down_is_incomplete_with_clear_reason(monkeypatch):
+    """«Оборвём сеть посреди прогона»: страница не открывается → блокировка с понятной причиной, а не падение."""
+    from kiravto.source import autoru
+    monkeypatch.setattr(autoru.time, "sleep", lambda s: None)
+    src = autoru.AutoruBrowserSource("d", "1", pause=(0, 0))
+
+    def no_network():
+        raise ConnectionError("net::ERR_INTERNET_DISCONNECTED")
+
+    monkeypatch.setattr(src, "_ensure_page", no_network)
+    with pytest.raises(SourceBlocked, match="нет сети"):
+        src.card("1-a")
+    assert src.errors == 3

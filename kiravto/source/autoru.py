@@ -135,11 +135,13 @@ class AutoruBrowserSource:
     # --- запросы ---
     def _post(self, ep: str, body: dict, what: str) -> dict:
         delay = 5.0
+        network_errors = 0
         for attempt in range(1, self.retries + 1):
-            page = self._ensure_page()
             time.sleep(random.uniform(*self.pause))
-            self.requests += 1
             try:
+                # открытие страницы тоже внутри повторов: при обрыве сети падает именно оно
+                page = self._ensure_page()
+                self.requests += 1
                 resp = page.evaluate(FETCH_JS, [ep, body, FETCH_TIMEOUT_MS])
                 return _decode(resp, what)
             except TransientError as e:
@@ -152,11 +154,14 @@ class AutoruBrowserSource:
                 raise
             except Exception as e:  # сеть оборвалась, страница упала
                 self.errors += 1
+                network_errors += 1
                 log.warning("%s: %s, попытка %s/%s", what, e.__class__.__name__, attempt, self.retries)
                 self.close()
             time.sleep(delay)
             delay *= 2
-        raise SourceBlocked(f"{what}: не удалось после {self.retries} попыток")
+        # для сборщика и то и другое — «неполный прогон, никого не снимаем»; в записи прогона различаем причину
+        reason = "нет сети или страница не открывается" if network_errors == self.retries else "источник не отвечает"
+        raise SourceBlocked(f"{what}: {reason} после {self.retries} попыток")
 
     def listing(self, section: str, page: int, sort: str | None = None) -> dict:
         body = {"category": "cars", "section": section, "dealer_id": self.dealer_id, "dealer_code": self.dealer_code,

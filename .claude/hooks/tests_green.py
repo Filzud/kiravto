@@ -7,11 +7,13 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+# KIRAVTO_ROOT — только для тестов хука: подставная папка проекта
+ROOT = Path(os.environ.get("KIRAVTO_ROOT") or Path(__file__).resolve().parents[2])
 
 
 def python_exe() -> str:

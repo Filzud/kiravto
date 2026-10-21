@@ -170,6 +170,18 @@ def _table(head: list[tuple[str, bool]], rows: list[list[str]], empty: str) -> s
     return f'<div class="wrap"><table><thead><tr>{th}</tr></thead><tbody>{body}</tbody></table></div>'
 
 
+OFFER_STATUS = {"active": "в продаже", "removed": "снято", "sold": "вероятно продано"}
+
+
+def _cars(n: int | None) -> str:
+    n = n or 0
+    if n % 10 == 1 and n % 100 != 11:
+        return "машина"
+    if 2 <= n % 10 <= 4 and not 12 <= n % 100 <= 14:
+        return "машины"
+    return "машин"
+
+
 def build_html(conn: sqlite3.Connection, now: datetime | None = None, settings: Settings | None = None) -> str:
     now = now or utcnow()
     f = _Fmt(_tz(settings))
@@ -200,7 +212,7 @@ def build_html(conn: sqlite3.Connection, now: datetime | None = None, settings: 
                 f"(медиана {num(exp['median'], 1)} дн.), по {num(exp['n'])} машинам</span>") if exp["n"] else \
         f"<b>{DASH}</b><span>срок экспозиции: снятых машин пока нет</span>"
     parts.append('<section><h2>Склад</h2><div class="tiles">'
-                 f'<div class="tile"><b>{num(stock["active"])}</b><span>машин в продаже сейчас</span></div>'
+                 f'<div class="tile"><b>{num(stock["active"])}</b><span>{_cars(stock["active"])} в продаже сейчас</span></div>'
                  f'<div class="tile">{week_tile}</div><div class="tile">{exp_tile}</div>'
                  f'<div class="tile"><b>{share(an["with_any"], an["total"])}</b>'
                  f'<span>доля объявлений с аномалиями ({num(an["with_any"])} из {num(an["total"])})</span></div>'
@@ -225,7 +237,8 @@ def build_html(conn: sqlite3.Connection, now: datetime | None = None, settings: 
         [("Машина", False), ("Год", True), ("Было", True), ("Стало", True), ("Снижение", True), ("Статус", False)],
         [[f'<a href="{html.escape(d["url"] or "", quote=True)}">{esc(d["mark"])} {esc(d["model"])}</a>',
           esc(d["year"]), rub(d["old_price"]), rub(d["new_price"]),
-          f'<span class="good">−{pct(d["drop_pct"])}</span> ({rub(d["drop_rub"])})', esc(d["status"])]
+          f'<span class="good">−{pct(d["drop_pct"])}</span> ({rub(d["drop_rub"])})',
+          esc(OFFER_STATUS.get(d["status"], d["status"]))]
          for d in drops], "За последние 7 дней снижений цены не было.")
         + '<p class="note">Первая цена в окне 7 дней против последней.</p></section>')
 
@@ -259,7 +272,8 @@ def build_html(conn: sqlite3.Connection, now: datetime | None = None, settings: 
         coll = f'{num(r["collected"])} / {num(r["source_total"])}'
         rows.append([f.dt(r["started_at"]), (num(r["duration_s"], 1) + " с") if not _empty(r["duration_s"])
                      else DASH, num(r["requests"]), num(r["errors"]), coll,
-                     pct(r["completeness"] * 100 if not _empty(r["completeness"]) else None, 0),
+                     # полнота — собрано от заявленного самим источником (а не от прошлого склада: там бывает >100%)
+                     pct(r["collected"] / r["source_total"] * 100 if r["source_total"] else None, 0),
                      num(r["new_count"]), num(r["changed_count"]), num(r["removed_count"]),
                      f'<span class="{cls}">{esc(st)}</span>', esc(r["note"])])
     parts.append("<section><h2>Последние прогоны</h2>" + _table(
@@ -268,7 +282,7 @@ def build_html(conn: sqlite3.Connection, now: datetime | None = None, settings: 
          ("Статус", False), ("Заметка", False)], rows, "Прогонов ещё не было.")
         + f'<p class="note">За 7 дней прогонов: {num(rw["total"])}, полных {num(rw["complete"])}, '
           f'неполных {num(rw["incomplete"])}, упавших {num(rw["failed"])}. Полнота — собрано относительно '
-          "прошлого склада.</p></section>")
+          "того, сколько заявил сам источник.</p></section>")
 
     body = "\n".join(parts)
     return ("<!doctype html><html lang=\"ru\"><head><meta charset=\"utf-8\">"

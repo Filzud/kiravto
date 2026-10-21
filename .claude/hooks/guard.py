@@ -19,10 +19,13 @@ SECRET_PATTERNS = [
     (re.compile(r"\bsk-ant-[A-Za-z0-9_-]{20,}"), "ключ Anthropic"),
     (re.compile(r"\bsk-or-v1-[A-Za-z0-9]{20,}"), "ключ OpenRouter"),
     (re.compile(r"\bsk-(proj-)?[A-Za-z0-9_-]{32,}"), "ключ OpenAI-совместимого API"),
-    (re.compile(r"\bghp_[A-Za-z0-9]{30,}"), "токен GitHub"),
+    (re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}"), "токен GitHub"),
+    (re.compile(r"\bgithub_pat_[A-Za-z0-9_]{30,}"), "токен GitHub"),
 ]
 PROD_SWITCH = re.compile(r"TG_PUBLISH_TARGET\s*[:=]\s*[\"']?prod", re.I)
 SECRET_VARS = re.compile(r"\$\{?(TG_BOT_TOKEN|LLM_API_KEY|API_TOKEN)\b")
+# маски, под которые попадает .env: `.e*`, `.en?`, `.env*`, `.[e]nv` — обходы, найденные аудитом 21.10.2026
+ENV_GLOB = re.compile(r"(^|[\\/\s\"'=:])\.(e[*?]|en[*?]|env[*?]|\[e\]nv)")
 DUMP_ENV = re.compile(r"(^|[;&|]\s*)(printenv|env|set|export -p|Get-ChildItem\s+env:|gci\s+env:|dir\s+env:)\s*($|[;&|>])",
                       re.I)
 
@@ -47,6 +50,10 @@ def check(tool: str, inp: dict) -> str | None:
         cmd = str(inp.get("command", ""))
         if ENV_FILE.search(" " + cmd.replace("\\", "/")):
             return "команда обращается к .env — секреты агенту недоступны"
+        if ENV_GLOB.search(" " + cmd.replace("\\", "/")):
+            return "команда обращается к .env через маску имени файла"
+        if re.search(r"""['"]\.['"]\s*\+\s*['"]env['"]|['"]\.en['"]\s*\+|\.en`v""", cmd):
+            return "команда собирает имя .env по частям"
         if SECRET_VARS.search(cmd):
             return "команда раскрывает переменную с секретом"
         if DUMP_ENV.search(cmd.strip()):

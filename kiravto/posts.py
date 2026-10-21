@@ -58,7 +58,8 @@ def _trim(text: str, limit: int) -> str:
 
 def drop_post(o: dict, old_price: int, new_price: int) -> dict:
     pct = (old_price - new_price) / old_price * 100
-    text = (f"📉 <b>Цена снижена</b>\n{_esc(title(o))}, {o.get('year')}, {fmt_km(o.get('mileage'))}\n"
+    year = f", {o['year']}" if o.get("year") else ""
+    text = (f"📉 <b>Цена снижена</b>\n{_esc(title(o))}{year}, {fmt_km(o.get('mileage'))}\n"
             f"Было {fmt_rub(old_price)} → стало {fmt_rub(new_price)} (−{pct:.1f}%)\n{o['url']}")
     photos = (o.get("photos") or [])[:1]
     return {"text": _trim(text, CAPTION_LIMIT if photos else TEXT_LIMIT), "photos": photos}
@@ -103,7 +104,7 @@ def create_drop_posts(conn: sqlite3.Connection, min_pct: float, now: datetime | 
     day = now.astimezone(ZoneInfo(tz)).date().isoformat()
     since = iso(now - timedelta(hours=24))
     rows = conn.execute(
-        "SELECT offer_id, old, new, ts FROM events WHERE type='price_changed' AND ts >= ? ORDER BY ts", (since,)
+        "SELECT id, offer_id, old, new, ts FROM events WHERE type='price_changed' AND ts >= ? ORDER BY ts", (since,)
     ).fetchall()
     created = []
     for ev in rows:
@@ -115,7 +116,10 @@ def create_drop_posts(conn: sqlite3.Connection, min_pct: float, now: datetime | 
             continue
         offer = dict(o)
         offer["photos"] = json.loads(offer["photos"] or "[]")
-        pid = queue_post(conn, "price_drop", f"drop:{ev['offer_id']}:{day}", drop_post(offer, old, new),
+        # ключ — само событие снижения: после «Отклонить» тот же пост не появится и в другой день
+        if conn.execute("SELECT 1 FROM posts WHERE dedup_key LIKE ?", (f"drop:{ev['offer_id']}:ev{ev['id']}%",)).fetchone():
+            continue
+        pid = queue_post(conn, "price_drop", f"drop:{ev['offer_id']}:ev{ev['id']}:{day}", drop_post(offer, old, new),
                          [ev["offer_id"]], now=now)
         if pid:
             created.append(pid)
@@ -127,7 +131,9 @@ def create_daily_post(conn: sqlite3.Connection, now: datetime | None = None, tz:
     """«Новые за день»: машины, впервые увиденные за прошедшие сутки. Один пост в календарный день."""
     now = now or utcnow()
     local_day = now.astimezone(ZoneInfo(tz)).date()
-    since = iso(now - timedelta(hours=24))
+    # окно — с момента прошлого дневного поста: иначе машины между постами выпадали бы или дублировались
+    prev = conn.execute("SELECT MAX(created_at) FROM posts WHERE kind='daily_new'").fetchone()[0]
+    since = prev or iso(now - timedelta(hours=24))
     # первый полный прогон видит «новым» весь склад — такие машины в пост не берём
     baseline = conn.execute("SELECT MIN(finished_at) FROM runs WHERE status='complete'").fetchone()[0]
     if baseline and baseline > since:

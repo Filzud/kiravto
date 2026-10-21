@@ -1,12 +1,15 @@
 # docker compose up — сборщик по расписанию, бот модерации, HTTP API. Общая база в ./data.
 # Секреты — только в .env (создаётся командой `python -m kiravto secrets`).
+# Прокси для Telegram внутри контейнера — не 127.0.0.1 (это сам контейнер), а http://host.docker.internal:10809.
+# HTML-отчёт: docker compose cp collector:/app/data/report.html ./report.html
 x-app: &app
   build: .
   env_file:
     - path: .env
       required: false
   volumes:
-    - ./data:/app/data
+    # именованный том, а не папка хоста: SQLite в режиме WAL ненадёжен на bind-mount Docker Desktop (Windows/Mac)
+    - kiravto-data:/app/data
   restart: unless-stopped
 
 services:
@@ -35,3 +38,6 @@ services:
     profiles: ["test"]
     restart: "no"
     command: ["python", "-m", "pytest", "-q"]
+
+volumes:
+  kiravto-data:

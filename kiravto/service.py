@@ -10,7 +10,6 @@ from . import posts as P
 from .collector import Collector
 from .config import Settings
 from .db import connect, kv_get, kv_set, utcnow
-from .source.parse import SourceFormatError
 
 log = logging.getLogger("kiravto.service")
 
@@ -39,10 +38,16 @@ def check_incomplete_alert(conn, now: datetime | None = None) -> str | None:
         return None
     if kv_get(conn, "alerted_incomplete_run") == str(runs[1]["id"]):
         return None  # про эту серию уже сообщили
-    kv_set(conn, "alerted_incomplete_run", str(runs[1]["id"]))
-    conn.commit()
     notes = "; ".join(f"#{r['id']}: {r['note'] or r['status']}" for r in runs)
     return f"⚠️ Два неполных прогона подряд. Снятия не считаются, пока не будет полного прогона.\n{notes}"
+
+
+def mark_alert_sent(conn) -> None:
+    """Отметка ставится только ПОСЛЕ успешной отправки — иначе неудачное оповещение терялось бы навсегда."""
+    row = conn.execute("SELECT id FROM runs ORDER BY id DESC LIMIT 1 OFFSET 1").fetchone()
+    if row:
+        kv_set(conn, "alerted_incomplete_run", str(row["id"]))
+        conn.commit()
 
 
 def after_run(conn, settings: Settings, summary: dict, now: datetime | None = None) -> dict:
@@ -66,6 +71,8 @@ def after_run(conn, settings: Settings, summary: dict, now: datetime | None = No
     if alert:
         bot = make_bot(conn, settings)
         out["alert_sent"] = bool(bot and bot.send_admin(alert))
+        if out["alert_sent"]:
+            mark_alert_sent(conn)
         log.warning(alert)
     return out
 
@@ -80,9 +87,11 @@ def run_once(settings: Settings, source=None) -> dict:
     try:
         try:
             summary = Collector(conn, src, settings, photo_fetch=make_fetcher()).run()
-        except SourceFormatError as e:
+        except Exception as e:  # noqa: BLE001 — смена формата, браузер, сеть: прогон уже помечен failed
+            # after_run всё равно нужен: отчёт и оповещение о двух неудачных прогонах подряд
+            log.error("прогон упал: %s: %s", e.__class__.__name__, e)
             summary = dict(conn.execute("SELECT * FROM runs ORDER BY id DESC LIMIT 1").fetchone())
-            summary["error"] = str(e)
+            summary["error"] = f"{e.__class__.__name__}: {e}"
         summary["after"] = after_run(conn, settings, summary)
         return summary
     finally:
