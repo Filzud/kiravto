@@ -133,3 +133,14 @@ def test_fetch_timeout_is_transient(monkeypatch):
     src = autoru.AutoruBrowserSource("d", "1", pause=(0, 0))
     src._page = Page()
     assert src.card("1-a") == {"ok": 1}
+
+
+def test_engine_volume_as_site_shows_it():
+    from kiravto.source.parse import _site_volume
+    # Lexus LX 600d: 3346 см³, сайт пишет «3.4d» (сверщик нашёл расхождение 3.3 ≠ 3.4)
+    assert _site_volume("3.4d AT (299 л.с.) 4WD", 3346) == 3.4
+    assert _site_volume("6.8 AT (571 л.с.) 4WD", 6749) == 6.8
+    assert _site_volume(None, 1989) == 2.0
+    assert _site_volume("", None) is None
+    c = parse_card(load_json("card_1160027054-72d39620.json"))
+    assert c["engine_volume"] == 2.0 and c["engine_cc"] == 1989

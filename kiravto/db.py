@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS offers (
     year INTEGER, mileage INTEGER,
     price INTEGER, price_discount INTEGER,
     discount_tradein INTEGER, discount_credit INTEGER, discount_insurance INTEGER, discount_max INTEGER,
-    engine_volume REAL, engine_power INTEGER, fuel TEXT, transmission TEXT, drive TEXT,
+    engine_volume REAL, engine_cc INTEGER, engine_power INTEGER, fuel TEXT, transmission TEXT, drive TEXT,
     body TEXT, color TEXT, color_hex TEXT,
     vin TEXT, vin_full INTEGER DEFAULT 0,
     owners INTEGER, pts TEXT, customs_cleared INTEGER,
@@ -136,7 +136,16 @@ def connect(path: Path | str) -> sqlite3.Connection:
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA foreign_keys=ON")
     conn.executescript(SCHEMA)
+    _migrate(conn)
     return conn
+
+
+def _migrate(conn: sqlite3.Connection) -> None:
+    """Добавляет колонки, появившиеся после создания базы."""
+    have = {r[1] for r in conn.execute("PRAGMA table_info(offers)")}
+    if "engine_cc" not in have:
+        conn.execute("ALTER TABLE offers ADD COLUMN engine_cc INTEGER")
+        conn.commit()
 
 
 def kv_get(conn: sqlite3.Connection, key: str, default: str | None = None) -> str | None:

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from datetime import datetime, timezone
 
 from .. import normalize as nz
@@ -42,6 +43,15 @@ def _ts(ms) -> str | None:
     if not ms:
         return None
     return datetime.fromtimestamp(int(ms) / 1000, tz=timezone.utc).isoformat(timespec="seconds")
+
+
+def _site_volume(human_name: str | None, cc: int | None) -> float | None:
+    """Объём, как его пишет сайт: «3.4d AT (299 л.с.)» при 3346 см³. Это каталожная подпись,
+    ни обычное, ни верхнее округление кубиков с ней не совпадает (проверено на 453 машинах 20.10.2026)."""
+    m = re.match(r"\s*(\d+\.\d)", human_name or "")
+    if m:
+        return float(m.group(1))
+    return round(cc / 1000, 1) if cc else None
 
 
 def check_listing_response(data: dict) -> dict:
@@ -114,7 +124,8 @@ def parse_offer(raw: dict) -> dict:
         "discount_credit": disc.get("credit"),
         "discount_insurance": disc.get("insurance"),
         "discount_max": max_disc or None,
-        "engine_volume": round(volume / 1000, 1) if volume else None,
+        "engine_volume": _site_volume(tech.get("human_name"), volume),
+        "engine_cc": volume or None,
         "engine_power": tech.get("power"),
         "fuel": nz.FUEL.get(tech.get("engine_type"), tech.get("engine_type")),
         "transmission": nz.TRANSMISSION.get(tech.get("transmission"), tech.get("transmission")),

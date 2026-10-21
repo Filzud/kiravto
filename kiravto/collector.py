@@ -31,7 +31,7 @@ ALT_SORT = "cr_date-desc"  # второй проход другой сортир
 OFFER_COLUMNS = [
     "hash", "url", "section", "mark_code", "mark", "model_code", "model", "generation", "complectation",
     "complectation_id", "year", "mileage", "price", "price_discount", "discount_tradein", "discount_credit",
-    "discount_insurance", "discount_max", "engine_volume", "engine_power", "fuel", "transmission", "drive", "body",
+    "discount_insurance", "discount_max", "engine_volume", "engine_cc", "engine_power", "fuel", "transmission", "drive", "body",
     "color", "color_hex", "vin", "vin_full", "owners", "pts", "customs_cleared", "availability",
     "created_at_source", "fresh_at_source",
 ]
