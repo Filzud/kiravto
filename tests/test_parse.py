@@ -144,3 +144,9 @@ def test_engine_volume_as_site_shows_it():
     assert _site_volume("", None) is None
     c = parse_card(load_json("card_1160027054-72d39620.json"))
     assert c["engine_volume"] == 2.0 and c["engine_cc"] == 1989
+
+
+def test_color_names_checked_on_site():
+    # сверка 21.10.2026: Audi A3 #1134053898 с кодом 4A2197 сайт называет «Фиолетовый»
+    assert nz.COLORS["4A2197"] == "фиолетовый"
+    assert nz.COLORS["FFD600"] == "жёлтый"      # Hongqi HS5 #1160027054
