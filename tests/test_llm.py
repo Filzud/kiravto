@@ -89,3 +89,14 @@ def test_verify_rules():
         "мусор",
     ])
     assert len(kept) == 1 and dropped == 3
+
+
+def test_dropped_facts_visible_in_stats_and_report(conn, settings, clock):
+    from kiravto import queries
+    from kiravto.report import build_html
+    desc = load_json("card_1160094460-61dcf15b.json")["description"]
+    make(conn, settings, clock, "openrouter", recorded("openai_card_1160094460.json"), []).facts_for(desc)
+    st = queries.stock_summary(conn)["llm"]
+    assert (st["facts_kept"], st["facts_dropped"], st["calls"]) == (2, 2, 1)
+    html = build_html(conn, settings=settings)
+    assert "фактов выброшено" in html and "None" not in html

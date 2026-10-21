@@ -183,10 +183,36 @@ def test_listing_lags_behind_card_removed(conn, source, settings, clock):
         assert r["returned_count"] == 0
     assert conn.execute("SELECT status FROM offers WHERE id=?", (str(stale["id"]),)).fetchone()[0] == "removed"
     assert len(events(conn, "returned")) == 0
-    # а когда карточка снова активна — это настоящий возврат
+    # а когда карточка снова активна — это настоящий возврат; видим его при перепроверке (раз в 12 ч)
     del source.cards[f"{stale['id']}-{stale['hash']}"]
     clock.advance(minutes=45)
+    assert run(conn, source, settings, clock)["returned_count"] == 0     # ещё не время перепроверять
+    clock.advance(hours=12)
     assert run(conn, source, settings, clock)["returned_count"] == 1
+
+
+def test_removed_but_listed_rechecked_rarely(conn, source, settings, clock):
+    """Прогон №8: 100 проданных висели в выдаче и каждый прогон тянули свою карточку. Теперь — раз в 12 ч."""
+    stale = source.offers["new"][1]
+    removed = load_json("card_removed_1160201304.json")
+    source.cards[f"{stale['id']}-{stale['hash']}"] = {**removed, "id": stale["id"]}
+    run(conn, source, settings, clock)
+    ref = f"{stale['id']}-{stale['hash']}"
+    for _ in range(3):
+        source.card_calls.clear()
+        clock.advance(minutes=45)
+        run(conn, source, settings, clock)
+        assert ref not in source.card_calls
+    clock.advance(hours=12)
+    source.card_calls.clear()
+    run(conn, source, settings, clock)
+    assert ref in source.card_calls
+    # изменилась запись в выдаче — перепроверяем сразу
+    stale["price_info"]["price"] += 1000
+    source.card_calls.clear()
+    clock.advance(minutes=45)
+    run(conn, source, settings, clock)
+    assert ref in source.card_calls
 
 
 def test_failed_run_counters_do_not_lie(conn, source, settings, clock):

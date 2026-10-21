@@ -90,7 +90,8 @@ def cmd_api(args) -> None:
     from .api import create_app
 
     s = load_settings()
-    uvicorn.run(create_app(s), host=args.host, port=args.port or s.api_port)
+    # log_config=None: иначе uvicorn перенастраивает logging и в режиме serve пропадают логи сборщика
+    uvicorn.run(create_app(s), host=args.host, port=args.port or s.api_port, log_config=None)
 
 
 def cmd_serve(args) -> None:
@@ -102,6 +103,62 @@ def cmd_serve(args) -> None:
     if s.tg_token:
         threading.Thread(target=bot_loop, args=(s,), daemon=True, name="bot").start()
     cmd_api(args)
+
+
+def tg_check(settings, api) -> list[str]:
+    """Проверка настройки Telegram. Возвращает строки для человека; токен не печатается."""
+    from .telegram_bot import TelegramError
+
+    out: list[str] = []
+    try:
+        me = api.call("getMe")
+    except TelegramError as e:
+        return [f"✗ бот не отвечает: {e}. Проверьте токен и TG_PROXY (без прокси Telegram может быть недоступен)."]
+    out.append(f"✓ бот @{me.get('username')} отвечает")
+    try:
+        updates = api.call("getUpdates", timeout=0, allowed_updates=["message", "channel_post", "my_chat_member"])
+    except TelegramError as e:
+        updates = []
+        out.append(f"! getUpdates: {e} (если бот уже запущен в другом процессе — это нормально)")
+    seen = {}
+    for u in updates or []:
+        for key in ("message", "channel_post", "my_chat_member"):
+            chat = (u.get(key) or {}).get("chat")
+            if chat:
+                seen[chat["id"]] = f"{chat.get('type')}: {chat.get('title') or chat.get('username') or chat.get('first_name')}"
+    if seen:
+        out.append("Чаты, где бот видел сообщения (ID → вписать в .env):")
+        out += [f"   {cid}  {title}" for cid, title in seen.items()]
+    else:
+        out.append("Бот пока не видел ни одного чата: напишите что-нибудь в админ-группу и опубликуйте пост "
+                   "в каждом канале, потом запустите проверку снова.")
+    for name, cid in (("админ-чат", settings.tg_admin_chat_id), ("тестовый канал", settings.tg_test_channel_id),
+                      ("боевой канал", settings.tg_prod_channel_id)):
+        if not cid:
+            out.append(f"– {name}: ID не задан")
+            continue
+        try:
+            m = api.call("getChatMember", chat_id=cid, user_id=me["id"])
+            status = m.get("status")
+            ok = status in ("administrator", "creator") or (name == "админ-чат" and status == "member")
+            out.append(f"{'✓' if ok else '✗'} {name} {cid}: бот — {status}"
+                       + ("" if ok else " (нужны права администратора с публикацией)"))
+        except TelegramError as e:
+            out.append(f"✗ {name} {cid}: {e}")
+    prod = settings.tg_publish_target == "prod" and settings.publish_channel_id == settings.tg_prod_channel_id
+    target = "БОЕВОЙ" if prod and settings.tg_prod_channel_id else "тестовый"
+    out.append(f"Публикация сейчас идёт в: {target} канал")
+    return out
+
+
+def cmd_tg_check(_args) -> None:
+    from .telegram_bot import BotAPI
+
+    s = load_settings()
+    if not s.tg_token:
+        print("TG_BOT_TOKEN не задан — сначала `python -m kiravto secrets`")
+        return
+    print("\n".join(tg_check(s, BotAPI(s.tg_api_base, s.tg_token, s.tg_proxy))))
 
 
 def cmd_mcp(_args) -> None:
@@ -181,6 +238,7 @@ def main(argv: list[str] | None = None) -> None:
         sp.add_argument("--port", type=int, default=0)
         sp.set_defaults(f=f)
     sub.add_parser("mcp", help="MCP-сервер (stdio)").set_defaults(f=cmd_mcp)
+    sub.add_parser("tg-check", help="проверить бота, показать ID чатов, права в каналах").set_defaults(f=cmd_tg_check)
     sp = sub.add_parser("status", help="последние прогоны и очередь постов")
     sp.add_argument("--limit", type=int, default=5)
     sp.set_defaults(f=cmd_status)

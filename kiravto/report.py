@@ -236,6 +236,21 @@ def build_html(conn: sqlite3.Connection, now: datetime | None = None, settings: 
         "Аномалий в объявлениях в продаже нет.")
         + '<p class="note">Аномалии только помечаются, из данных ничего не выбрасывается.</p></section>')
 
+    # --- LLM-функция
+    llm = queries.llm_stats(conn)
+    enabled = bool(settings and settings.llm_enabled)
+    if llm["calls"]:
+        parts.append("<section><h2>Факты из описаний (LLM)</h2><div class=\"tiles\">"
+                     f'<div class="tile"><b>{num(llm["facts_kept"])}</b><span>фактов оставлено (цитата найдена)</span></div>'
+                     f'<div class="tile"><b>{num(llm["facts_dropped"])}</b><span>фактов выброшено (цитаты нет в тексте)</span></div>'
+                     f'<div class="tile"><b>{num(llm["calls"])}</b><span>описаний отправлено в модель, '
+                     f'${llm["cost_usd"]:.4f}</span></div></div></section>')
+    else:
+        parts.append("<section><h2>Факты из описаний (LLM)</h2><p class=\"note\">"
+                     + ("Функция включена, но описаний в модель ещё не отправлялось." if enabled
+                        else "Функция выключена: не задан ключ LLM. Остальной сервис работает без неё.")
+                     + "</p></section>")
+
     # --- прогоны
     rows = []
     for r in last:

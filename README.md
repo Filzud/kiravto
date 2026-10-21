@@ -51,7 +51,12 @@ python -m kiravto serve        # сборщик + бот + API в одном п�
 python -m pytest -q            # тесты, без сети
 ```
 
-Прочие команды: `status` (прогоны и очередь), `sample 20` (выборка для сверки), `report`, `dump-fixtures`, `mcp`.
+Windows без Docker: `powershell -File scripts\run_local.ps1` (сборщик + бот + API, лог `data\serve.log`);
+un_local.ps1` (сборщик + бот + API, лог `data\serve.log`);
+автозапуск при входе в систему — `scripts\install_autostart.ps1` (задача планировщика «Kiravto»).
+
+Прочие команды: `status` (прогоны и очередь), `tg-check` (бот отвечает? ID чатов, права бота в каналах),
+`sample 20` (выборка для сверки), `report`, `dump-fixtures`, `mcp`.
 
 ## Откуда данные и почему так
 

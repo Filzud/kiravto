@@ -43,6 +43,7 @@ TRACKED_LISTING = {
 }
 PHOTO_HASH_MAX_DISTANCE = 6
 RELIST_WINDOW_DAYS = 30
+RECHECK_REMOVED_HOURS = 12
 
 
 class DealerMismatch(Exception):
@@ -203,13 +204,19 @@ class Collector:
         с карточкой поля из выдачи не перезаписываются — их обновляет только карточка."""
         now = iso(self.clock())
         for oid, o in offers.items():
-            row = self.conn.execute("SELECT status, details_at FROM offers WHERE id=?", (oid,)).fetchone()
+            row = self.conn.execute("SELECT status, details_at, listing_sig, removed_at FROM offers WHERE id=?",
+                                    (oid,)).fetchone()
             if row is None:
                 self._insert_offer(o, listing_signature(o), now)
                 self.stats["new_count"] += 1
             elif row["status"] != "active":
-                # снова в выдаче — но выдача отстаёт от карточек, поэтому «вернулось» подтверждаем карточкой
-                self._maybe_returned[oid] = row["status"]
+                # снова в выдаче — но выдача отстаёт от карточек, поэтому «вернулось» подтверждаем карточкой.
+                # Проданные висят в выдаче сутками: перепроверяем, только если запись в выдаче изменилась
+                # или с прошлой проверки прошло RECHECK_REMOVED_HOURS (прогон №8: 100 лишних карточек из 171)
+                checked = max(filter(None, (row["details_at"], row["removed_at"])), default=None)
+                stale = checked is None or parse_iso(checked) <= self.clock() - timedelta(hours=RECHECK_REMOVED_HOURS)
+                if row["listing_sig"] != listing_signature(o) or stale:
+                    self._maybe_returned[oid] = row["status"]
                 self.conn.execute("UPDATE offers SET last_seen=? WHERE id=?", (now, oid))
             elif row["details_at"] is None:
                 # карточки ещё нет — держим предварительные данные выдачи, без событий
@@ -281,7 +288,10 @@ class Collector:
             card = parse_card(raw)
             self.stats["cards_fetched"] += 1
             if card is None or card.get("inactive"):
-                continue  # в выдаче висит, но карточка снята — остаётся снятым
+                # в выдаче висит, но карточка снята — остаётся снятым; запоминаем, когда проверяли
+                self.conn.execute("UPDATE offers SET details_at=?, listing_sig=? WHERE id=?",
+                                  (iso(self.clock()), listing_signature(o), oid))
+                continue
             row = self.conn.execute("SELECT removed_at FROM offers WHERE id=?", (oid,)).fetchone()
             self._event(oid, "returned", old_status, "active", f"снова в продаже после {row['removed_at'] or '?'}")
             self.conn.execute("UPDATE offers SET status='active', removed_at=NULL, sold_at=NULL WHERE id=?", (oid,))

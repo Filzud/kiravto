@@ -107,7 +107,9 @@ def bot_loop(settings: Settings, stop: threading.Event | None = None) -> None:
     conn = connect(settings.db_path)
     bot = make_bot(conn, settings)
     if bot is None:
-        log.error("Telegram не настроен: нужны TG_BOT_TOKEN и TG_ADMIN_CHAT_ID в .env")
+        # не выходим: в docker compose с restart=unless-stopped выход превратился бы в бесконечный перезапуск
+        log.error("Telegram не настроен: нужны TG_BOT_TOKEN и TG_ADMIN_CHAT_ID в .env. Бот ждёт, посты копятся в очереди.")
+        (stop or threading.Event()).wait()
         return
     bot.run_forever(stop)
 

@@ -129,6 +129,7 @@ def stock_summary(conn: sqlite3.Connection, now: datetime | None = None) -> dict
         "price_max": c("SELECT MAX(price) FROM offers WHERE status='active'"),
         "top_marks": top_marks,
         "last_run": next(iter(last_runs(conn, 1)), None),
+        "llm": llm_stats(conn),
     }
 
 
@@ -147,6 +148,16 @@ def last_runs(conn: sqlite3.Connection, limit: int = 10) -> list[dict]:
 def last_success(conn: sqlite3.Connection) -> dict | None:
     r = conn.execute("SELECT * FROM runs WHERE status='complete' ORDER BY id DESC LIMIT 1").fetchone()
     return dict(r) if r else None
+
+
+def llm_stats(conn: sqlite3.Connection) -> dict:
+    """Статистика функции фактов: вызовы, токены, деньги, сколько фактов оставлено и выброшено проверкой цитат."""
+    t = conn.execute("SELECT COALESCE(SUM(calls),0), COALESCE(SUM(tokens_in),0), COALESCE(SUM(tokens_out),0), "
+                     "COALESCE(SUM(cost),0), COALESCE(SUM(facts_kept),0), COALESCE(SUM(facts_dropped),0) "
+                     "FROM llm_usage").fetchone()
+    cached = conn.execute("SELECT COUNT(*) FROM llm_cache").fetchone()[0]
+    return {"calls": t[0], "tokens_in": t[1], "tokens_out": t[2], "cost_usd": round(t[3], 6),
+            "facts_kept": t[4], "facts_dropped": t[5], "descriptions_cached": cached}
 
 
 def post_queue(conn: sqlite3.Connection) -> list[dict]:
