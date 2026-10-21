@@ -19,9 +19,11 @@ def make_bot(conn, settings: Settings):
     """Бот для оповещений и модерации. None — Telegram не настроен."""
     if not (settings.tg_token and settings.tg_admin_chat_id):
         return None
+    from .photohash import make_fetcher
     from .telegram_bot import BotAPI, ModerationBot
 
-    return ModerationBot(conn, settings, BotAPI(settings.tg_api_base, settings.tg_token, settings.tg_proxy))
+    return ModerationBot(conn, settings, BotAPI(settings.tg_api_base, settings.tg_token, settings.tg_proxy),
+                         photo_fetch=make_fetcher())
 
 
 def make_facts(conn, settings: Settings):

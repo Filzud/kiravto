@@ -67,14 +67,20 @@ class BotAPI:
     def _redact(self, s: str) -> str:
         return s.replace(self._token, "***") if self._token else s
 
-    def call(self, method: str, **params):
+    def call(self, method: str, files: dict[str, tuple[str, bytes]] | None = None, **params):
         params = {k: v for k, v in params.items() if v is not None}
         timeout = None
         if method == "getUpdates":
             timeout = httpx.Timeout(float(params.get("timeout", 0)) + 15.0, connect=10.0)
+        if files:
+            # multipart: вложенные поля — JSON-строкой, файлы — отдельными частями (attach://имя)
+            body = {"data": {k: v if isinstance(v, str) else json.dumps(v, ensure_ascii=False) for k, v in params.items()},
+                    "files": {name: (fn, data, "image/jpeg") for name, (fn, data) in files.items()},
+                    "timeout": httpx.Timeout(90.0, connect=10.0)}
+        else:
+            body = {"json": params, **({"timeout": timeout} if timeout else {})}
         try:
-            resp = self._client.post(f"{self._base}/bot{self._token}/{method}", json=params,
-                                     **({"timeout": timeout} if timeout else {}))
+            resp = self._client.post(f"{self._base}/bot{self._token}/{method}", **body)
         except httpx.HTTPError as e:
             raise TelegramError(f"{method}: сетевая ошибка {type(e).__name__}: {self._redact(str(e))}") from None
         try:
@@ -167,11 +173,15 @@ def _title(o: dict) -> str:
 
 
 class ModerationBot:
-    def __init__(self, conn: sqlite3.Connection, settings: Settings, api: BotAPI, clock=kdb.utcnow):
+    def __init__(self, conn: sqlite3.Connection, settings: Settings, api: BotAPI, clock=kdb.utcnow,
+                 photo_fetch=None):
         self.conn = conn
         self.settings = settings
         self.api = api
         self.clock = clock
+        # Серверы Telegram не могут скачать фото с CDN Авто.ру по ссылке («failed to get HTTP URL content»,
+        # живой тест 21.10.2026). С photo_fetch сервис скачивает фото сам и отправляет файлом.
+        self.photo_fetch = photo_fetch
 
     # ---------- помощники ----------
 
@@ -424,9 +434,39 @@ class ModerationBot:
         for idx, (method, params) in enumerate(parts):
             if idx < done:
                 continue
-            self.api.call(method, chat_id=channel, **params)
+            params, files = self._with_uploads(method, params)
+            self.api.call(method, files=files, chat_id=channel, **params)
             kdb.kv_set(self.conn, key, str(idx + 1))
             self.conn.commit()
+
+    def _with_uploads(self, method: str, params: dict) -> tuple[dict, dict | None]:
+        """Заменяет ссылки на фото загруженными файлами (если задан photo_fetch)."""
+        if not self.photo_fetch or method not in ("sendPhoto", "sendMediaGroup"):
+            return params, None
+        params = json.loads(json.dumps(params))
+        files: dict[str, tuple[str, bytes]] = {}
+
+        def upload(url: str) -> str:
+            name = f"p{len(files)}"
+            # исходник бывает тяжёлым, Telegram всё равно пережмёт — берём 1200x900
+            src = url[:-len("/orig")] + "/1200x900" if url.endswith("/orig") else url
+            data = self.photo_fetch(src)
+            if not data.startswith(b"\xff\xd8"):  # CDN иногда отдаёт webp — Telegram надёжнее принимает JPEG
+                import io
+
+                from PIL import Image
+                buf = io.BytesIO()
+                Image.open(io.BytesIO(data)).convert("RGB").save(buf, "JPEG", quality=90)
+                data = buf.getvalue()
+            files[name] = (f"{name}.jpg", data)
+            return f"attach://{name}"
+
+        if method == "sendPhoto":
+            params["photo"] = upload(params["photo"])
+        else:
+            for item in params["media"]:
+                item["media"] = upload(item["media"])
+        return params, files
 
     def _fail(self, row: sqlite3.Row, error: str, delay: timedelta, final_ok: bool) -> None:
         attempts = (row["attempts"] or 0) + 1

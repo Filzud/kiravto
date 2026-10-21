@@ -525,3 +525,27 @@ def test_run_forever_stops(conn, bot, fake, clock):
     t.join(10)
     assert not t.is_alive()
     assert status(conn, pid)["status"] == "moderation"
+
+
+def test_photos_uploaded_as_files_not_urls(conn, tg_settings, clock):
+    """Живой тест 21.10.2026: Telegram не скачивает фото с CDN Авто.ру по ссылке — отправляем файлом."""
+    import httpx as _httpx
+    seen = []
+
+    def handler(req):
+        ctype = req.headers.get("content-type", "")
+        seen.append((req.url.path.rsplit("/", 1)[-1], ctype, req.content))
+        return _httpx.Response(200, json={"ok": True, "result": {"message_id": 1}})
+
+    api = BotAPI("https://tg.example", TOKEN, client=_httpx.Client(transport=_httpx.MockTransport(handler)))
+    fetched = []
+    bot = ModerationBot(conn, tg_settings, api, clock=clock, photo_fetch=lambda u: fetched.append(u) or b"\xff\xd8JPEGDATA")
+    pid = queue_post(conn, "price_drop", "k1", {"text": "t", "photos": ["https://avatars.avto.ru/get-autoru-vos/1/abc/orig"]},
+                     ["1"], now=clock())
+    conn.execute("UPDATE posts SET status='approved' WHERE id=?", (pid,))
+    conn.commit()
+    assert bot.deliver() == 1
+    method, ctype, body = seen[0]
+    assert method == "sendPhoto" and ctype.startswith("multipart/form-data")
+    assert b"attach://p0" in body and b"JPEGDATA" in body
+    assert fetched == ["https://avatars.avto.ru/get-autoru-vos/1/abc/1200x900"]

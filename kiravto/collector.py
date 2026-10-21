@@ -107,6 +107,9 @@ class Collector:
                              " — снятия не считаем")
 
             self._upsert_listing(offers)
+            # фиксируем по частям: одна транзакция на весь прогон держала базу минутами,
+            # и бот получал «database is locked» (живой запуск serve 21.10.2026)
+            self.conn.commit()
             blocked_cards = self._fetch_details(offers)
             if blocked_cards:
                 notes.append(blocked_cards)
@@ -321,6 +324,7 @@ class Collector:
         for i, oid in enumerate(todo, 1):
             o = offers[oid]
             if i % 20 == 0:
+                self.conn.commit()
                 log.info("карточки: %s из %s", i, len(todo))
             try:
                 raw = self.source.card(f"{oid}-{o['hash']}")
