@@ -22,6 +22,8 @@ services:
     <<: *app
     command: ["python", "-m", "kiravto", "bot"]
     depends_on: [collector]
+    environment:
+      TG_PROXY: ${TG_PROXY_DOCKER:-http://host.docker.internal:10809}
 
   api:
     <<: *app
