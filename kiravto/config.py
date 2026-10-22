@@ -68,6 +68,24 @@ class Settings:
     llm_price_in_per_m: float = 0.15
     llm_price_out_per_m: float = 0.60
 
+    # «ниже рынка» (задание со звёздочкой 1)
+    market_groups_per_run: int = 12
+    market_ttl_hours: float = 48
+    market_min_comps: int = 5
+    market_below_pct: float | None = None   # задано — в посты только машины дешевле рынка на N %
+
+    # второй источник — сайт салона (задание со звёздочкой 2)
+    rolf_dealer_id: str = "38"              # «РОЛЬФ Ясенево» в фильтре сайта rolf.ru
+    rolf_interval_hours: float = 6
+
+    # голосовые вопросы в админ-чате (задание со звёздочкой 3)
+    stt_model: str = "small"                # faster-whisper; пусто — голос выключен
+
+    # выгрузка в Google Таблицу (задание со звёздочкой 4)
+    gsheet_id: str = ""
+    gsheet_credentials: str = ""            # путь к JSON-ключу сервисного аккаунта (сам ключ в репозиторий не кладём)
+    gsheet_interval_hours: float = 3
+
     extra: dict[str, str] = field(default_factory=dict)
 
     @property
@@ -116,6 +134,16 @@ def load_settings(env_path: Path | None = None) -> Settings:
         llm_daily_budget_usd=float(g("LLM_DAILY_BUDGET_USD", "0.20")),
         llm_price_in_per_m=float(g("LLM_PRICE_IN_PER_M", "0.15")),
         llm_price_out_per_m=float(g("LLM_PRICE_OUT_PER_M", "0.60")),
+        market_groups_per_run=int(g("MARKET_GROUPS_PER_RUN", "12")),
+        market_ttl_hours=float(g("MARKET_TTL_HOURS", "48")),
+        market_min_comps=int(g("MARKET_MIN_COMPS", "5")),
+        market_below_pct=float(g("MARKET_BELOW_PCT")) if g("MARKET_BELOW_PCT") else None,
+        rolf_dealer_id=g("ROLF_DEALER_ID", "38"),
+        rolf_interval_hours=float(g("ROLF_INTERVAL_HOURS", "6")),
+        stt_model=g("STT_MODEL", "small"),
+        gsheet_id=g("GSHEET_ID"),
+        gsheet_credentials=g("GSHEET_CREDENTIALS"),
+        gsheet_interval_hours=float(g("GSHEET_INTERVAL_HOURS", "3")),
     )
     s.db_path.parent.mkdir(parents=True, exist_ok=True)
     return s

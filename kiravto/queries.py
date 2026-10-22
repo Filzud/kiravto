@@ -47,7 +47,7 @@ def search_offers(conn: sqlite3.Connection, *, mark: str | None = None, model: s
 def brief(o: dict) -> dict:
     return {k: o.get(k) for k in ("id", "url", "section", "mark", "model", "generation", "complectation", "year",
                                   "mileage", "price", "price_discount", "availability", "color", "status",
-                                  "first_seen", "anomalies")}
+                                  "first_seen", "anomalies", "market_pct", "market_median", "market_n")}
 
 
 def get_offer(conn: sqlite3.Connection, offer_id: str) -> dict | None:
@@ -58,7 +58,56 @@ def get_offer(conn: sqlite3.Connection, offer_id: str) -> dict | None:
     facts = conn.execute("SELECT facts FROM llm_cache WHERE desc_sha=?", (desc_key(o.get("description")),)).fetchone() \
         if o.get("description") else None
     o["facts"] = json.loads(facts["facts"]) if facts else []
+    o["sources"] = offer_sources(conn, o["id"])
     return o
+
+
+def offer_sources(conn: sqlite3.Connection, offer_id: str) -> list[dict]:
+    """Та же машина во втором источнике (сайт салона): полный VIN, своя цена, по какому признаку склеено."""
+    return [dict(r) for r in conn.execute(
+        "SELECT source, ext_id, url, vin, price, price_discount, matched_by, first_seen, last_seen "
+        "FROM offer_sources WHERE offer_id=?", (str(offer_id),))]
+
+
+def below_market(conn: sqlite3.Connection, min_pct: float = 5.0, section: str | None = None,
+                 limit: int = 50) -> dict:
+    """Машины дешевле медианы похожих у других продавцов Авто.ру минимум на min_pct процентов."""
+    where, args = ["status='active'", "market_pct IS NOT NULL", "market_pct <= ?"], [-abs(min_pct)]
+    if section:
+        where.append("section=?")
+        args.append(section)
+    rows = conn.execute(f"SELECT * FROM offers WHERE {' AND '.join(where)} ORDER BY market_pct LIMIT ?",
+                        [*args, max(1, min(limit, 200))]).fetchall()
+    return {"min_pct": min_pct, "items": [brief(row_to_offer(r)) for r in rows], "coverage": market_coverage(conn)}
+
+
+def market_coverage(conn: sqlite3.Connection) -> dict:
+    c = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
+    return {"active": c("SELECT COUNT(*) FROM offers WHERE status='active'"),
+            "with_estimate": c("SELECT COUNT(*) FROM offers WHERE status='active' AND market_pct IS NOT NULL"),
+            "too_few_comps": c("SELECT COUNT(*) FROM offers WHERE status='active' AND market_at IS NOT NULL "
+                               "AND market_pct IS NULL"),
+            "below_market": c("SELECT COUNT(*) FROM offers WHERE status='active' AND market_pct <= -0.5"),
+            "above_market": c("SELECT COUNT(*) FROM offers WHERE status='active' AND market_pct >= 0.5"),
+            "groups_cached": c("SELECT COUNT(*) FROM market_comps"),
+            "last_scan": c("SELECT MAX(fetched_at) FROM market_comps")}
+
+
+def second_source_summary(conn: sqlite3.Connection) -> dict:
+    c = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
+    last = conn.execute("SELECT * FROM side_runs WHERE kind='rolf' ORDER BY id DESC LIMIT 1").fetchone()
+    return {"site_total": c("SELECT COUNT(*) FROM rolf_stock"),
+            "site_not_on_autoru": c("SELECT COUNT(*) FROM rolf_stock WHERE is_auto_ru=0"),
+            "matched": c("SELECT COUNT(*) FROM offer_sources s JOIN offers o ON o.id=s.offer_id "
+                         "WHERE o.status='active'"),
+            "price_differs": c("SELECT COUNT(*) FROM offer_sources s JOIN offers o ON o.id=s.offer_id "
+                               "WHERE o.status='active' AND s.price IS NOT NULL AND s.price != o.price"),
+            "last_sync": dict(last) if last else None}
+
+
+def side_runs(conn: sqlite3.Connection, kind: str | None = None, limit: int = 10) -> list[dict]:
+    sql = "SELECT * FROM side_runs" + (" WHERE kind=?" if kind else "") + " ORDER BY id DESC LIMIT ?"
+    return [dict(r) for r in conn.execute(sql, ((kind, limit) if kind else (limit,)))]
 
 
 def desc_key(text: str | None) -> str:
@@ -130,6 +179,8 @@ def stock_summary(conn: sqlite3.Connection, now: datetime | None = None) -> dict
         "top_marks": top_marks,
         "last_run": next(iter(last_runs(conn, 1)), None),
         "llm": llm_stats(conn),
+        "market": market_coverage(conn),
+        "second_source": second_source_summary(conn),
     }
 
 

@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 
 from . import normalize as nz
 from .db import iso, parse_iso, utcnow
+from .market import market_line, passes_filter
 
 CAPTION_LIMIT = 1024
 TEXT_LIMIT = 4096
@@ -42,7 +43,8 @@ def short_card(o: dict) -> str:
     bits = [f"<b>{_esc(title(o))}</b>, {o.get('year') or 'год не указан'}", fmt_km(o.get("mileage")), price]
     if avail and avail != "в наличии":
         bits.append(avail)
-    return " · ".join(bits) + f"\n{o['url']}"
+    market = market_line(o)
+    return " · ".join(bits) + (f"\n{market}" if market else "") + f"\n{o['url']}"
 
 
 def _esc(s: str) -> str:
@@ -59,8 +61,10 @@ def _trim(text: str, limit: int) -> str:
 def drop_post(o: dict, old_price: int, new_price: int) -> dict:
     pct = (old_price - new_price) / old_price * 100
     year = f", {o['year']}" if o.get("year") else ""
+    market = market_line(o)
     text = (f"📉 <b>Цена снижена</b>\n{_esc(title(o))}{year}, {fmt_km(o.get('mileage'))}\n"
-            f"Было {fmt_rub(old_price)} → стало {fmt_rub(new_price)} (−{pct:.1f}%)\n{o['url']}")
+            f"Было {fmt_rub(old_price)} → стало {fmt_rub(new_price)} (−{pct:.1f}%)\n"
+            + (market + "\n" if market else "") + o["url"])
     photos = (o.get("photos") or [])[:1]
     return {"text": _trim(text, CAPTION_LIMIT if photos else TEXT_LIMIT), "photos": photos}
 
@@ -98,7 +102,7 @@ def recent_drop_posted(conn: sqlite3.Connection, offer_id: str, now: datetime) -
 
 
 def create_drop_posts(conn: sqlite3.Connection, min_pct: float, now: datetime | None = None,
-                      tz: str = "Europe/Moscow") -> list[int]:
+                      tz: str = "Europe/Moscow", market_below_pct: float | None = None) -> list[int]:
     """Снижения цены ≥ min_pct за последний прогон → посты в модерацию (не чаще раза в сутки на машину)."""
     now = now or utcnow()
     day = now.astimezone(ZoneInfo(tz)).date().isoformat()
@@ -116,6 +120,8 @@ def create_drop_posts(conn: sqlite3.Connection, min_pct: float, now: datetime | 
             continue
         offer = dict(o)
         offer["photos"] = json.loads(offer["photos"] or "[]")
+        if not passes_filter(offer, market_below_pct):
+            continue
         # ключ — само событие снижения: после «Отклонить» тот же пост не появится и в другой день
         if conn.execute("SELECT 1 FROM posts WHERE dedup_key LIKE ?", (f"drop:{ev['offer_id']}:ev{ev['id']}%",)).fetchone():
             continue
@@ -127,7 +133,7 @@ def create_drop_posts(conn: sqlite3.Connection, min_pct: float, now: datetime | 
 
 
 def create_daily_post(conn: sqlite3.Connection, now: datetime | None = None, tz: str = "Europe/Moscow",
-                      limit: int = 30) -> int | None:
+                      limit: int = 30, market_below_pct: float | None = None) -> int | None:
     """«Новые за день»: машины, впервые увиденные за прошедшие сутки. Один пост в календарный день."""
     now = now or utcnow()
     local_day = now.astimezone(ZoneInfo(tz)).date()
@@ -147,7 +153,10 @@ def create_daily_post(conn: sqlite3.Connection, now: datetime | None = None, tz:
     for r in rows:
         d = dict(r)
         d["photos"] = json.loads(d["photos"] or "[]")
-        offers.append(d)
+        if passes_filter(d, market_below_pct):
+            offers.append(d)
+    if not offers:
+        return None
     payload = daily_new_post(offers, local_day.strftime("%d.%m.%Y"))
     return queue_post(conn, "daily_new", f"daily_new:{local_day.isoformat()}", payload, [o["id"] for o in offers],
                       now=now)

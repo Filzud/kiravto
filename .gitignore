@@ -11,3 +11,5 @@ recon/cookies.txt
 recon/cj.txt
 .playwright-mcp/
 .pytest_cache/
+secrets/
+*.sa.json

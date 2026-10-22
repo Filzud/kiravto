@@ -83,11 +83,14 @@ class LLMClient:
         self.http = http or httpx.Client(timeout=60, proxy=settings.llm_proxy or None, trust_env=True)
 
     def complete(self, description: str) -> tuple[str, int, int]:
-        user = "Описание продавца:\n" + description[:MAX_DESC_CHARS]
+        return self.chat(SYSTEM, "Описание продавца:\n" + description[:MAX_DESC_CHARS])
+
+    def chat(self, system: str, user: str, json_mode: bool = True) -> tuple[str, int, int]:
+        """Один запрос к модели: (текст, токены на входе, токены на выходе)."""
         if self.s.llm_provider == "anthropic":
             url = (self.s.llm_base_url or "https://api.anthropic.com") + "/v1/messages"
             r = self.http.post(url, headers={"x-api-key": self.s.llm_api_key, "anthropic-version": "2023-06-01"},
-                               json={"model": self.s.llm_model, "max_tokens": MAX_OUT_TOKENS, "system": SYSTEM,
+                               json={"model": self.s.llm_model, "max_tokens": MAX_OUT_TOKENS, "system": system,
                                      "messages": [{"role": "user", "content": user}]})
             r.raise_for_status()
             d = r.json()
@@ -95,12 +98,12 @@ class LLMClient:
             return text, d["usage"]["input_tokens"], d["usage"]["output_tokens"]
         base = self.s.llm_base_url or ("https://openrouter.ai/api/v1" if self.s.llm_provider == "openrouter"
                                        else "https://api.openai.com/v1")
+        body = {"model": self.s.llm_model, "max_tokens": MAX_OUT_TOKENS, "temperature": 0,
+                "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}]}
+        if json_mode:
+            body["response_format"] = {"type": "json_object"}
         r = self.http.post(base.rstrip("/") + "/chat/completions",
-                           headers={"Authorization": f"Bearer {self.s.llm_api_key}"},
-                           json={"model": self.s.llm_model, "max_tokens": MAX_OUT_TOKENS, "temperature": 0,
-                                 "response_format": {"type": "json_object"},
-                                 "messages": [{"role": "system", "content": SYSTEM},
-                                              {"role": "user", "content": user}]})
+                           headers={"Authorization": f"Bearer {self.s.llm_api_key}"}, json=body)
         r.raise_for_status()
         d = r.json()
         return d["choices"][0]["message"]["content"], d["usage"]["prompt_tokens"], d["usage"]["completion_tokens"]

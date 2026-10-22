@@ -249,6 +249,37 @@ def build_html(conn: sqlite3.Connection, now: datetime | None = None, settings: 
         "Аномалий в объявлениях в продаже нет.")
         + '<p class="note">Аномалии только помечаются, из данных ничего не выбрасывается.</p></section>')
 
+    # --- ниже рынка
+    below = queries.below_market(conn, min_pct=5, limit=15)
+    cov = below["coverage"]
+    parts.append("<section><h2>Ниже рынка</h2><div class=\"tiles\">"
+                 f'<div class="tile"><b>{num(cov["with_estimate"])}</b><span>машин с оценкой рынка из '
+                 f'{num(cov["active"])} (мало похожих — у {num(cov["too_few_comps"])})</span></div>'
+                 f'<div class="tile"><b>{num(cov["below_market"])}</b><span>дешевле медианы рынка</span></div>'
+                 f'<div class="tile"><b>{num(cov["above_market"])}</b><span>дороже медианы рынка</span></div></div>'
+                 + _table([("Машина", False), ("Год", True), ("Пробег", True), ("Цена", True), ("Медиана рынка", True),
+                           ("Похожих", True), ("К рынку", True)],
+                          [[f'<a href="{html.escape(o["url"] or "", quote=True)}">{esc(o["mark"])} {esc(o["model"])}</a>',
+                            esc(o["year"]), num(o["mileage"]), rub(o["price"]), rub(o["market_median"]),
+                            num(o["market_n"]), f'<span class="good">{pct(o["market_pct"])}</span>']
+                           for o in below["items"]], "Машин дешевле рынка на 5 % и больше пока нет.")
+                 + '<p class="note">Рынок — медиана цен таких же машин у других продавцов Авто.ру: марка, модель, '
+                   "поколение, год ±1, пробег ±20 %, Москва и 200 км. Меньше 5 похожих — оценки нет. Выборки "
+                   "обновляются понемногу в каждом прогоне и живут 48 часов.</p></section>")
+
+    # --- второй источник
+    ss = queries.second_source_summary(conn)
+    if ss["last_sync"]:
+        parts.append("<section><h2>Второй источник — сайт салона</h2><div class=\"tiles\">"
+                     f'<div class="tile"><b>{num(ss["site_total"])}</b><span>машин на rolf.ru у «РОЛЬФ Ясенево», '
+                     f'из них {num(ss["site_not_on_autoru"])} сайт помечает как «не на Авто.ру»</span></div>'
+                     f'<div class="tile"><b>{num(ss["matched"])}</b><span>объявлений Авто.ру склеено с сайтом '
+                     "(полный VIN)</span></div>"
+                     f'<div class="tile"><b>{num(ss["price_differs"])}</b><span>склеенных с другой ценой на сайте'
+                     "</span></div></div>"
+                     f'<p class="note">Последняя сверка {f.dt(ss["last_sync"]["started_at"])}: '
+                     f'{esc(ss["last_sync"]["note"])}, запросов {num(ss["last_sync"]["requests"])}.</p></section>')
+
     # --- LLM-функция
     llm = queries.llm_stats(conn)
     enabled = bool(settings and settings.llm_enabled)

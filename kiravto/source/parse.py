@@ -123,6 +123,7 @@ def parse_offer(raw: dict) -> dict:
         "model_code": model_info.get("code"),
         "model": model_info.get("name"),
         "generation": _generation(vi.get("super_gen") or {}),
+        "generation_id": str((vi.get("super_gen") or {}).get("id") or "") or None,
         "complectation": _opt(vi, "complectation.name") or None,
         "complectation_id": _opt(vi, "complectation.id") or None,
         "year": docs.get("year"),

@@ -1,0 +1,20 @@
+# VPS: docker compose -f docker-compose.yml -f deploy/docker-compose.vps.yml up -d
+# Отличия от локального запуска:
+# * бота нет — на одном токене может работать только один бот (getUpdates), он остаётся на основной машине;
+# * API слушает только 127.0.0.1: порт наружу не открывается, ufw не трогаем; доступ — ssh -L 8080:127.0.0.1:8080 vps;
+# * прокси не нужен — сервер ходит в интернет напрямую;
+# * распознавание речи выключено (нет бота, и памяти 2 ГБ).
+x-vps-env: &vps-env
+  TG_PROXY: ""
+  LLM_PROXY: ""
+  STT_MODEL: ""
+
+services:
+  collector:
+    environment: *vps-env
+  api:
+    environment: *vps-env
+    ports: !override
+      - "127.0.0.1:8080:8080"
+  bot:
+    profiles: ["disabled"]

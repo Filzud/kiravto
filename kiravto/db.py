@@ -115,7 +115,56 @@ CREATE TABLE IF NOT EXISTS llm_usage (
 );
 
 CREATE TABLE IF NOT EXISTS kv (key TEXT PRIMARY KEY, value TEXT);
+
+-- «Ниже рынка»: похожие машины у других продавцов, одна запись на группу (марка, модель, поколение, раздел)
+CREATE TABLE IF NOT EXISTS market_comps (
+    group_key TEXT PRIMARY KEY,
+    section TEXT, mark_code TEXT, model_code TEXT, generation_id TEXT,
+    year_from INTEGER, year_to INTEGER, km_from INTEGER, km_to INTEGER,
+    total INTEGER,                      -- сколько похожих заявил источник
+    items TEXT,                         -- JSON: [[id, year, mileage, price, salon_code], ...] без машин нашего салона
+    fetched_at TEXT NOT NULL
+);
+
+-- Второй источник: склад на сайте самого салона (apiweb.rolf.ru), последний снимок
+CREATE TABLE IF NOT EXISTS rolf_stock (
+    ext_id TEXT PRIMARY KEY,
+    section TEXT, mark_code TEXT, model TEXT, year INTEGER, mileage INTEGER,
+    vin TEXT, price INTEGER, price_discount INTEGER, color TEXT,
+    in_transit INTEGER, is_auto_ru INTEGER, url TEXT,
+    seen_at TEXT NOT NULL
+);
+-- одна машина из двух источников: объявление Авто.ру ↔ машина на сайте салона
+CREATE TABLE IF NOT EXISTS offer_sources (
+    offer_id TEXT NOT NULL,
+    source TEXT NOT NULL,               -- rolf
+    ext_id TEXT NOT NULL,
+    url TEXT, vin TEXT, price INTEGER, price_discount INTEGER,
+    matched_by TEXT,
+    first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
+    PRIMARY KEY (offer_id, source)
+);
+
+-- побочные прогоны (рынок, второй источник, выгрузка в таблицу): сколько запросов и что вышло
+CREATE TABLE IF NOT EXISTS side_runs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    kind TEXT NOT NULL,                 -- market | rolf | sheets
+    started_at TEXT NOT NULL, finished_at TEXT,
+    status TEXT NOT NULL DEFAULT 'running',
+    requests INTEGER DEFAULT 0, items INTEGER DEFAULT 0, matched INTEGER DEFAULT 0,
+    note TEXT
+);
 """
+
+# колонки, добавленные после первых живых прогонов (база в Docker уже существует)
+LATE_OFFER_COLUMNS = {
+    "engine_cc": "INTEGER",
+    "generation_id": "TEXT",            # id поколения Авто.ру — для поиска похожих у других продавцов
+    "market_median": "INTEGER",
+    "market_n": "INTEGER",
+    "market_pct": "REAL",               # цена против медианы похожих: −7.5 — дешевле рынка на 7,5 %
+    "market_at": "TEXT",
+}
 
 
 def utcnow() -> datetime:
@@ -143,8 +192,10 @@ def connect(path: Path | str) -> sqlite3.Connection:
 def _migrate(conn: sqlite3.Connection) -> None:
     """Добавляет колонки, появившиеся после создания базы."""
     have = {r[1] for r in conn.execute("PRAGMA table_info(offers)")}
-    if "engine_cc" not in have:
-        conn.execute("ALTER TABLE offers ADD COLUMN engine_cc INTEGER")
+    missing = {c: t for c, t in LATE_OFFER_COLUMNS.items() if c not in have}
+    for col, typ in missing.items():
+        conn.execute(f"ALTER TABLE offers ADD COLUMN {col} {typ}")
+    if missing:
         conn.commit()
 
 

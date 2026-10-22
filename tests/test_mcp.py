@@ -12,7 +12,7 @@ from kiravto.collector import Collector
 
 ROOT = Path(__file__).resolve().parent.parent
 READ_TOOLS = {"search_offers", "get_offer", "get_offer_history", "get_price_drops", "get_stock_summary",
-              "get_runs_status"}
+              "get_runs_status", "get_below_market", "get_second_source"}
 
 
 @pytest.fixture
@@ -64,6 +64,11 @@ async def test_mcp_end_to_end(filled_db, conn):
 
             runs = await call(s, "get_runs_status")
             assert runs["last_success"]["status"] == "complete" and runs["incomplete_in_a_row"] == 0
+
+            below = await call(s, "get_below_market", min_pct=5)
+            assert below["items"] == [] and below["coverage"]["active"] == 22   # рынок ещё не обходили — честно пусто
+            second = await call(s, "get_second_source")
+            assert second["matched"] == 0 and second["last_sync"] is None
 
             prop = await call(s, "propose_post", offer_id=victim_id, comment="хорошая скидка")
             assert prop["queued"] is True and "НЕ опубликован" in prop["warning"]

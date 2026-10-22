@@ -194,7 +194,7 @@ def test_openapi_lists_everything(settings, clock):
     spec = client(settings, clock).get("/openapi.json").json()
     assert spec["info"]["title"] == "Киравто: склад РОЛЬФ Ясенево"
     assert set(spec["paths"]) == {"/health", "/offers", "/offers/{offer_id}", "/offers/{offer_id}/history",
-                                  "/drops", "/stock", "/runs", "/report"}
+                                  "/drops", "/stock", "/runs", "/report", "/market", "/second-source"}
     for path, ops in spec["paths"].items():
         assert ops["get"]["summary"] and ops["get"]["description"], path
     params = {p["name"]: p for p in spec["paths"]["/offers"]["get"]["parameters"]}
@@ -202,3 +202,22 @@ def test_openapi_lists_everything(settings, clock):
             "status", "sort", "limit", "offset"} <= set(params)
     assert all(p.get("description") for p in params.values())
     assert "Мерседес" in params["mark"]["description"]
+
+
+def test_market_and_second_source(collected, conn, settings, clock):
+    oid = str(collected["id"])
+    conn.execute("UPDATE offers SET market_pct=-12.5, market_median=1000000, market_n=9 WHERE id=?", (oid,))
+    conn.execute("INSERT INTO offer_sources(offer_id, source, ext_id, url, vin, price, matched_by, first_seen, last_seen) "
+                 "VALUES(?, 'rolf', '77', 'https://www.rolf.ru/cars/used/x/y/77/', 'WAUZZZF45HN038587', 1, 'тест', 't', 't')",
+                 (oid,))
+    conn.commit()
+    c = client(settings, clock)
+    m = c.get("/market", params={"min_pct": 10}, headers=AUTH).json()
+    assert [i["id"] for i in m["items"]] == [oid] and m["coverage"]["with_estimate"] == 1
+    assert c.get("/market", params={"min_pct": 20}, headers=AUTH).json()["items"] == []
+    assert_error(c.get("/market", params={"section": "moto"}, headers=AUTH), 422, "validation_error")
+    o = c.get(f"/offers/{oid}", headers=AUTH).json()
+    assert o["sources"][0]["vin"] == "WAUZZZF45HN038587" and o["market_pct"] == -12.5
+    s = c.get("/second-source", headers=AUTH).json()
+    assert s["matched"] == 1 and "side_runs" in s
+    assert c.get("/market").status_code == 401

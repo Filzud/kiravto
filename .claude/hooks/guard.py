@@ -22,6 +22,9 @@ SECRET_PATTERNS = [
     (re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}"), "токен GitHub"),
     (re.compile(r"\bgithub_pat_[A-Za-z0-9_]{30,}"), "токен GitHub"),
 ]
+# ключ сервисного аккаунта Google (выгрузка в таблицу): папка secrets/ и файлы *.sa.json
+SA_KEY_FILE = re.compile(r"(^|[\/\s\"'=:])(secrets[\/]|[\w.-]+\.sa\.json\b)")
+PRIVATE_KEY = re.compile(r"-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----")
 PROD_SWITCH = re.compile(r"TG_PUBLISH_TARGET\s*[:=]\s*[\"']?prod", re.I)
 SECRET_VARS = re.compile(r"\$\{?(TG_BOT_TOKEN|LLM_API_KEY|API_TOKEN)\b")
 # маски, под которые попадает .env: `.e*`, `.en?`, `.env*`, `.[e]nv` — обходы, найденные аудитом 21.10.2026
@@ -46,6 +49,8 @@ def check(tool: str, inp: dict) -> str | None:
     for p in paths:
         if ENV_FILE.search(" " + p.replace("\\", "/")):
             return f"доступ к файлу секретов ({p}) запрещён — секреты вводит человек командой `python -m kiravto secrets`"
+        if SA_KEY_FILE.search(" " + p.replace("\\", "/")):
+            return f"доступ к ключу сервисного аккаунта ({p}) запрещён — его создаёт человек (scripts/setup_gsheets.ps1)"
     if tool in ("Bash", "PowerShell"):
         cmd = str(inp.get("command", ""))
         if ENV_FILE.search(" " + cmd.replace("\\", "/")):
@@ -54,6 +59,8 @@ def check(tool: str, inp: dict) -> str | None:
             return "команда обращается к .env через маску имени файла"
         if re.search(r"""['"]\.['"]\s*\+\s*['"]env['"]|['"]\.en['"]\s*\+|\.en`v""", cmd):
             return "команда собирает имя .env по частям"
+        if SA_KEY_FILE.search(" " + cmd.replace("\\", "/")) and not re.search(r"setup_gsheets\.ps1", cmd):
+            return "команда обращается к ключу сервисного аккаунта — агенту он недоступен"
         if SECRET_VARS.search(cmd):
             return "команда раскрывает переменную с секретом"
         if DUMP_ENV.search(cmd.strip()):
@@ -64,6 +71,8 @@ def check(tool: str, inp: dict) -> str | None:
         for rx, what in SECRET_PATTERNS:
             if rx.search(t):
                 return f"в тексте похоже на {what} — токены в файлы и команды не пишем"
+        if PRIVATE_KEY.search(t):
+            return "в тексте приватный ключ — ключи в файлы и команды не пишем"
 
     # 3. включение боевого канала
     for t in text_fields + paths:

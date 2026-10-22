@@ -1,0 +1,2755 @@
+{
+ "status": "SUCCESS",
+ "original_search_parameters": {
+  "cars_params": {
+   "body_type_group": [
+    "ANY_BODY"
+   ],
+   "seats_group": "ANY_SEATS",
+   "engine_group": [
+    "ANY_ENGINE"
+   ]
+  },
+  "currency": "RUR",
+  "has_image": true,
+  "in_stock": "ANY_STOCK",
+  "rid": [
+   213
+  ],
+  "geo_radius": 200,
+  "year_from": 2019,
+  "year_to": 2021,
+  "km_age_from": 97000,
+  "km_age_to": 145555,
+  "offer_grouping": false,
+  "with_delivery": "BOTH",
+  "catalog_filter": [
+   {
+    "mark": "MAZDA",
+    "model": "CX_5",
+    "generation": "20939955"
+   }
+  ],
+  "state_group": "USED",
+  "seller_group": [
+   "ANY_SELLER"
+  ],
+  "damage_group": "NOT_BEATEN",
+  "owners_count_group": "ANY_COUNT",
+  "owning_time_group": "ANY_TIME",
+  "customs_state_group": "CLEARED"
+ },
+ "search_parameters": {
+  "year_from": 2019,
+  "year_to": 2021,
+  "km_age_from": 97000,
+  "km_age_to": 145555,
+  "catalog_filter": [
+   {
+    "mark": "MAZDA",
+    "model": "CX_5",
+    "generation": "20939955"
+   }
+  ],
+  "section": "used",
+  "category": "cars"
+ },
+ "filter_search_parameters": {
+  "year_from": 2019,
+  "year_to": 2021,
+  "km_age_from": 97000,
+  "km_age_to": 145555,
+  "catalog_filter": [
+   {
+    "mark": "MAZDA",
+    "model": "CX_5",
+    "generation": "20939955"
+   }
+  ],
+  "section": "used",
+  "category": "cars"
+ },
+ "hiddenOffers": [],
+ "offers": [
+  {
+   "id": "1134071785",
+   "hash": "fa85c9af",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomobili_s_probegom_agat_na_promishlennom_vladimir"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 143632
+   },
+   "price_info": {
+    "price": 2514000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Владимир"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160207967",
+   "hash": "5ee186ce",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "sp_biznes_kar_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 122185
+   },
+   "price_info": {
+    "price": 2299000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1133701331",
+   "hash": "d1412051",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "fresh_x_syndicate_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 111900
+   },
+   "price_info": {
+    "price": 2099077
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160058037",
+   "hash": "6ad916b2",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "rolf_yasenevo_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2020
+   },
+   "state": {
+    "mileage": 121296
+   },
+   "price_info": {
+    "price": 2749000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160012754",
+   "hash": "b236d3f8",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_geely_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2020
+   },
+   "state": {
+    "mileage": 97550
+   },
+   "price_info": {
+    "price": 2375000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160184482",
+   "hash": "da7c5657",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "alfa_lizing_krasnodar"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2021
+   },
+   "state": {
+    "mileage": 134864
+   },
+   "price_info": {
+    "price": 2895000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Тула"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160158544",
+   "hash": "eaae5821",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "rolf_vostok_probeg"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2021
+   },
+   "state": {
+    "mileage": 102666
+   },
+   "price_info": {
+    "price": 2550000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160210474",
+   "hash": "7be870a7",
+   "section": "used",
+   "seller_type": "PRIVATE",
+   "salon": null,
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2020
+   },
+   "state": {
+    "mileage": 126000
+   },
+   "price_info": {
+    "price": 2400000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160009642",
+   "hash": "c3d19585",
+   "section": "used",
+   "seller_type": "PRIVATE",
+   "salon": null,
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2020
+   },
+   "state": {
+    "mileage": 129000
+   },
+   "price_info": {
+    "price": 2549000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160010040",
+   "hash": "0c3d7773",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "rolf_himki_probeg"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 118000
+   },
+   "price_info": {
+    "price": 2249000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Химки"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160084318",
+   "hash": "0ee5e3b2",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "rolf_ugo_vostok_avtomobili_s_probegom_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 134465
+   },
+   "price_info": {
+    "price": 2307000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160134483",
+   "hash": "1b3ced65",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_geely_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 100244
+   },
+   "price_info": {
+    "price": 2437000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160171613",
+   "hash": "5d214c9f",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_geely_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 98302
+   },
+   "price_info": {
+    "price": 2855000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160115232",
+   "hash": "30cb67cb",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_himki"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2021
+   },
+   "state": {
+    "mileage": 131395
+   },
+   "price_info": {
+    "price": 2695000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Химки"
+     }
+    }
+   }
+  },
+  {
+   "id": "1134276485",
+   "hash": "fe6e8fd6",
+   "section": "used",
+   "seller_type": "PRIVATE",
+   "salon": null,
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 105000
+   },
+   "price_info": {
+    "price": 1950000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160195064",
+   "hash": "bca8e411",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "fresh_x_syndicate_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2020
+   },
+   "state": {
+    "mileage": 113364
+   },
+   "price_info": {
+    "price": 3191444
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1132037287",
+   "hash": "fcceaa3a",
+   "section": "used",
+   "seller_type": "PRIVATE",
+   "salon": null,
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 98000
+   },
+   "price_info": {
+    "price": 2500000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Орехово-Зуево"
+     }
+    }
+   }
+  },
+  {
+   "id": "1133856584",
+   "hash": "43781ed4",
+   "section": "used",
+   "seller_type": "PRIVATE",
+   "salon": null,
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 122000
+   },
+   "price_info": {
+    "price": 2550000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1133669249",
+   "hash": "c5efe86d",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_geely_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 106119
+   },
+   "price_info": {
+    "price": 2375000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160050493",
+   "hash": "e4af396d",
+   "section": "used",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "peleton_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "MAZDA"
+    },
+    "model_info": {
+     "code": "CX_5"
+    },
+    "super_gen": {
+     "id": "20939955",
+     "name": "II"
+    }
+   },
+   "documents": {
+    "year": 2019
+   },
+   "state": {
+    "mileage": 106948
+   },
+   "price_info": {
+    "price": 2820000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  }
+ ],
+ "pagination": {
+  "total_page_count": 2,
+  "total_offers_count": 61,
+  "page": 1,
+  "page_size": 50,
+  "from": 1,
+  "to": 50,
+  "current": 1
+ },
+ "price_range": {
+  "min": {
+   "price": 1950000,
+   "currency": "RUR",
+   "rur_price": 1950000,
+   "usd_price": 24036,
+   "eur_price": 21396,
+   "dprice": 1950000,
+   "rur_dprice": 1950000,
+   "usd_dprice": 24036,
+   "eur_dprice": 21396,
+   "cny_price": 160546,
+   "cny_dprice": 160546
+  },
+  "max": {
+   "price": 3600000,
+   "currency": "RUR",
+   "rur_price": 3600000,
+   "usd_price": 44375,
+   "eur_price": 39501,
+   "dprice": 3600000,
+   "rur_dprice": 3600000,
+   "usd_dprice": 44375,
+   "eur_dprice": 39501,
+   "cny_price": 296393,
+   "cny_dprice": 296393
+  }
+ },
+ "response_flags": {
+  "show_match_application_form": false
+ },
+ "grouping": {},
+ "request_id": "144f94d2b1602fd6afe65b202ad96a1d",
+ "search_request_id": "53ee14be-a047-40fd-bb02-84bd3d0c279d",
+ "query": "catalog_filter=mark%3DMAZDA%2Cmodel%3DCX_5%2Cgeneration%3D20939955&category=cars&context=listing&currency=&geo_radius=200&group_by=&km_age_from=97000&km_age_to=145555&offer_grouping=false&page_size=50&page=1&rid=213&sort=fresh_relevance_1-desc&state_group=USED&with_delivery=BOTH&year_from=2019&year_to=2021",
+ "paramsDescription": {
+  "paramsInfo": [
+   {
+    "val": "С пробегом",
+    "key": "section"
+   },
+   {
+    "label": "Год",
+    "val": "2019 — 2021",
+    "key": "year"
+   },
+   {
+    "label": "Пробег",
+    "val": "97 000 — 145 555 км",
+    "key": "km_age"
+   }
+  ],
+  "moreCount": 0
+ },
+ "productionYears": {
+  "min_year": 2019,
+  "max_year": 2021
+ },
+ "relatedDealers": {
+  "salons": [
+   {
+    "salon_id": "21402444",
+    "name": "Автомир Mazda Ярославка",
+    "is_oficial": true,
+    "phones": [
+     {
+      "phone": "+7 495 956-29-56"
+     }
+    ],
+    "place": {
+     "address": "Москва, Ярославское шоссе, 7",
+     "coord": {
+      "latitude": 55.853466,
+      "longitude": 37.679071
+     },
+     "geobase_id": "213",
+     "region_info": {
+      "id": "213",
+      "name": "Москва",
+      "prepositional": "Москве",
+      "preposition": "в",
+      "latitude": 55.755863,
+      "longitude": 37.6177
+     },
+     "metro": [
+      {
+       "rid": "20387",
+       "name": "Свиблово",
+       "distance": 1691.8370545876123
+      },
+      {
+       "rid": "152928",
+       "name": "Ростокино",
+       "distance": 1720.8428161586185
+      }
+     ]
+    },
+    "edit_contact": false,
+    "edit_address": false,
+    "code": "avtomir_mazda_moskva_yaroslavka",
+    "registration_date": "2018-09-28T09:23:51Z",
+    "dealer_id": "21402444",
+    "logo_url": "//avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/dealer_logo",
+    "actual_stock": true,
+    "client_ids": [
+     "38335"
+    ],
+    "open_hours": "пн-сб 9:00-22:00, вс 9:00-21:00",
+    "photos": {
+     "logo": "HashMap(wizardv3mr -> //avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/wizardv3mr, cattouch -> //avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/cattouch, cattouchret -> //avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/cattouchret, gallery -> //avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/gallery, thumb_m_2x -> //avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/thumb_m_2x, offertouchret -> //avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/offertouchret)",
+     "main_photo": "HashMap(wizardv3mr -> //avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/wizardv3mr, cattouch -> //avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/cattouch, cattouchret -> //avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/cattouchret, gallery -> //avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/gallery, thumb_m_2x -> //avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/thumb_m_2x, offertouchret -> //avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/offertouchret)"
+    },
+    "car_marks": [
+     {
+      "code": "MAZDA",
+      "name": "Mazda",
+      "ru_name": "Мазда",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3db54d36bf52cf9ac0aa4f01b/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3db54d36bf52cf9ac0aa4f01b/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b3db79d4f3765053c1a6de9fb4/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b3db79d4f3765053c1a6de9fb4/dealer_logo"
+       }
+      },
+      "numeric_id": "3171"
+     }
+    ],
+    "logo": {
+     "name": "logo",
+     "sizes": {
+      "wizardv3mr": "//avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/wizardv3mr",
+      "cattouch": "//avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/cattouch",
+      "cattouchret": "//avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/cattouchret",
+      "gallery": "//avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/gallery",
+      "thumb_m_2x": "//avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/thumb_m_2x",
+      "offertouchret": "//avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/offertouchret"
+     },
+     "base_url": "//avatars.avto.ru/get-verba/216201/2a0000019372c4f6007e4fe9033dd44d6a42/dealer_logo",
+     "aliases": [
+      "gallery",
+      "wizardv3mr",
+      "thumb_m_2x",
+      "cattouch",
+      "offertouchret",
+      "cattouchret"
+     ]
+    },
+    "main_photo": {
+     "name": "main_photo",
+     "sizes": {
+      "wizardv3mr": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/wizardv3mr",
+      "cattouch": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/cattouch",
+      "cattouchret": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/cattouchret",
+      "gallery": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/gallery",
+      "thumb_m_2x": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/thumb_m_2x",
+      "offertouchret": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/offertouchret"
+     },
+     "base_url": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/cattouch",
+     "aliases": [
+      "gallery",
+      "wizardv3mr",
+      "thumb_m_2x",
+      "cattouch",
+      "offertouchret",
+      "cattouchret"
+     ]
+    },
+    "dealer_gallery": [
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/1030388/2a0000018028955f4b8b25f252e0e3ea41a2/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e694073087df8c12a40427f/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e694073087df8c12a40427f/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e694073087df8c12a40427f/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e694073087df8c12a40427f/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e694073087df8c12a40427f/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e694073087df8c12a40427f/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e694073087df8c12a40427f/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/937147/2a000001802d9e7b4567167fd0618258f64f/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/937147/2a000001802d9e7b4567167fd0618258f64f/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/937147/2a000001802d9e7b4567167fd0618258f64f/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/937147/2a000001802d9e7b4567167fd0618258f64f/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/937147/2a000001802d9e7b4567167fd0618258f64f/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/937147/2a000001802d9e7b4567167fd0618258f64f/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/937147/2a000001802d9e7b4567167fd0618258f64f/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e8309afdac45ab542c3ec26/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e8309afdac45ab542c3ec26/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e8309afdac45ab542c3ec26/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e8309afdac45ab542c3ec26/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e8309afdac45ab542c3ec26/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e8309afdac45ab542c3ec26/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/3587101/2a000001802d9e8309afdac45ab542c3ec26/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     }
+    ],
+    "offer_counters": {},
+    "category": [
+     "CARS"
+    ],
+    "net": {
+     "id": 20158967,
+     "name": "Автомир",
+     "semantic_url": "avtomir"
+    },
+    "filtered_offers_count": "104",
+    "is_phones_hidden": true,
+    "all_client_ids": [
+     "38335"
+    ],
+    "grade_average": 4.46,
+    "answers_count": "571"
+   },
+   {
+    "salon_id": "20136830",
+    "name": "РОЛЬФ Восток Mazda",
+    "is_oficial": true,
+    "phones": [
+     {
+      "phone": "+7 495 241-88-86"
+     }
+    ],
+    "place": {
+     "address": "Москва, Рязанский пр., 24, к. 3",
+     "coord": {
+      "latitude": 55.719839,
+      "longitude": 37.776472
+     },
+     "geobase_id": "213",
+     "region_info": {
+      "id": "213",
+      "name": "Москва",
+      "prepositional": "Москве",
+      "preposition": "в",
+      "latitude": 55.755863,
+      "longitude": 37.6177
+     },
+     "metro": [
+      {
+       "rid": "218622",
+       "name": "Окская",
+       "distance": 337.5783680736051
+      },
+      {
+       "rid": "20404",
+       "name": "Рязанский проспект",
+       "distance": 1111.4366404830614
+      }
+     ]
+    },
+    "offers_count": 55,
+    "edit_contact": false,
+    "edit_address": false,
+    "code": "rolf_vostok_mazda_moskva",
+    "registration_date": "2015-06-03T11:41:31Z",
+    "dealer_id": "20136830",
+    "logo_url": "//avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/dealer_logo",
+    "actual_stock": true,
+    "client_ids": [
+     "17146"
+    ],
+    "open_hours": "ежедн. 8:00-22:00",
+    "photos": {
+     "logo": "HashMap(wizardv3mr -> //avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/wizardv3mr, cattouch -> //avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/cattouch, cattouchret -> //avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/cattouchret, gallery -> //avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/gallery, thumb_m_2x -> //avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/thumb_m_2x, offertouchret -> //avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/offertouchret)",
+     "main_photo": "HashMap(wizardv3mr -> , cattouch -> , cattouchret -> , gallery -> , thumb_m_2x -> , offertouchret -> )"
+    },
+    "car_marks": [
+     {
+      "code": "MAZDA",
+      "name": "Mazda",
+      "ru_name": "Мазда",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3db54d36bf52cf9ac0aa4f01b/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3db54d36bf52cf9ac0aa4f01b/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b3db79d4f3765053c1a6de9fb4/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b3db79d4f3765053c1a6de9fb4/dealer_logo"
+       }
+      },
+      "numeric_id": "3171"
+     }
+    ],
+    "logo": {
+     "name": "logo",
+     "sizes": {
+      "wizardv3mr": "//avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/wizardv3mr",
+      "cattouch": "//avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/cattouch",
+      "cattouchret": "//avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/cattouchret",
+      "gallery": "//avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/gallery",
+      "thumb_m_2x": "//avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/thumb_m_2x",
+      "offertouchret": "//avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/offertouchret"
+     },
+     "base_url": "//avatars.avto.ru/get-verba/3587101/2a0000019324c18452d31ecf365cd243298c/dealer_logo",
+     "aliases": [
+      "gallery",
+      "wizardv3mr",
+      "thumb_m_2x",
+      "cattouch",
+      "offertouchret",
+      "cattouchret"
+     ]
+    },
+    "main_photo": {
+     "name": "main_photo",
+     "sizes": {
+      "wizardv3mr": "",
+      "cattouch": "",
+      "cattouchret": "",
+      "gallery": "",
+      "thumb_m_2x": "",
+      "offertouchret": ""
+     },
+     "aliases": [
+      "gallery",
+      "wizardv3mr",
+      "thumb_m_2x",
+      "cattouch",
+      "offertouchret",
+      "cattouchret"
+     ]
+    },
+    "dealer_gallery": [
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/997355/2a0000017d811aa067d4614815ff39a9cd2d/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/997355/2a0000017d811aa067d4614815ff39a9cd2d/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/997355/2a0000017d811aa067d4614815ff39a9cd2d/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/997355/2a0000017d811aa067d4614815ff39a9cd2d/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/997355/2a0000017d811aa067d4614815ff39a9cd2d/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/997355/2a0000017d811aa067d4614815ff39a9cd2d/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/997355/2a0000017d811aa067d4614815ff39a9cd2d/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/937147/2a0000017d811b20ad6f4c6aed1c825373fd/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/937147/2a0000017d811b20ad6f4c6aed1c825373fd/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/937147/2a0000017d811b20ad6f4c6aed1c825373fd/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/937147/2a0000017d811b20ad6f4c6aed1c825373fd/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/937147/2a0000017d811b20ad6f4c6aed1c825373fd/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/937147/2a0000017d811b20ad6f4c6aed1c825373fd/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/937147/2a0000017d811b20ad6f4c6aed1c825373fd/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     }
+    ],
+    "offer_counters": {
+     "cars_all": 55
+    },
+    "category": [
+     "CARS"
+    ],
+    "net": {
+     "id": 20151339,
+     "name": "РОЛЬФ",
+     "semantic_url": "rolf"
+    },
+    "filtered_offers_count": "47",
+    "all_client_ids": [
+     "17146"
+    ],
+    "grade_average": 4.53,
+    "answers_count": "980"
+   },
+   {
+    "salon_id": "20135917",
+    "name": "СИМ Mazda Москва",
+    "is_oficial": true,
+    "phones": [
+     {
+      "phone": "+7 495 154-60-63"
+     }
+    ],
+    "place": {
+     "address": "Москва, ул. Введенского, 4а",
+     "coord": {
+      "latitude": 55.651013,
+      "longitude": 37.547207
+     },
+     "geobase_id": "213",
+     "region_info": {
+      "id": "213",
+      "name": "Москва",
+      "prepositional": "Москве",
+      "preposition": "в",
+      "latitude": 55.755863,
+      "longitude": 37.6177
+     },
+     "metro": [
+      {
+       "rid": "20437",
+       "name": "Калужская",
+       "distance": 774.5477855331371
+      },
+      {
+       "rid": "218712",
+       "name": "Воронцовская",
+       "distance": 999.5793290034195
+      }
+     ]
+    },
+    "offers_count": 30,
+    "edit_contact": false,
+    "edit_address": false,
+    "code": "sim_vvedenskogo_moskva_mazda",
+    "registration_date": "2013-04-10T20:00:00Z",
+    "dealer_id": "20135917",
+    "logo_url": "//avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/dealer_logo",
+    "actual_stock": true,
+    "phone_callback_forbidden": true,
+    "client_ids": [
+     "7290"
+    ],
+    "open_hours": "ежедн. 9:00-21:00",
+    "photos": {
+     "logo": "HashMap(wizardv3mr -> //avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/wizardv3mr, cattouch -> //avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/cattouch, cattouchret -> //avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/cattouchret, gallery -> //avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/gallery, thumb_m_2x -> //avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/thumb_m_2x, offertouchret -> //avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/offertouchret)",
+     "main_photo": "HashMap(wizardv3mr -> //avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/wizardv3mr, cattouch -> //avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/cattouch, cattouchret -> //avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/cattouchret, gallery -> //avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/gallery, thumb_m_2x -> //avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/thumb_m_2x, offertouchret -> //avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/offertouchret)"
+    },
+    "car_marks": [
+     {
+      "code": "MAZDA",
+      "name": "Mazda",
+      "ru_name": "Мазда",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3db54d36bf52cf9ac0aa4f01b/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3db54d36bf52cf9ac0aa4f01b/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b3db79d4f3765053c1a6de9fb4/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b3db79d4f3765053c1a6de9fb4/dealer_logo"
+       }
+      },
+      "numeric_id": "3171"
+     }
+    ],
+    "logo": {
+     "name": "logo",
+     "sizes": {
+      "wizardv3mr": "//avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/wizardv3mr",
+      "cattouch": "//avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/cattouch",
+      "cattouchret": "//avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/cattouchret",
+      "gallery": "//avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/gallery",
+      "thumb_m_2x": "//avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/thumb_m_2x",
+      "offertouchret": "//avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/offertouchret"
+     },
+     "base_url": "//avatars.avto.ru/get-verba/17687643/2a0000019f184ed916da1e15c91bf9146936/dealer_logo",
+     "aliases": [
+      "gallery",
+      "wizardv3mr",
+      "thumb_m_2x",
+      "cattouch",
+      "offertouchret",
+      "cattouchret"
+     ]
+    },
+    "main_photo": {
+     "name": "main_photo",
+     "sizes": {
+      "wizardv3mr": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/wizardv3mr",
+      "cattouch": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/cattouch",
+      "cattouchret": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/cattouchret",
+      "gallery": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/gallery",
+      "thumb_m_2x": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/thumb_m_2x",
+      "offertouchret": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/offertouchret"
+     },
+     "base_url": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/cattouch",
+     "aliases": [
+      "gallery",
+      "wizardv3mr",
+      "thumb_m_2x",
+      "cattouch",
+      "offertouchret",
+      "cattouchret"
+     ]
+    },
+    "dealer_gallery": [
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/1535139/2a0000016b2c55adad3535a95ca479cc2f96/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/937147/2a0000016b2c55d6db37a5f097c982f182b3/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/937147/2a0000016b2c55d6db37a5f097c982f182b3/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/937147/2a0000016b2c55d6db37a5f097c982f182b3/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/937147/2a0000016b2c55d6db37a5f097c982f182b3/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/937147/2a0000016b2c55d6db37a5f097c982f182b3/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/937147/2a0000016b2c55d6db37a5f097c982f182b3/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/937147/2a0000016b2c55d6db37a5f097c982f182b3/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/1540742/2a0000016b2c55ef1a20a827aa2df598f9c3/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/1540742/2a0000016b2c55ef1a20a827aa2df598f9c3/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/1540742/2a0000016b2c55ef1a20a827aa2df598f9c3/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/1540742/2a0000016b2c55ef1a20a827aa2df598f9c3/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/1540742/2a0000016b2c55ef1a20a827aa2df598f9c3/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/1540742/2a0000016b2c55ef1a20a827aa2df598f9c3/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/1540742/2a0000016b2c55ef1a20a827aa2df598f9c3/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/1604130/2a0000016b2c560387c137952909a990c57d/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/1604130/2a0000016b2c560387c137952909a990c57d/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/1604130/2a0000016b2c560387c137952909a990c57d/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/1604130/2a0000016b2c560387c137952909a990c57d/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/1604130/2a0000016b2c560387c137952909a990c57d/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/1604130/2a0000016b2c560387c137952909a990c57d/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/1604130/2a0000016b2c560387c137952909a990c57d/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/937147/2a0000016b2c561930e1f541303c8d86ddaf/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/937147/2a0000016b2c561930e1f541303c8d86ddaf/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/937147/2a0000016b2c561930e1f541303c8d86ddaf/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/937147/2a0000016b2c561930e1f541303c8d86ddaf/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/937147/2a0000016b2c561930e1f541303c8d86ddaf/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/937147/2a0000016b2c561930e1f541303c8d86ddaf/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/937147/2a0000016b2c561930e1f541303c8d86ddaf/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/997355/2a0000016b2c562de91aebbcc9cb5e8bc99d/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/997355/2a0000016b2c562de91aebbcc9cb5e8bc99d/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/997355/2a0000016b2c562de91aebbcc9cb5e8bc99d/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/997355/2a0000016b2c562de91aebbcc9cb5e8bc99d/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/997355/2a0000016b2c562de91aebbcc9cb5e8bc99d/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/997355/2a0000016b2c562de91aebbcc9cb5e8bc99d/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/997355/2a0000016b2c562de91aebbcc9cb5e8bc99d/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     }
+    ],
+    "offer_counters": {
+     "cars_all": 30
+    },
+    "category": [
+     "CARS"
+    ],
+    "net": {
+     "id": 20167532,
+     "name": "СИМ",
+     "semantic_url": "sim"
+    },
+    "filtered_offers_count": "27",
+    "all_client_ids": [
+     "3568",
+     "7290"
+    ]
+   },
+   {
+    "salon_id": "21080872",
+    "name": "РОЛЬФ Восток | Автомобили с пробегом",
+    "is_oficial": false,
+    "phones": [
+     {
+      "phone": "+7 495 241-91-15"
+     },
+     {
+      "phone": "+7 495 127-93-30"
+     }
+    ],
+    "place": {
+     "address": "Москва, Рязанский проспект, д. 24, корпус 3",
+     "coord": {
+      "latitude": 55.720109,
+      "longitude": 37.776224
+     },
+     "geobase_id": "213",
+     "region_info": {
+      "id": "213",
+      "name": "Москва",
+      "prepositional": "Москве",
+      "preposition": "в",
+      "latitude": 55.755863,
+      "longitude": 37.6177
+     },
+     "metro": [
+      {
+       "rid": "218622",
+       "name": "Окская",
+       "distance": 364.131563812367
+      },
+      {
+       "rid": "20404",
+       "name": "Рязанский проспект",
+       "distance": 1134.2611879148674
+      }
+     ]
+    },
+    "offers_count": 297,
+    "edit_contact": false,
+    "edit_address": false,
+    "code": "rolf_vostok_probeg",
+    "registration_date": "2018-02-22T13:53:20Z",
+    "dealer_id": "21080872",
+    "logo_url": "//avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/dealer_logo",
+    "actual_stock": true,
+    "loyalty_program": true,
+    "client_ids": [
+     "34137"
+    ],
+    "open_hours": "ежедн. 8:00-22:00",
+    "photos": {
+     "logo": "HashMap(wizardv3mr -> //avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/wizardv3mr, cattouch -> //avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/cattouch, cattouchret -> //avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/cattouchret, gallery -> //avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/gallery, thumb_m_2x -> //avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/thumb_m_2x, offertouchret -> //avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/offertouchret)",
+     "main_photo": "HashMap(wizardv3mr -> , cattouch -> , cattouchret -> , gallery -> , thumb_m_2x -> , offertouchret -> )"
+    },
+    "car_marks": [
+     {
+      "code": "ZEEKR",
+      "name": "Zeekr",
+      "ru_name": "Зикр",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a00000181a44d1251b729f857710761bbf1/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a00000181a44d1251b729f857710761bbf1/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1030388/2a00000181a44cde9b77e25d370698ef079e/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1030388/2a00000181a44cde9b77e25d370698ef079e/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "14275441"
+     },
+     {
+      "code": "VOYAH",
+      "name": "Voyah",
+      "ru_name": "Воя",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/997355/2a0000019a166a1729a1f581ef8faa437042/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/997355/2a0000019a166a1729a1f581ef8faa437042/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1030388/2a0000019a166a2316db2a38e6961f1de339/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1030388/2a0000019a166a2316db2a38e6961f1de339/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark",
+       "new4new"
+      ],
+      "numeric_id": "14258239"
+     },
+     {
+      "code": "SUZUKI",
+      "name": "Suzuki",
+      "ru_name": "Сузуки",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/3587101/2a0000019d922f062ee1170994fb8ac080fe/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/3587101/2a0000019d922f062ee1170994fb8ac080fe/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1540742/2a0000019d922f1602065da8f6b30ff3871e/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1540742/2a0000019d922f1602065da8f6b30ff3871e/dealer_logo"
+       }
+      },
+      "numeric_id": "3193"
+     },
+     {
+      "code": "GEELY",
+      "name": "Geely",
+      "ru_name": "Джили",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1672712/2a0000018a5fb4e4dc23aca5c01edcec3486/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1672712/2a0000018a5fb4e4dc23aca5c01edcec3486/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/937147/2a0000018a5fb4eee33eb3d5af4379897035/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/937147/2a0000018a5fb4eee33eb3d5af4379897035/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark",
+       "new4new"
+      ],
+      "numeric_id": "3219"
+     },
+     {
+      "code": "HONDA",
+      "name": "Honda",
+      "ru_name": "Хонда",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/997355/2a00000179b3bd0ba30fdde2a3274e9dd697/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/997355/2a00000179b3bd0ba30fdde2a3274e9dd697/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3bce6f1192440850c3abf5263/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3bce6f1192440850c3abf5263/dealer_logo"
+       }
+      },
+      "numeric_id": "3155"
+     },
+     {
+      "code": "PORSCHE",
+      "name": "Porsche",
+      "ru_name": "Порше",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/787013/2a00000179b3eaae258adb08eeaee3b00063/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b3eaae258adb08eeaee3b00063/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3eac79194d22b52194705a029/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3eac79194d22b52194705a029/dealer_logo"
+       }
+      },
+      "numeric_id": "3180"
+     },
+     {
+      "code": "CHERY",
+      "name": "Chery",
+      "ru_name": "Чери",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/3587101/2a0000019a1662a126a8d6dbd08728f42152/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/3587101/2a0000019a1662a126a8d6dbd08728f42152/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1604130/2a0000019a1662ab308b7ae1e546b0534ee9/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1604130/2a0000019a1662ab308b7ae1e546b0534ee9/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "3202"
+     },
+     {
+      "code": "JAC",
+      "name": "JAC",
+      "ru_name": "Джак",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/997355/2a00000195422ec5f9397cd376e40a21fafc/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/997355/2a00000195422ec5f9397cd376e40a21fafc/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/787013/2a00000195422ee05d5a17400de9b014dcfe/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/787013/2a00000195422ee05d5a17400de9b014dcfe/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "3781987"
+     },
+     {
+      "code": "XCITE",
+      "name": "Xcite",
+      "ru_name": "Иксайт",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1030388/2a0000019091f86954c9e89efda9b12c2376/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1030388/2a0000019091f86954c9e89efda9b12c2376/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1030388/2a0000019091f8219911b86bcd0f84a4e5e4/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1030388/2a0000019091f8219911b86bcd0f84a4e5e4/dealer_logo"
+       }
+      },
+      "numeric_id": "14719190"
+     },
+     {
+      "code": "LEXUS",
+      "name": "Lexus",
+      "ru_name": "Лексус",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/937147/2a00000179b3cbfe6c41c4c32d9250350c44/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b3cbfe6c41c4c32d9250350c44/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b3cc1fdaa3950ce552f6de92b9/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b3cc1fdaa3950ce552f6de92b9/dealer_logo"
+       }
+      },
+      "numeric_id": "3166"
+     },
+     {
+      "code": "NISSAN",
+      "name": "Nissan",
+      "ru_name": "Ниссан",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/3587101/2a00000179b3e3855153a7ad4c6acf51a351/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/3587101/2a00000179b3e3855153a7ad4c6acf51a351/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3e3a92be182185a156cc9eac5/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3e3a92be182185a156cc9eac5/dealer_logo"
+       }
+      },
+      "numeric_id": "3176"
+     },
+     {
+      "code": "OPEL",
+      "name": "Opel",
+      "ru_name": "Опель",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/937147/2a00000179b3e4e1c4c28087a58eb0595a12/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b3e4e1c4c28087a58eb0595a12/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3e4c58089f5d001c67bd58cdb/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3e4c58089f5d001c67bd58cdb/dealer_logo"
+       }
+      },
+      "numeric_id": "3177"
+     },
+     {
+      "code": "AUDI",
+      "name": "Audi",
+      "ru_name": "Ауди",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/3587101/2a00000179af710f40b85f9c3aedb68201fd/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/3587101/2a00000179af710f40b85f9c3aedb68201fd/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/3587101/2a00000179af71366e666beb233a91911463/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/3587101/2a00000179af71366e666beb233a91911463/dealer_logo"
+       }
+      },
+      "tags": [
+       "options",
+       "prestige",
+       "handling"
+      ],
+      "numeric_id": "3139"
+     },
+     {
+      "code": "KIA",
+      "name": "Kia",
+      "ru_name": "Киа",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1540742/2a0000017bf2918f10c96b31e51ef37dc206/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1540742/2a0000017bf2918f10c96b31e51ef37dc206/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/997355/2a0000017bf291beb4502e2cd3838b7fa993/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/997355/2a0000017bf291beb4502e2cd3838b7fa993/dealer_logo"
+       }
+      },
+      "numeric_id": "3161"
+     },
+     {
+      "code": "PEUGEOT",
+      "name": "Peugeot",
+      "ru_name": "Пежо",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/937147/2a00000179b3e82533ade83f91721161195e/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b3e82533ade83f91721161195e/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3e83e57083c35e0879f492ad8/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3e83e57083c35e0879f492ad8/dealer_logo"
+       }
+      },
+      "numeric_id": "3178"
+     },
+     {
+      "code": "VOLVO",
+      "name": "Volvo",
+      "ru_name": "Вольво",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/787013/2a0000017e057f91cfe0fd1e72ff72cb6d27/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/787013/2a0000017e057f91cfe0fd1e72ff72cb6d27/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/997355/2a0000017c35ce1890bc6b3ccc903a0548c4/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/997355/2a0000017c35ce1890bc6b3ccc903a0548c4/dealer_logo"
+       }
+      },
+      "numeric_id": "3198"
+     },
+     {
+      "code": "CHERYEXEED",
+      "name": "Exeed",
+      "ru_name": "Эксид",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a000001882edb69710846d0cb42af8ed3ff/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a000001882edb69710846d0cb42af8ed3ff/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/937147/2a000001882edba3d4011439ba66dd323125/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/937147/2a000001882edba3d4011439ba66dd323125/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "13747490"
+     },
+     {
+      "code": "TOYOTA",
+      "name": "Toyota",
+      "ru_name": "Тойота",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/3587101/2a00000179b4143e937258ee2d1943c201f0/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/3587101/2a00000179b4143e937258ee2d1943c201f0/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b41461f89484c9541c265a0b8a/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b41461f89484c9541c265a0b8a/dealer_logo"
+       }
+      },
+      "numeric_id": "3194"
+     },
+     {
+      "code": "JETOUR",
+      "name": "Jetour",
+      "ru_name": "Джетур",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/787013/2a0000019d9231e69311f15a7712325aee2d/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/787013/2a0000019d9231e69311f15a7712325aee2d/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1672712/2a0000019d9231fcc275c120e846b3227558/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1672712/2a0000019d9231fcc275c120e846b3227558/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "14405319"
+     },
+     {
+      "code": "VOLKSWAGEN",
+      "name": "Volkswagen",
+      "ru_name": "Фольксваген",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b420adde531d67793944f45252/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b420adde531d67793944f45252/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b4207f50b834b9ff36d1a75226/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b4207f50b834b9ff36d1a75226/dealer_logo"
+       }
+      },
+      "numeric_id": "3197"
+     },
+     {
+      "code": "AVATR",
+      "name": "Avatr",
+      "ru_name": "Аватр",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1030388/2a00000187372987b271752f1a642ed585ce/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1030388/2a00000187372987b271752f1a642ed585ce/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/216201/2a00000187372991771576b1ca5f549a4d1e/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/216201/2a00000187372991771576b1ca5f549a4d1e/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "14463785"
+     },
+     {
+      "code": "SUBARU",
+      "name": "Subaru",
+      "ru_name": "Субару",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b40e21de05bfdbb087d16a2cd0/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b40e21de05bfdbb087d16a2cd0/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/997355/2a00000179b40e02660a4ecb4140c2017f61/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/997355/2a00000179b40e02660a4ecb4140c2017f61/dealer_logo"
+       }
+      },
+      "numeric_id": "3192"
+     },
+     {
+      "code": "CHANGAN",
+      "name": "Changan",
+      "ru_name": "Чанган",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/937147/2a0000018da6ca60bd655b2be22ea8f70f7c/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/937147/2a0000018da6ca60bd655b2be22ea8f70f7c/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b1636a6d6dff002643b5d533d6/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b1636a6d6dff002643b5d533d6/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark",
+       "new4new"
+      ],
+      "numeric_id": "3751012"
+     },
+     {
+      "code": "BMW",
+      "name": "BMW",
+      "ru_name": "БМВ",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1030388/2a00000179af8e23344d871bcfa394f0c60d/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179af8e23344d871bcfa394f0c60d/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1540742/2a00000179af8dfaeb3c09e4554cda405806/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1540742/2a00000179af8dfaeb3c09e4554cda405806/dealer_logo"
+       }
+      },
+      "tags": [
+       "options",
+       "handling"
+      ],
+      "numeric_id": "3141"
+     },
+     {
+      "code": "OMODA",
+      "name": "Omoda",
+      "ru_name": "Омода",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a000001890bfa693e1611476822539d1b86/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a000001890bfa693e1611476822539d1b86/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/787013/2a000001890bfa75c6bfce2164b2772b0e82/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/787013/2a000001890bfa75c6bfce2164b2772b0e82/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark",
+       "new4new"
+      ],
+      "numeric_id": "14346699"
+     },
+     {
+      "code": "SKODA",
+      "name": "Skoda",
+      "ru_name": "Шкода",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/997355/2a00000179b408cdfb64617747069ec1bf81/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/997355/2a00000179b408cdfb64617747069ec1bf81/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b408f22c1208aecc4e770de418/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b408f22c1208aecc4e770de418/dealer_logo"
+       }
+      },
+      "numeric_id": "3189"
+     },
+     {
+      "code": "HYUNDAI",
+      "name": "Hyundai",
+      "ru_name": "Хендэ",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3bf9ed4cee7a9032a7849da57/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3bf9ed4cee7a9032a7849da57/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b3bfc82a10066df20e76cc1dfb/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b3bfc82a10066df20e76cc1dfb/dealer_logo"
+       }
+      },
+      "numeric_id": "3157"
+     },
+     {
+      "code": "BELGEE",
+      "name": "Belgee",
+      "ru_name": "Белджи",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1604130/2a0000019bd5dbf565445d753b072133d0e5/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1604130/2a0000019bd5dbf565445d753b072133d0e5/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1535139/2a0000019bd5dc1186d54619e2c31fde73bd/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1535139/2a0000019bd5dc1186d54619e2c31fde73bd/dealer_logo"
+       }
+      },
+      "tags": [
+       "new4new"
+      ],
+      "numeric_id": "14605525"
+     },
+     {
+      "code": "KGM",
+      "name": "KGM",
+      "ru_name": "Кей-Джи-Эм",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a00000189f2c47490dc4122558b11c4cdca/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a00000189f2c47490dc4122558b11c4cdca/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/3587101/2a00000189f2c480ebefc0548edbc1c288e3/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/3587101/2a00000189f2c480ebefc0548edbc1c288e3/dealer_logo"
+       }
+      },
+      "numeric_id": "14601928"
+     },
+     {
+      "code": "LAND_ROVER",
+      "name": "Land Rover",
+      "ru_name": "Ленд Ровер",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3ca48ca4a55c50fd8abd23d48/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3ca48ca4a55c50fd8abd23d48/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b3ca7688d7523b4a8ad52195ce/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b3ca7688d7523b4a8ad52195ce/dealer_logo"
+       }
+      },
+      "numeric_id": "3165"
+     },
+     {
+      "code": "GENESIS",
+      "name": "Genesis",
+      "ru_name": "Генезис",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/937147/2a00000184a9a44f9d6ee1e17d18850c4f3c/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/937147/2a00000184a9a44f9d6ee1e17d18850c4f3c/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/216201/2a00000184a9a47a9e2a23e9e249106646b9/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/216201/2a00000184a9a47a9e2a23e9e249106646b9/dealer_logo"
+       }
+      },
+      "numeric_id": "11656860"
+     },
+     {
+      "code": "KNEWSTAR",
+      "name": "Knewstar",
+      "ru_name": "Ньюстар",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a00000192d9281070317423e163d29c17e8/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a00000192d9281070317423e163d29c17e8/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1672712/2a00000192d927f6a329bc85bfc89299db75/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1672712/2a00000192d927f6a329bc85bfc89299db75/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "14916636"
+     },
+     {
+      "code": "INFINITI",
+      "name": "Infiniti",
+      "ru_name": "Инфинити",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3c047272214b2d8f55e46fc30/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3c047272214b2d8f55e46fc30/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3c01aa7778931171c09eb8b1f/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3c01aa7778931171c09eb8b1f/dealer_logo"
+       }
+      },
+      "numeric_id": "3158"
+     },
+     {
+      "code": "CHEVROLET",
+      "name": "Chevrolet",
+      "ru_name": "Шевроле",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b16743df359774da64ba5ddfe0/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b16743df359774da64ba5ddfe0/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b1671f98caf3ed86b2922016ce/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b1671f98caf3ed86b2922016ce/dealer_logo"
+       }
+      },
+      "numeric_id": "3144"
+     },
+     {
+      "code": "LIXIANG",
+      "name": "Li Auto (Lixiang)",
+      "ru_name": "Ли Авто",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3ccb0de15693c939d42e997ad/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1030388/2a00000179b3ccb0de15693c939d42e997ad/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/997355/2a00000179b3cc79ed3b5f29c14204768742/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/997355/2a00000179b3cc79ed3b5f29c14204768742/dealer_logo"
+       }
+      },
+      "tags": [
+       "prestige",
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "13710460"
+     },
+     {
+      "code": "LYNK_CO",
+      "name": "Lynk & Co",
+      "ru_name": "Линк и ко",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/937147/2a000001865403ec82a25340cdda625a80fe/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/937147/2a000001865403ec82a25340cdda625a80fe/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/216201/2a000001865403f6409058c290e8a3b83a2e/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/216201/2a000001865403f6409058c290e8a3b83a2e/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "14415652"
+     },
+     {
+      "code": "GAC",
+      "name": "GAC",
+      "ru_name": "ГАК",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b2e044ecdff02e918a8e6b0334/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b2e044ecdff02e918a8e6b0334/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b2e061727d5199c9a52bd56994/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/937147/2a00000179b2e061727d5199c9a52bd56994/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark",
+       "new4new"
+      ],
+      "numeric_id": "12553601"
+     },
+     {
+      "code": "VAZ",
+      "name": "Lada (ВАЗ)",
+      "ru_name": "Лада",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a0000018dc08f7b4ccd9af125955b697894/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a0000018dc08f7b4ccd9af125955b697894/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1540742/2a0000018dc08fd278996a109b9d2015aa9b/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1540742/2a0000018dc08fd278996a109b9d2015aa9b/dealer_logo"
+       }
+      },
+      "tags": [
+       "new4new"
+      ],
+      "numeric_id": "3162"
+     },
+     {
+      "code": "MERCEDES",
+      "name": "Mercedes-Benz",
+      "ru_name": "Мерседес-Бенц",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/997355/2a00000179b3dd6837b829e20043c2907396/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/997355/2a00000179b3dd6837b829e20043c2907396/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/787013/2a0000017a7fdeb2085b8216a3f85a5a5cdf/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/787013/2a0000017a7fdeb2085b8216a3f85a5a5cdf/dealer_logo"
+       }
+      },
+      "numeric_id": "3172"
+     },
+     {
+      "code": "JAECOO",
+      "name": "Jaecoo",
+      "ru_name": "Джейку",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1672712/2a0000019a166e63fc131bd4028a3d4d1966/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1672712/2a0000019a166e63fc131bd4028a3d4d1966/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1672712/2a0000019a166e7158ad93130d8a9e508cbb/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1672712/2a0000019a166e7158ad93130d8a9e508cbb/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "14600443"
+     },
+     {
+      "code": "TANK",
+      "name": "Tank",
+      "ru_name": "Танк",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a000001869d73ab6f1ada0b097f504b6ea2/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a000001869d73ab6f1ada0b097f504b6ea2/dealer_logo",
+        "black-logo": "",
+        "big-black-logo": ""
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark"
+      ],
+      "numeric_id": "14300100"
+     },
+     {
+      "code": "HAVAL",
+      "name": "Haval",
+      "ru_name": "Хавэйл",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/3587101/2a0000019a166c7808b3441fb995abaf84a3/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/3587101/2a0000019a166c7808b3441fb995abaf84a3/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1030388/2a0000019a166c88c72e47347ed3e67575b2/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1030388/2a0000019a166c88c72e47347ed3e67575b2/dealer_logo"
+       }
+      },
+      "tags": [
+       "catalog_china_landing_china_mark",
+       "new4new"
+      ],
+      "numeric_id": "7771298"
+     },
+     {
+      "code": "MITSUBISHI",
+      "name": "Mitsubishi",
+      "ru_name": "Митсубиси",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b3e077643d3d034e8718642484/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b3e077643d3d034e8718642484/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b3e053c679dcf819b9bf2f7b78/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1540742/2a00000179b3e053c679dcf819b9bf2f7b78/dealer_logo"
+       }
+      },
+      "numeric_id": "3175"
+     },
+     {
+      "code": "FORD",
+      "name": "Ford",
+      "ru_name": "Форд",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a00000179b19823f006efb87fadeffbf25a/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b19823f006efb87fadeffbf25a/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/1604130/2a00000179b19842cb2d90c65cc3508acd69/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/1604130/2a00000179b19842cb2d90c65cc3508acd69/dealer_logo"
+       }
+      },
+      "numeric_id": "3152"
+     },
+     {
+      "code": "MAZDA",
+      "name": "Mazda",
+      "ru_name": "Мазда",
+      "logo": {
+       "name": "mark-logo",
+       "sizes": {
+        "logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3db54d36bf52cf9ac0aa4f01b/logo",
+        "big-logo": "//avatars.avto.ru/get-verba/216201/2a00000179b3db54d36bf52cf9ac0aa4f01b/dealer_logo",
+        "black-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b3db79d4f3765053c1a6de9fb4/logo",
+        "big-black-logo": "//avatars.avto.ru/get-verba/787013/2a00000179b3db79d4f3765053c1a6de9fb4/dealer_logo"
+       }
+      },
+      "numeric_id": "3171"
+     }
+    ],
+    "logo": {
+     "name": "logo",
+     "sizes": {
+      "wizardv3mr": "//avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/wizardv3mr",
+      "cattouch": "//avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/cattouch",
+      "cattouchret": "//avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/cattouchret",
+      "gallery": "//avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/gallery",
+      "thumb_m_2x": "//avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/thumb_m_2x",
+      "offertouchret": "//avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/offertouchret"
+     },
+     "base_url": "//avatars.avto.ru/get-verba/1672712/2a0000019df6a9bc77b4a80fefa1aade1c01/dealer_logo",
+     "aliases": [
+      "gallery",
+      "wizardv3mr",
+      "thumb_m_2x",
+      "cattouch",
+      "offertouchret",
+      "cattouchret"
+     ]
+    },
+    "main_photo": {
+     "name": "main_photo",
+     "sizes": {
+      "wizardv3mr": "",
+      "cattouch": "",
+      "cattouchret": "",
+      "gallery": "",
+      "thumb_m_2x": "",
+      "offertouchret": ""
+     },
+     "aliases": [
+      "gallery",
+      "wizardv3mr",
+      "thumb_m_2x",
+      "cattouch",
+      "offertouchret",
+      "cattouchret"
+     ]
+    },
+    "dealer_gallery": [
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/3587101/2a00000199f121a90f8ce964286fb94fe98d/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/3587101/2a00000199f121a90f8ce964286fb94fe98d/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/3587101/2a00000199f121a90f8ce964286fb94fe98d/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/3587101/2a00000199f121a90f8ce964286fb94fe98d/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/3587101/2a00000199f121a90f8ce964286fb94fe98d/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/3587101/2a00000199f121a90f8ce964286fb94fe98d/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/3587101/2a00000199f121a90f8ce964286fb94fe98d/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/997355/2a00000199f121b0c09c70a021a6d30e31b3/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/997355/2a00000199f121b0c09c70a021a6d30e31b3/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/997355/2a00000199f121b0c09c70a021a6d30e31b3/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/997355/2a00000199f121b0c09c70a021a6d30e31b3/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/997355/2a00000199f121b0c09c70a021a6d30e31b3/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/997355/2a00000199f121b0c09c70a021a6d30e31b3/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/997355/2a00000199f121b0c09c70a021a6d30e31b3/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/1030388/2a00000199f121c4bbe24cc921b1aef1b38a/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/1030388/2a00000199f121c4bbe24cc921b1aef1b38a/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/1030388/2a00000199f121c4bbe24cc921b1aef1b38a/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/1030388/2a00000199f121c4bbe24cc921b1aef1b38a/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/1030388/2a00000199f121c4bbe24cc921b1aef1b38a/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/1030388/2a00000199f121c4bbe24cc921b1aef1b38a/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/1030388/2a00000199f121c4bbe24cc921b1aef1b38a/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/997355/2a00000199f121d93ee061a52f5160864585/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/997355/2a00000199f121d93ee061a52f5160864585/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/997355/2a00000199f121d93ee061a52f5160864585/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/997355/2a00000199f121d93ee061a52f5160864585/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/997355/2a00000199f121d93ee061a52f5160864585/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/997355/2a00000199f121d93ee061a52f5160864585/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/997355/2a00000199f121d93ee061a52f5160864585/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/1030388/2a00000199f121e09f00af0a6e3da25f193a/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/1030388/2a00000199f121e09f00af0a6e3da25f193a/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/1030388/2a00000199f121e09f00af0a6e3da25f193a/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/1030388/2a00000199f121e09f00af0a6e3da25f193a/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/1030388/2a00000199f121e09f00af0a6e3da25f193a/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/1030388/2a00000199f121e09f00af0a6e3da25f193a/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/1030388/2a00000199f121e09f00af0a6e3da25f193a/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/216201/2a000001778d7262419f3702ace211be2dc0/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/216201/2a000001778d7262419f3702ace211be2dc0/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/216201/2a000001778d7262419f3702ace211be2dc0/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/216201/2a000001778d7262419f3702ace211be2dc0/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/216201/2a000001778d7262419f3702ace211be2dc0/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/216201/2a000001778d7262419f3702ace211be2dc0/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/216201/2a000001778d7262419f3702ace211be2dc0/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/216201/2a000001778d72bc82960d5cae4531f807e1/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/216201/2a000001778d72bc82960d5cae4531f807e1/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/216201/2a000001778d72bc82960d5cae4531f807e1/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/216201/2a000001778d72bc82960d5cae4531f807e1/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/216201/2a000001778d72bc82960d5cae4531f807e1/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/216201/2a000001778d72bc82960d5cae4531f807e1/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/216201/2a000001778d72bc82960d5cae4531f807e1/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/937147/2a000001778d72b2b8727d0216125d8aa107/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/937147/2a000001778d72b2b8727d0216125d8aa107/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/937147/2a000001778d72b2b8727d0216125d8aa107/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/937147/2a000001778d72b2b8727d0216125d8aa107/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/937147/2a000001778d72b2b8727d0216125d8aa107/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/937147/2a000001778d72b2b8727d0216125d8aa107/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/937147/2a000001778d72b2b8727d0216125d8aa107/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/1030388/2a000001778d72bba8db10d93cffc8a62f69/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/1030388/2a000001778d72bba8db10d93cffc8a62f69/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/1030388/2a000001778d72bba8db10d93cffc8a62f69/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/1030388/2a000001778d72bba8db10d93cffc8a62f69/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/1030388/2a000001778d72bba8db10d93cffc8a62f69/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/1030388/2a000001778d72bba8db10d93cffc8a62f69/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/1030388/2a000001778d72bba8db10d93cffc8a62f69/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/997355/2a000001778d72c7a40fadd219ef30b03082/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/997355/2a000001778d72c7a40fadd219ef30b03082/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/997355/2a000001778d72c7a40fadd219ef30b03082/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/997355/2a000001778d72c7a40fadd219ef30b03082/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/997355/2a000001778d72c7a40fadd219ef30b03082/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/997355/2a000001778d72c7a40fadd219ef30b03082/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/997355/2a000001778d72c7a40fadd219ef30b03082/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/1030388/2a000001778d72cd050f90bc226df1c18686/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/1030388/2a000001778d72cd050f90bc226df1c18686/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/1030388/2a000001778d72cd050f90bc226df1c18686/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/1030388/2a000001778d72cd050f90bc226df1c18686/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/1030388/2a000001778d72cd050f90bc226df1c18686/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/1030388/2a000001778d72cd050f90bc226df1c18686/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/1030388/2a000001778d72cd050f90bc226df1c18686/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     },
+     {
+      "name": "gallery",
+      "sizes": {
+       "wizardv3mr": "//avatars.avto.ru/get-verba/787013/2a000001778d72cca0ce23ac618d4a0da918/wizardv3mr",
+       "cattouch": "//avatars.avto.ru/get-verba/787013/2a000001778d72cca0ce23ac618d4a0da918/cattouch",
+       "cattouchret": "//avatars.avto.ru/get-verba/787013/2a000001778d72cca0ce23ac618d4a0da918/cattouchret",
+       "gallery": "//avatars.avto.ru/get-verba/787013/2a000001778d72cca0ce23ac618d4a0da918/gallery",
+       "thumb_m_2x": "//avatars.avto.ru/get-verba/787013/2a000001778d72cca0ce23ac618d4a0da918/thumb_m_2x",
+       "offertouchret": "//avatars.avto.ru/get-verba/787013/2a000001778d72cca0ce23ac618d4a0da918/offertouchret"
+      },
+      "base_url": "//avatars.avto.ru/get-verba/787013/2a000001778d72cca0ce23ac618d4a0da918/cattouch",
+      "aliases": [
+       "gallery",
+       "wizardv3mr",
+       "thumb_m_2x",
+       "cattouch",
+       "offertouchret",
+       "cattouchret"
+      ]
+     }
+    ],
+    "offer_counters": {
+     "cars_all": 297
+    },
+    "category": [
+     "CARS",
+     "TRUCKS",
+     "MOTO"
+    ],
+    "net": {
+     "id": 20151339,
+     "name": "РОЛЬФ",
+     "semantic_url": "rolf"
+    },
+    "filtered_offers_count": "25",
+    "all_client_ids": [
+     "34137"
+    ],
+    "description": "РОЛЬФ | Восток  автомобили с пробегом\n\n- Более 5 000 автомобилей с пробегом в наличии\n- Выгодные программы РОЛЬФ Финанс (кредитование, страхование)\n- 7 дней на обмен или возврат\n- 2 года гарантии РОЛЬФ\n- Выгодный обмен Вашего автомобиля на выбранный автомобиль в РОЛЬФ Восток\n- Срочный выкуп Вашего автомобиля\n- Профессиональная команда менеджеров отдела продаж\n- Гарантия безопасности сделки и качества оформления документов\n- Выездная оценка Вашего автомобиля\n\nРОЛЬФ Автогарант – это комплексная услуга  проверки автомобиля, в которую входит: проверка лакокрасочного покрытия, проверка автомобиля по открытым информационным базам, проверка технического состояния автомобиля  на подъемнике. Полная информация об особенностях и наполнении услуги содержится в Оферте договора оказания услуг."
+   }
+  ],
+  "pagination": {
+   "page": 1,
+   "page_size": 4,
+   "total_offers_count": 101,
+   "total_page_count": 26
+  },
+  "search_parameters": {
+   "tariff_type": [
+    "CARS"
+   ],
+   "region_filter": [
+    {
+     "rid": "213"
+    }
+   ],
+   "paging_configuration": {
+    "page": {
+     "num": 1,
+     "size": 4
+    }
+   },
+   "marks": [
+    "MAZDA"
+   ],
+   "sorting_type": "RELEVANT_OFFERS_COUNT"
+  },
+  "status": "SUCCESS"
+ },
+ "output_type": "list",
+ "crossLinks": {
+  "colors": [
+   {
+    "color": "200204",
+    "colorRus": "коричневого",
+    "key": "MAZDA_CX_5_KORICHNEVYJ",
+    "value": "KORICHNEVYJ"
+   },
+   {
+    "color": "660099",
+    "colorRus": "пурпурного",
+    "key": "MAZDA_CX_5_PURPURNYJ",
+    "value": "PURPURNYJ"
+   },
+   {
+    "color": "040001",
+    "colorRus": "чёрного",
+    "key": "MAZDA_CX_5_CHERNYJ",
+    "value": "CHERNYJ"
+   },
+   {
+    "color": "CACECB",
+    "colorRus": "серебристого",
+    "key": "MAZDA_CX_5_SEREBRISTYJ",
+    "value": "SEREBRISTYJ"
+   },
+   {
+    "color": "22A0F8",
+    "colorRus": "голубого",
+    "key": "MAZDA_CX_5_GOLUBOJ",
+    "value": "GOLUBOJ"
+   },
+   {
+    "color": "97948F",
+    "colorRus": "серого",
+    "key": "MAZDA_CX_5_SERYJ",
+    "value": "SERYJ"
+   },
+   {
+    "color": "FAFBFB",
+    "colorRus": "белого",
+    "key": "MAZDA_CX_5_BELYJ",
+    "value": "BELYJ"
+   },
+   {
+    "color": "EE1D19",
+    "colorRus": "красного",
+    "key": "MAZDA_CX_5_KRASNYJ",
+    "value": "KRASNYJ"
+   },
+   {
+    "color": "0000CC",
+    "colorRus": "синего",
+    "key": "MAZDA_CX_5_SINIJ",
+    "value": "SINIJ"
+   }
+  ],
+  "body_types": [],
+  "gear_types": [
+   {
+    "gear": "ALL_WHEEL_DRIVE",
+    "gearRus": "полным",
+    "key": "MAZDA_CX_5_ALL_WHEEL_DRIVE",
+    "value": "ALL_WHEEL_DRIVE"
+   },
+   {
+    "gear": "FORWARD_CONTROL",
+    "gearRus": "передним",
+    "key": "MAZDA_CX_5_FORWARD_CONTROL",
+    "value": "FORWARD_CONTROL"
+   }
+  ],
+  "seats": [],
+  "engine_types": [
+   {
+    "engine": "DIESEL",
+    "engineRus": "дизельным",
+    "key": "MAZDA_CX_5_DIESEL",
+    "value": "DIESEL"
+   },
+   {
+    "engine": "GASOLINE",
+    "engineRus": "бензиновым",
+    "key": "MAZDA_CX_5_GASOLINE",
+    "value": "GASOLINE"
+   }
+  ],
+  "transmission_types": [
+   {
+    "transmission": "AUTOMATIC",
+    "transmissionRus": "АКПП",
+    "key": "MAZDA_CX_5_AUTOMATIC",
+    "value": "AUTOMATIC"
+   }
+  ],
+  "displacements": [
+   {
+    "humanDisplacement": "2.0л",
+    "key": "MAZDA_CX_5_2.0",
+    "value": 2000
+   },
+   {
+    "humanDisplacement": "2.2л",
+    "key": "MAZDA_CX_5_2.2",
+    "value": 2200
+   },
+   {
+    "humanDisplacement": "2.5л",
+    "key": "MAZDA_CX_5_2.5",
+    "value": 2500
+   }
+  ],
+  "generations": []
+ },
+ "trucksCount": 0,
+ "new4newCount": 0,
+ "shouldShowListingBestPriceBlock": false
+}

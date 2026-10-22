@@ -1,0 +1,768 @@
+{
+ "status": "SUCCESS",
+ "search_parameters": {
+  "year_from": 2024,
+  "year_to": 2027,
+  "catalog_filter": [
+   {
+    "mark": "TOYOTA",
+    "model": "HIGHLANDER",
+    "generation": "22453958"
+   }
+  ],
+  "section": "new",
+  "category": "cars"
+ },
+ "offers": [
+  {
+   "id": "1132227191",
+   "hash": "13007217",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtograd_kaluga"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5790000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Калуга"
+     }
+    }
+   }
+  },
+  {
+   "id": "1131035497",
+   "hash": "a747d2ec",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_krilatskoe_multibrand_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2025
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5580000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1134280319",
+   "hash": "7cc5713f",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_multi_yar_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5450000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1133563979",
+   "hash": "b5fd9607",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "rolf_volgogradskiy"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5800000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1133246027",
+   "hash": "9cedc467",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "toyota_centr_vnukovo_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5700000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160168238",
+   "hash": "d687084a",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "sim_import_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5500000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160185612",
+   "hash": "6460a457",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_multi_yar_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5450000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160166205",
+   "hash": "e4f102c1",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_toyota_balashiha_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5670000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Балашиха"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160165893",
+   "hash": "2abd9953",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_toyota_himki"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5670000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Химки"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160133784",
+   "hash": "4a88032c",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_toyota_pi_import_dmitrovka_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5450000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160166202",
+   "hash": "c9404916",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_toyota_balashiha_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5670000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Балашиха"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160051768",
+   "hash": "dfe61276",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_toyota_himki"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5670000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Химки"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160185613",
+   "hash": "d1bc9e04",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_multi_yar_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5450000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160187254",
+   "hash": "0fd20c66",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "rolf_yasenevo_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5750000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160172116",
+   "hash": "e54c7e60",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "rolf_yasenevo_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5750000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160208957",
+   "hash": "0d1c926e",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_toyota_pi_import_dmitrovka_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 6100000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1160208958",
+   "hash": "1b5a2e82",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "avtomir_toyota_pi_import_dmitrovka_moskva"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 6100000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1133421113",
+   "hash": "b82d4408",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "rolf_volgogradskiy"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2025
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5560000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1133421123",
+   "hash": "b0f864f5",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "rolf_volgogradskiy"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2025
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5560000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  },
+  {
+   "id": "1133421108",
+   "hash": "88b158b8",
+   "section": "new",
+   "seller_type": "COMMERCIAL",
+   "salon": {
+    "code": "rolf_volgogradskiy"
+   },
+   "vehicle_info": {
+    "mark_info": {
+     "code": "TOYOTA"
+    },
+    "model_info": {
+     "code": "HIGHLANDER"
+    },
+    "super_gen": {
+     "id": "22453958",
+     "name": "IV (XU70)"
+    }
+   },
+   "documents": {
+    "year": 2026
+   },
+   "state": {
+    "mileage": 0
+   },
+   "price_info": {
+    "price": 5560000
+   },
+   "seller": {
+    "location": {
+     "region_info": {
+      "name": "Москва"
+     }
+    }
+   }
+  }
+ ],
+ "pagination": {
+  "total_page_count": 7,
+  "total_offers_count": 339,
+  "page": 1,
+  "page_size": 50,
+  "from": 1,
+  "to": 50,
+  "current": 1
+ },
+ "request_id": "f3dcd9edb7cbaef1fa3e5258fd2ad54e"
+}

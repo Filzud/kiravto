@@ -97,6 +97,17 @@ class BotAPI:
             raise TelegramError(f"{method}: {code} {desc}")
         return data.get("result")
 
+    def download(self, file_path: str) -> bytes:
+        """Файл из Telegram (голосовое) по file_path из getFile."""
+        try:
+            resp = self._client.get(f"{self._base}/file/bot{self._token}/{file_path}",
+                                    timeout=httpx.Timeout(60.0, connect=10.0))
+        except httpx.HTTPError as e:
+            raise TelegramError(f"download: сетевая ошибка {type(e).__name__}: {self._redact(str(e))}") from None
+        if resp.status_code != 200:
+            raise TelegramError(f"download: HTTP {resp.status_code}")
+        return resp.content
+
     def close(self) -> None:
         self._client.close()
 
@@ -266,15 +277,23 @@ class ModerationBot:
                 if (msg.get("text") or "").startswith("/"):
                     log.info("команда из чужого чата %s проигнорирована (админ-чат: %s)", chat_id, self.admin_chat)
                 return
+            if msg.get("voice") or msg.get("audio"):
+                self._reply(self.voice_text(msg.get("voice") or msg.get("audio")))
+                return
             text = (msg.get("text") or "").strip()
             if not text.startswith("/"):
                 return
             cmd = text.split()[0].split("@")[0].lower()
+            if cmd == "/ask":
+                question = text.partition(" ")[2].strip()
+                self._reply(self.ask_text(question) if question else "Напишите вопрос после /ask или пришлите голосовое.")
+                return
             handler = {"/status": self.status_text, "/drops": self.drops_text, "/queue": self.queue_text}.get(cmd)
             if handler is None:
                 if cmd in ("/start", "/help"):
                     self._reply("Команды: /status — последние прогоны, /drops — снижения цен за 7 дней, "
-                                "/queue — очередь постов.")
+                                "/queue — очередь постов, /ask вопрос — вопрос о складе. "
+                                "Можно спросить голосом: «что подешевело за неделю больше чем на 5 процентов».")
                 return
             self._reply(handler())
 
@@ -348,6 +367,38 @@ class ModerationBot:
         if len(drops) > 30:
             lines.append(f"\n…и ещё {len(drops) - 30}")
         return trim_lines("\n".join(lines), TEXT_LIMIT)
+
+    def ask_text(self, question: str) -> str:
+        from . import voice
+
+        llm = None
+        if self.settings.llm_enabled:
+            from .llm import LLMClient
+            llm = LLMClient(self.settings)
+        try:
+            return trim_lines(voice.answer(question, llm), TEXT_LIMIT)
+        except Exception as e:  # noqa: BLE001 — вопрос не должен ронять бота
+            log.exception("вопрос о складе")
+            return f"Не получилось ответить: {escape(e.__class__.__name__)}"
+
+    def voice_text(self, voice_obj: dict) -> str:
+        if not self.settings.stt_model:
+            return "Голосовые вопросы выключены (STT_MODEL пуст). Можно спросить текстом: /ask вопрос"
+        if (voice_obj.get("duration") or 0) > 60:
+            return "Голосовое длиннее минуты — спросите короче."
+        from . import voice
+
+        try:
+            f = self.api.call("getFile", file_id=voice_obj["file_id"])
+            audio = self.api.download(f["file_path"])
+            question = voice.transcribe(audio, self.settings.stt_model,
+                                        proxy=self.settings.llm_proxy or self.settings.tg_proxy)
+        except Exception as e:  # noqa: BLE001
+            log.exception("распознавание голосового")
+            return f"Не удалось распознать голосовое: {escape(e.__class__.__name__)}. Можно спросить текстом: /ask вопрос"
+        if not question:
+            return "В голосовом не удалось разобрать слов."
+        return self.ask_text(question)
 
     def queue_text(self) -> str:
         items = queries.post_queue(self.conn)

@@ -240,6 +240,47 @@ def cmd_report(_args) -> None:
     print(render_report(connect(s.db_path), s.report_path, settings=s))
 
 
+def cmd_market(args) -> None:
+    """Поиск похожих у других продавцов сразу для N групп (штатно — понемногу в каждом прогоне)."""
+    from .market import MarketScanner
+    from .source.autoru import AutoruBrowserSource
+
+    s = load_settings()
+    src = AutoruBrowserSource(s.dealer_code, s.dealer_id, headless=s.headless, pause=s.request_pause_s)
+    try:
+        res = MarketScanner(connect(s.db_path), src, s).run(max_groups=args.groups)
+    finally:
+        src.close()
+    print(json.dumps(res, ensure_ascii=False, indent=1))
+
+
+def cmd_rolf_sync(_args) -> None:
+    from .second_source import sync_rolf
+
+    s = load_settings()
+    print(json.dumps(sync_rolf(connect(s.db_path), s), ensure_ascii=False, indent=1))
+
+
+def cmd_sheets_export(_args) -> None:
+    from .gsheets import export_to_sheet
+
+    s = load_settings()
+    if not (s.gsheet_id and s.gsheet_credentials):
+        print("Не настроено: нужны GSHEET_ID и GSHEET_CREDENTIALS в .env (см. README, раздел «Google Таблица»)")
+        return
+    print(json.dumps(export_to_sheet(connect(s.db_path), s), ensure_ascii=False, indent=1))
+
+
+def cmd_ask(args) -> None:
+    """Тот же ответ, что бот даёт на голосовое, — для вопроса текстом в терминале."""
+    from . import voice
+    from .llm import LLMClient
+
+    s = load_settings()
+    os.environ.setdefault("DB_PATH", str(s.db_path))
+    print(voice.answer(" ".join(args.question), LLMClient(s) if s.llm_enabled else None))
+
+
 def cmd_dump_fixtures(args) -> None:
     """Свежие ответы источника тем же путём, что ходит сервис (для скилла source-format-change)."""
     from .source.autoru import AutoruBrowserSource
@@ -296,6 +337,16 @@ def main(argv: list[str] | None = None) -> None:
     sp.add_argument("--with-details", action="store_true", help="только машины, у которых уже есть карточка")
     sp.set_defaults(f=cmd_sample)
     sub.add_parser("report", help="пересобрать HTML-отчёт").set_defaults(f=cmd_report)
+    sp = sub.add_parser("market", help="«ниже рынка»: поиск похожих у других продавцов для N групп")
+    sp.add_argument("--groups", type=int, default=40)
+    sp.set_defaults(f=cmd_market)
+    sub.add_parser("rolf-sync", help="второй источник: склад сайта rolf.ru и склейка с Авто.ру").set_defaults(
+        f=cmd_rolf_sync)
+    sub.add_parser("sheets-export", help="выгрузить склад и снижения в Google Таблицу").set_defaults(
+        f=cmd_sheets_export)
+    sp = sub.add_parser("ask", help="вопрос о складе текстом (как голосовое в админ-чате)")
+    sp.add_argument("question", nargs="+")
+    sp.set_defaults(f=cmd_ask)
     sp = sub.add_parser("dump-fixtures", help="сохранить свежие ответы источника")
     sp.add_argument("--pages", type=int, default=1)
     sp.add_argument("--out", default="recon/fresh")

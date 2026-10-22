@@ -264,6 +264,23 @@ def create_app(settings: Settings, conn_factory: Callable[[], sqlite3.Connection
     def stock(conn: sqlite3.Connection = Depends(get_conn)):
         return queries.stock_summary(conn, now=clock())
 
+    @app.get("/market", tags=["аналитика"], dependencies=auth, responses=AUTH_RESPONSES,
+             summary="Машины ниже рынка",
+             description="Цена салона против медианы таких же машин у других продавцов Авто.ру (марка, модель, "
+                         "поколение, год ±1, пробег ±20 %). `coverage` — у скольких машин оценка уже есть.")
+    def market(conn: sqlite3.Connection = Depends(get_conn),
+               min_pct: float = Query(5.0, ge=0, le=100, description="Дешевле медианы минимум на, %"),
+               section: str | None = Query(None, pattern="^(new|used)$", description="new или used"),
+               limit: int = Query(50, ge=1, le=200)):
+        return queries.below_market(conn, min_pct=min_pct, section=section, limit=limit)
+
+    @app.get("/second-source", tags=["аналитика"], dependencies=auth, responses=AUTH_RESPONSES,
+             summary="Второй источник — сайт салона",
+             description="Сколько машин на rolf.ru, сколько склеено с Авто.ру, у скольких расходится цена. "
+                         "Склейка конкретной машины — в `/offers/{id}` → `sources`.")
+    def second_source(conn: sqlite3.Connection = Depends(get_conn)):
+        return queries.second_source_summary(conn) | {"side_runs": queries.side_runs(conn, limit=10)}
+
     @app.get("/runs", tags=["служебное"], dependencies=auth, responses=AUTH_RESPONSES,
              summary="Журнал прогонов сборщика",
              description="Последние прогоны: статус, собрано / заявлено источником, полнота, запросы, ошибки, "

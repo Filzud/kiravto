@@ -43,6 +43,11 @@ def guard(tool, **inp):
     ("Write", {"file_path": "docker-compose.override.yml", "content": "environment:\n  TG_PUBLISH_TARGET: prod"}),
     ("Bash", {"command": "TG_PUBLISH_TARGET=prod python -m kiravto bot"}),
     ("Edit", {"file_path": "kiravto/config.py", "old_string": "x", "new_string": "TG_PUBLISH_TARGET=prod"}),
+    ("Read", {"file_path": str(ROOT / "secrets" / "kiravto.sa.json")}),
+    ("Read", {"file_path": r"C:\keys\gemini-494219.sa.json"}),
+    ("Bash", {"command": "cat secrets/kiravto.sa.json"}),
+    ("PowerShell", {"command": r"Get-Content secrets\kiravto.sa.json"}),
+    ("Write", {"file_path": "key.txt", "content": "-----BEGIN " + "PRIVATE KEY-----\nMIIE"}),
 ])
 def test_guard_denies(tool, inp):
     code, err = guard(tool, **inp)
@@ -58,6 +63,8 @@ def test_guard_denies(tool, inp):
     ("Write", {"file_path": "README.md", "content": "Токен вводится командой python -m kiravto secrets"}),
     ("Grep", {"pattern": "environment", "path": "kiravto"}),
     ("Bash", {"command": "python -m kiravto run-once"}),
+    ("Read", {"file_path": str(ROOT / "kiravto" / "gsheets.py")}),
+    ("Bash", {"command": "python -m kiravto sheets-export"}),
 ])
 def test_guard_allows(tool, inp):
     code, err = guard(tool, **inp)

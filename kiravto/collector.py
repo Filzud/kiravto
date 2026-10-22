@@ -33,7 +33,7 @@ OFFER_COLUMNS = [
     "complectation_id", "year", "mileage", "price", "price_discount", "discount_tradein", "discount_credit",
     "discount_insurance", "discount_max", "engine_volume", "engine_cc", "engine_power", "fuel", "transmission", "drive", "body",
     "color", "color_hex", "vin", "vin_full", "owners", "pts", "customs_cleared", "availability",
-    "created_at_source", "fresh_at_source",
+    "created_at_source", "fresh_at_source", "generation_id",
 ]
 # поле → тип события при изменении (по данным выдачи)
 TRACKED_LISTING = {
@@ -227,8 +227,9 @@ class Collector:
                 self.conn.execute("UPDATE offers SET last_seen=?, listing_sig=? WHERE id=?",
                                   (now, listing_signature(o), oid))
             else:
-                self.conn.execute("UPDATE offers SET last_seen=?, listing_sig=? WHERE id=?",
-                                  (now, listing_signature(o), oid))
+                # id поколения не меняется и нужен рынку — дописываем его и машинам, собранным до его появления
+                self.conn.execute("UPDATE offers SET last_seen=?, listing_sig=?, generation_id=COALESCE(?, generation_id) "
+                                  "WHERE id=?", (now, listing_signature(o), o.get("generation_id"), oid))
 
     def _write_fields(self, oid: str, o: dict, extra: dict | None = None) -> None:
         cols = {c: o[c] for c in OFFER_COLUMNS}

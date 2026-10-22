@@ -6,6 +6,7 @@ import random
 import threading
 from datetime import datetime
 
+from . import market
 from . import posts as P
 from .collector import Collector
 from .config import Settings
@@ -57,10 +58,14 @@ def after_run(conn, settings: Settings, summary: dict, now: datetime | None = No
         out["llm"] = make_facts(conn, settings).process_pending(limit=40)
     except Exception as e:  # noqa: BLE001 — LLM необязательна
         log.warning("LLM: %s", e)
+    # цены поменялись — положение относительно рынка пересчитываем по уже собранным выборкам, без запросов
+    out["market_priced"] = market.recompute(conn, settings.market_min_comps, now)
     if summary.get("status") == "complete":
-        out["drop_posts"] = len(P.create_drop_posts(conn, settings.drop_min_pct, now=now, tz=settings.timezone))
+        out["drop_posts"] = len(P.create_drop_posts(conn, settings.drop_min_pct, now=now, tz=settings.timezone,
+                                                    market_below_pct=settings.market_below_pct))
         if P.due_daily(now, settings.daily_post_time, settings.timezone):
-            out["daily_post"] = P.create_daily_post(conn, now=now, tz=settings.timezone)
+            out["daily_post"] = P.create_daily_post(conn, now=now, tz=settings.timezone,
+                                                    market_below_pct=settings.market_below_pct)
     try:
         from .report import render_report
 
@@ -75,6 +80,48 @@ def after_run(conn, settings: Settings, summary: dict, now: datetime | None = No
             mark_alert_sent(conn)
         log.warning(alert)
     return out
+
+
+def side_jobs(conn, settings: Settings, src, summary: dict) -> dict:
+    """Задания со звёздочкой, которые ходят в сеть: рынок, второй источник, выгрузка в таблицу.
+    Каждое необязательно — его ошибка не портит прогон склада."""
+    out: dict = {}
+    if summary.get("status") == "complete" and settings.market_groups_per_run > 0 and hasattr(src, "search"):
+        try:
+            out["market"] = market.MarketScanner(conn, src, settings).run()
+        except Exception as e:  # noqa: BLE001
+            log.warning("рынок: %s: %s", e.__class__.__name__, e)
+    jobs = [("rolf", settings.rolf_interval_hours, _rolf_job), ("sheets", settings.gsheet_interval_hours, _sheets_job)]
+    for kind, interval_h, job in jobs:
+        if not due_side(conn, kind, interval_h):
+            continue
+        try:
+            out[kind] = job(conn, settings)
+        except Exception as e:  # noqa: BLE001
+            log.warning("%s: %s: %s", kind, e.__class__.__name__, e)
+    return out
+
+
+def due_side(conn, kind: str, interval_hours: float, now: datetime | None = None) -> bool:
+    if interval_hours <= 0:
+        return False
+    last = conn.execute("SELECT MAX(started_at) FROM side_runs WHERE kind=?", (kind,)).fetchone()[0]
+    now = now or utcnow()
+    return last is None or (now - datetime.fromisoformat(last)).total_seconds() >= interval_hours * 3600
+
+
+def _rolf_job(conn, settings: Settings):
+    from .second_source import sync_rolf
+
+    return sync_rolf(conn, settings)
+
+
+def _sheets_job(conn, settings: Settings):
+    if not (settings.gsheet_id and settings.gsheet_credentials):
+        return None
+    from .gsheets import export_to_sheet
+
+    return export_to_sheet(conn, settings)
 
 
 def run_once(settings: Settings, source=None) -> dict:
@@ -92,6 +139,7 @@ def run_once(settings: Settings, source=None) -> dict:
             log.error("прогон упал: %s: %s", e.__class__.__name__, e)
             summary = dict(conn.execute("SELECT * FROM runs ORDER BY id DESC LIMIT 1").fetchone())
             summary["error"] = f"{e.__class__.__name__}: {e}"
+        summary["side"] = side_jobs(conn, settings, src, summary)
         summary["after"] = after_run(conn, settings, summary)
         return summary
     finally:

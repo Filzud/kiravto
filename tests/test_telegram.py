@@ -29,6 +29,7 @@ class FakeBotAPI:
         self.updates: list[dict] = []
         self.next_update_id = 1000
         self.next_message_id = 1
+        self.files: dict[str, bytes] = {}         # file_path → содержимое (голосовые)
         self.lock = threading.Lock()
         fake = self
 
@@ -44,6 +45,14 @@ class FakeBotAPI:
                 self.send_header("Content-Length", str(len(raw)))
                 self.end_headers()
                 self.wfile.write(raw)
+
+            def do_GET(self):  # noqa: N802 — скачивание файла: /file/bot<token>/<file_path>
+                path = self.path.split("/", 3)[-1]
+                data = fake.files.get(path)
+                self.send_response(200 if data is not None else 404)
+                self.send_header("Content-Length", str(len(data or b"")))
+                self.end_headers()
+                self.wfile.write(data or b"")
 
             def log_message(self, *a):
                 pass
@@ -91,6 +100,8 @@ class FakeBotAPI:
                 return 200, {"ok": True, "result": list(self.updates)}
             if method in ("answerCallbackQuery", "editMessageReplyMarkup"):
                 return 200, {"ok": True, "result": True}
+            if method == "getFile":
+                return 200, {"ok": True, "result": {"file_id": params["file_id"], "file_path": f"voice/{params['file_id']}.oga"}}
             if method == "sendMediaGroup":
                 res = []
                 for _ in params["media"]:

@@ -173,3 +173,28 @@ class AutoruBrowserSource:
     def card(self, offer_ref: str) -> dict:
         return self._post(CARD_EP, {"category": "cars", "offer_id": offer_ref}, f"карточка {offer_ref}")
 
+    def search(self, flt: dict, page: int = 1) -> dict:
+        """Похожие машины у всех продавцов (для «ниже рынка»): тот же эндпоинт выдачи, без dealer_id."""
+        body = {"category": "cars", "page": page, "page_size": PAGE_SIZE, **MARKET_GEO, **flt}
+        if flt.get("section") == "new":
+            # новые по умолчанию свёрнуты в группы: одна карточка «133 предложения» вместо 133 машин
+            # (живой запрос 22.10.2026). «Списком» сайт отдаёт каждую машину отдельно
+            body["output_type"] = "list"
+        data = check_listing_response(self._post(LISTING_EP, body, f"рынок {flt.get('catalog_filter')} стр.{page}"))
+        check_search_echo(data, flt)
+        return data
+
+
+# Москва и 200 км вокруг: сайт не возвращает гео в search_parameters, но в выдаче (сверка 22.10.2026)
+# только Москва, область и соседние города — Тула, Владимир, Тверь
+MARKET_GEO = {"geo_id": [213], "geo_radius": 200}
+
+
+def check_search_echo(data: dict, flt: dict) -> None:
+    """Источник уже молча игнорировал параметр (dealer_code). Фильтр, которого нет в эхе запроса, — смена формата:
+    иначе «рынок» тихо посчитался бы по всем машинам страны."""
+    echo = data.get("search_parameters") or {}
+    lost = [k for k in flt if k != "section" and k not in echo]
+    if lost:
+        raise SourceFormatError(f"поиск похожих: источник не принял фильтры {lost}")
+
