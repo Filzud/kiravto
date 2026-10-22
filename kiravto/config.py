@@ -63,6 +63,7 @@ class Settings:
     llm_api_key: str = ""
     llm_model: str = ""
     llm_base_url: str = ""
+    llm_proxy: str = ""
     llm_daily_budget_usd: float = 0.20
     llm_price_in_per_m: float = 0.15
     llm_price_out_per_m: float = 0.60
@@ -111,6 +112,7 @@ def load_settings(env_path: Path | None = None) -> Settings:
         llm_api_key=g("LLM_API_KEY"),
         llm_model=g("LLM_MODEL"),
         llm_base_url=g("LLM_BASE_URL"),
+        llm_proxy=g("LLM_PROXY"),
         llm_daily_budget_usd=float(g("LLM_DAILY_BUDGET_USD", "0.20")),
         llm_price_in_per_m=float(g("LLM_PRICE_IN_PER_M", "0.15")),
         llm_price_out_per_m=float(g("LLM_PRICE_OUT_PER_M", "0.60")),

@@ -78,7 +78,7 @@ class LLMClient:
 
     def __init__(self, settings: Settings, http: httpx.Client | None = None):
         self.s = settings
-        self.http = http or httpx.Client(timeout=60, trust_env=True)
+        self.http = http or httpx.Client(timeout=60, proxy=settings.llm_proxy or None, trust_env=True)
 
     def complete(self, description: str) -> tuple[str, int, int]:
         user = "Описание продавца:\n" + description[:MAX_DESC_CHARS]

@@ -7,6 +7,10 @@ x-app: &app
   env_file:
     - path: .env
       required: false
+  # перекрывают .env: 127.0.0.1 в контейнере — сам контейнер. Сборщик тоже пишет в Telegram (оповещения, модерация)
+  environment:
+    TG_PROXY: ${TG_PROXY_DOCKER:-http://host.docker.internal:10809}
+    LLM_PROXY: ${LLM_PROXY_DOCKER:-http://host.docker.internal:10809}
   volumes:
     # именованный том, а не папка хоста: SQLite в режиме WAL ненадёжен на bind-mount Docker Desktop (Windows/Mac)
     - kiravto-data:/app/data
@@ -22,8 +26,6 @@ services:
     <<: *app
     command: ["python", "-m", "kiravto", "bot"]
     depends_on: [collector]
-    environment:
-      TG_PROXY: ${TG_PROXY_DOCKER:-http://host.docker.internal:10809}
 
   api:
     <<: *app

@@ -18,7 +18,7 @@ def test_secrets_hidden_input_writes_env(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr(cli, "ROOT", root)
     secrets_in = iter([SECRET, "", ""])                    # токен бота, API (сгенерировать), LLM (пропустить)
     monkeypatch.setattr(cli.getpass, "getpass", lambda prompt="": next(secrets_in))
-    plain_in = iter(["-100777", "", "", "", "", ""])
+    plain_in = iter(["-100777", "", "", "", "", "", ""])
     monkeypatch.setattr("builtins.input", lambda prompt="": next(plain_in))
     cli.cmd_secrets(None)
     env = load_env_file(root / ".env")

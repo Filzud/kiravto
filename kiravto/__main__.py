@@ -26,6 +26,7 @@ PLAIN_KEYS = [
     ("TG_PROXY", "Прокси для Telegram, если нужен (например http://127.0.0.1:10809)"),
     ("LLM_PROVIDER", "Провайдер LLM: openrouter / openai / anthropic (Enter — пропустить)"),
     ("LLM_MODEL", "Модель LLM, например openai/gpt-4o-mini"),
+    ("LLM_PROXY", "Прокси для LLM, если нужен (например http://127.0.0.1:10809)"),
 ]
 
 

@@ -100,3 +100,11 @@ def test_dropped_facts_visible_in_stats_and_report(conn, settings, clock):
     assert (st["facts_kept"], st["facts_dropped"], st["calls"]) == (2, 2, 1)
     html = build_html(conn, settings=settings)
     assert "фактов выброшено" in html and "None" not in html
+
+
+def test_llm_proxy_used(settings):
+    # из России OpenRouter/Anthropic — через прокси; в контейнере это host.docker.internal, а не trust_env
+    settings.llm_proxy = "http://proxy.local:10809"
+    client = LLMClient(settings)
+    assert any(getattr(t, "_pool", None) is not None and "proxy.local" in str(getattr(t._pool, "_proxy_url", ""))
+               for t in client.http._mounts.values())
