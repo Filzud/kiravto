@@ -61,7 +61,8 @@ def cmd_secrets(_args) -> None:
     for line in example:
         k = line.split("=", 1)[0].strip()
         if line and not line.startswith("#") and "=" in line:
-            out.append(f"{k}={current.get(k, '')}")
+            # ключа ещё нет в .env (новая настройка) — значение по умолчанию из шаблона, а не пустое
+            out.append(f"{k}={current.get(k, line.split('=', 1)[1].strip())}")
             written.add(k)
         else:
             out.append(line)
