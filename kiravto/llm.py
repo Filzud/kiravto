@@ -146,10 +146,16 @@ class FactExtractor:
             return None
         try:
             text, tin, tout = self.client.complete(description)
-            raw = parse_model_json(text)
-        except (httpx.HTTPError, ValueError, KeyError) as e:
+        except (httpx.HTTPError, KeyError) as e:
             log.warning("LLM не ответила: %s", e.__class__.__name__)
             return None
+        try:
+            raw = parse_model_json(text or "")
+        except ValueError as e:
+            # плохой ответ на одно описание (живой прогон 22.10: content=null) — не повод вставать всей очереди;
+            # в кэш не пишем, в следующий раз спросим снова
+            log.warning("LLM: негодный ответ (%s), описание пропущено", e)
+            return []
         kept, dropped = verify_facts(description, raw)
         cost = tin / 1e6 * self.s.llm_price_in_per_m + tout / 1e6 * self.s.llm_price_out_per_m
         self.conn.execute(

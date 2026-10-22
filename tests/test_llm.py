@@ -119,3 +119,23 @@ def test_live_openrouter_response_22_10(conn, settings, clock):
     assert len(facts) == 2 and all(f["quote"] for f in facts)
     assert "ГАРАНТИЯ 2 года" in facts[0]["quote"]
     assert len(calls) == 1
+
+
+def test_empty_model_answer_does_not_block_queue(conn, settings, clock):
+    # живой прогон 22.10.2026: minimax на 33-м описании вернул content=null → TypeError, очередь встала бы навсегда
+    good = recorded("openrouter_live_minimax_1133509259.json")
+    empty = {"choices": [{"message": {"content": None}}], "usage": {"prompt_tokens": 700, "completion_tokens": 2000}}
+    settings.llm_provider, settings.llm_api_key, settings.llm_model = "openrouter", "test-key", "test-model"
+    answers = iter([empty, good["response"]])
+    client = LLMClient(settings, http=httpx.Client(transport=httpx.MockTransport(
+        lambda r: httpx.Response(200, json=next(answers)))))
+    fx = FactExtractor(conn, settings, client, clock=clock)
+    assert fx.facts_for("Пустой ответ на это описание") == []
+    assert fx.cached("Пустой ответ на это описание") is None          # не кэшируем — в другой раз спросим снова
+    assert len(fx.facts_for(good["description"])) == 2
+
+
+def test_rate_limit_stops_batch(conn, settings, clock):
+    settings.llm_provider, settings.llm_api_key, settings.llm_model = "openrouter", "test-key", "test-model"
+    client = LLMClient(settings, http=httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(429))))
+    assert FactExtractor(conn, settings, client, clock=clock).facts_for("какое-то описание") is None
