@@ -10,7 +10,7 @@ name: kiravto
 x-vps-env: &vps-env
   TG_PROXY: ""
   LLM_PROXY: ""
-  STT_MODEL: ""
+  STT_MODEL: "off"
 
 services:
   collector:

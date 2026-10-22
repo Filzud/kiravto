@@ -12,7 +12,8 @@ def test_empty_numbers_mean_defaults(tmp_path, monkeypatch):
         monkeypatch.delenv(k, raising=False)
     s = load_settings(env)
     assert s.market_groups_per_run == 12 and s.market_ttl_hours == 48 and s.run_interval_min == 45
-    assert s.stt_model == ""             # строковая настройка: пусто — это «выключено», а не значение по умолчанию
+    assert s.stt_model == "small"        # пустое — по умолчанию; выключается только явным off
+    assert s.rolf_dealer_id == "38"       # пустой ID салона дал бы склад всех салонов РОЛЬФ
     assert s.market_below_pct is None
 
 
@@ -20,3 +21,11 @@ def test_example_has_value_for_every_number():
     """Шаблон .env.example — источник значений, которые `secrets` дописывает в .env."""
     ex = load_env_file(ROOT / ".env.example")
     assert ex["MARKET_GROUPS_PER_RUN"] == "12" and ex["ROLF_INTERVAL_HOURS"] == "6"
+
+
+def test_voice_off_explicitly(tmp_path, monkeypatch):
+    env = tmp_path / ".env"
+    env.write_text("STT_MODEL=off\nDB_PATH=" + str(tmp_path / "x.db") + "\n", encoding="utf-8")
+    monkeypatch.delenv("STT_MODEL", raising=False)
+    monkeypatch.delenv("DB_PATH", raising=False)
+    assert load_settings(env).stt_model == ""

@@ -79,7 +79,7 @@ class Settings:
     rolf_interval_hours: float = 6
 
     # голосовые вопросы в админ-чате (задание со звёздочкой 3)
-    stt_model: str = "small"                # faster-whisper; пусто — голос выключен
+    stt_model: str = "small"                # faster-whisper; off — голос выключен
 
     # выгрузка в Google Таблицу (задание со звёздочкой 4)
     gsheet_id: str = ""
@@ -140,9 +140,10 @@ def load_settings(env_path: Path | None = None) -> Settings:
         market_ttl_hours=float(num("MARKET_TTL_HOURS", "48")),
         market_min_comps=int(num("MARKET_MIN_COMPS", "5")),
         market_below_pct=float(g("MARKET_BELOW_PCT")) if g("MARKET_BELOW_PCT") else None,
-        rolf_dealer_id=g("ROLF_DEALER_ID", "38"),
+        # пустой ID салона дал бы склад всех салонов РОЛЬФ — пусто значит «по умолчанию»
+        rolf_dealer_id=num("ROLF_DEALER_ID", "38"),
         rolf_interval_hours=float(num("ROLF_INTERVAL_HOURS", "6")),
-        stt_model=g("STT_MODEL", "small"),
+        stt_model="" if num("STT_MODEL", "small").lower() in ("off", "0", "no") else num("STT_MODEL", "small"),
         gsheet_id=g("GSHEET_ID"),
         gsheet_credentials=g("GSHEET_CREDENTIALS"),
         gsheet_interval_hours=float(num("GSHEET_INTERVAL_HOURS", "3")),

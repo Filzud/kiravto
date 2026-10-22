@@ -383,7 +383,7 @@ class ModerationBot:
 
     def voice_text(self, voice_obj: dict) -> str:
         if not self.settings.stt_model:
-            return "Голосовые вопросы выключены (STT_MODEL пуст). Можно спросить текстом: /ask вопрос"
+            return "Голосовые вопросы выключены (STT_MODEL=off). Можно спросить текстом: /ask вопрос"
         if (voice_obj.get("duration") or 0) > 60:
             return "Голосовое длиннее минуты — спросите короче."
         from . import voice
