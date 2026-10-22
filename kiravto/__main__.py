@@ -184,6 +184,10 @@ def tg_check(settings, api) -> list[str]:
             ok = status in ("administrator", "creator") or (name == "админ-чат" and status == "member")
             out.append(f"{'✓' if ok else '✗'} {name} {cid}: бот — {status}"
                        + ("" if ok else " (нужны права администратора с публикацией)"))
+            if name == "админ-чат" and status == "member" and not me.get("can_read_all_group_messages"):
+                # режим приватности: в группе боту приходят только /команды — голосовые до него не доходят
+                out.append("! в админ-чате бот не видит голосовые (режим приватности): сделайте бота администратором "
+                           "группы или @BotFather → /setprivacy → Disable и добавьте бота в группу заново")
         except TelegramError as e:
             out.append(f"✗ {name} {cid}: {e}")
     prod = settings.tg_publish_target == "prod" and settings.publish_channel_id == settings.tg_prod_channel_id

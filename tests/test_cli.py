@@ -55,6 +55,10 @@ def test_tg_check_reports_chats_and_rights(settings):
     assert "– боевой канал: ID не задан" in text
     assert "тестовый канал" in lines[-1]
     assert SECRET not in text
+    # бот — участник админ-группы в режиме приватности: голосовые не придут (живой случай 22.10.2026)
+    assert "не видит голосовые" in text
+    answers["getMe"]["can_read_all_group_messages"] = True
+    assert "не видит голосовые" not in "\n".join(cli.tg_check(settings, api))
 
 
 def test_token_shape_explains_paste_errors():
