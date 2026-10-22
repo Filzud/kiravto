@@ -39,7 +39,7 @@ fi
 log "образ собран"
 "${COMPOSE[@]}" run --rm --no-deps tests python -m pytest -q -p no:cacheprovider 2>&1 | tail -1 | tee -a "$LOG"
 "${COMPOSE[@]}" up -d collector api
-log "контейнеры подняты: $(docker compose ps --format '{{.Service}}={{.State}}' | tr '\n' ' ')"
+log "контейнеры подняты: $("${COMPOSE[@]}" ps --format '{{.Service}}={{.State}}' | tr '\n' ' ')"
 
 for i in $(seq 1 30); do
   if curl -fsS http://127.0.0.1:8080/health >/dev/null 2>&1; then
