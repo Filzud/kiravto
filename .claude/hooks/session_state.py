@@ -45,6 +45,12 @@ def main() -> None:
         q = conn.execute("SELECT status, COUNT(*) FROM posts WHERE status IN ('new','moderation','approved','failed') "
                          "GROUP BY status").fetchall()
         lines.append("Очередь постов: " + (", ".join(f"{s}={n}" for s, n in q) if q else "пусто"))
+        # побочные прогоны (рынок, сайт салона, таблица); в старой базе таблицы может не быть
+        if conn.execute("SELECT 1 FROM sqlite_master WHERE name='side_runs'").fetchone():
+            for s in conn.execute("SELECT kind, started_at, status, requests, note FROM side_runs WHERE id IN "
+                                  "(SELECT MAX(id) FROM side_runs GROUP BY kind) ORDER BY kind"):
+                lines.append(f"- {s['kind']}: {s['started_at']} {s['status']}, запросов {s['requests']}"
+                             + (f" — {s['note']}" if s["note"] else ""))
     except sqlite3.Error as e:
         lines.append(f"Не удалось прочитать базу: {e}")
     finally:

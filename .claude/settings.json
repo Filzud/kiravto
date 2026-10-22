@@ -3,7 +3,9 @@
     "deny": [
       "Read(./.env)",
       "Read(./.env.*.local)",
-      "Edit(./.env)"
+      "Edit(./.env)",
+      "Read(./secrets/**)",
+      "Edit(./secrets/**)"
     ]
   },
   "enableAllProjectMcpServers": true,
