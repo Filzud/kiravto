@@ -32,6 +32,8 @@ SYSTEM = (
 )
 MAX_FACTS = 3
 MAX_DESC_CHARS = 6000
+# с запасом на рассуждения: у minimax-m3.1-flash 430 из 540 токенов ответа — reasoning (живой запрос 22.10.2026)
+MAX_OUT_TOKENS = 2000
 
 
 class LLMUnavailable(Exception):
@@ -85,7 +87,7 @@ class LLMClient:
         if self.s.llm_provider == "anthropic":
             url = (self.s.llm_base_url or "https://api.anthropic.com") + "/v1/messages"
             r = self.http.post(url, headers={"x-api-key": self.s.llm_api_key, "anthropic-version": "2023-06-01"},
-                               json={"model": self.s.llm_model, "max_tokens": 600, "system": SYSTEM,
+                               json={"model": self.s.llm_model, "max_tokens": MAX_OUT_TOKENS, "system": SYSTEM,
                                      "messages": [{"role": "user", "content": user}]})
             r.raise_for_status()
             d = r.json()
@@ -95,7 +97,7 @@ class LLMClient:
                                        else "https://api.openai.com/v1")
         r = self.http.post(base.rstrip("/") + "/chat/completions",
                            headers={"Authorization": f"Bearer {self.s.llm_api_key}"},
-                           json={"model": self.s.llm_model, "max_tokens": 600, "temperature": 0,
+                           json={"model": self.s.llm_model, "max_tokens": MAX_OUT_TOKENS, "temperature": 0,
                                  "response_format": {"type": "json_object"},
                                  "messages": [{"role": "system", "content": SYSTEM},
                                               {"role": "user", "content": user}]})

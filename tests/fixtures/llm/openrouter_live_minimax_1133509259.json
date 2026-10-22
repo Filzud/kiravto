@@ -1,0 +1,58 @@
+{
+ "offer_id": "1133509259",
+ "description": "⭐РОЛЬФ Lexus Ясенево - ДЕЙСТВУЮЩИЙ ОФИЦИАЛЬНЫЙ ДИЛЕР TOYOTA и LEXUS⭐\n⚡Успейте до повышения утильсбора! \n\nМосква, 39 км МКАД, вл 7\n\nLexus и РОЛЬФ вместе с 2010 года!\n\nНаша команда профессионалов поможет Вам сделать лучший выбор Lexus RX\n\n💲ВЫГОДНАЯ КРЕДИТНАЯ СТАВКА от 12.9% \n✅ ГАРАНТИЯ 2 года или 100.000 км. + 1 год сервисной поддержки\n✅ Коммерческий утилизационный сбор оплачен (полный комплект документов)\n✅ Автомобили в наличии с ЭПТС\n✅ Дополнительная выгода за кредит и трейд-ин\n✅ Кредитование по выгодным ставкам. Программа РОЛЬФ Финанс - одобрение 97%!\n✅ Скидка 50.000 руб. за бронирование в день обращения!\n\nУлучшим любое предложение от других дилеров!\n\n📞 Позвоните нам, и мы обязательно подберем автомобиль под Ваши критерии!",
+ "response": {
+  "id": "gen-1792664822-wp6LURM5O2WFo5b7yiEt",
+  "object": "chat.completion",
+  "created": 1792664822,
+  "model": "minimax/minimax-m3.1-flash:free",
+  "provider": "Minimax",
+  "system_fingerprint": null,
+  "service_tier": null,
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "stop",
+    "message": {
+     "role": "assistant",
+     "content": "{\"facts\":[{\"fact\":\"Гарантия на автомобиль — 2 года или 100 000 км, плюс год сервисной поддержки.\",\"quote\":\"ГАРАНТИЯ 2 года или 100.000 км. + 1 год сервисной поддержки\"},{\"fact\":\"Коммерческий утилизационный сбор оплачен, документы в полном комплекте.\",\"quote\":\"Коммерческий утилизационный сбор оплачен (полный комплект документов)\"}]}",
+     "refusal": null,
+     "reasoning": "We need answer only JSON, extract up to 3 facts specifically this car. Description mostly dealer promo, no actual car details except Lexus RX, warranty, util collection, PTS perhaps. Need facts useful: dealer? It is official dealer and guarantee maybe applies. But instruction excludes salon advertising and general promises. \"Гарантия 2 года...\" Could be this car? In context offer, likely fact. \"Коммерческий утилизационный сбор оплачен (полный комплект документов)\" and \"Автомобили в настимости с ЭПТС\" general inventory, not necessarily this car. Need exactly about THIS car. The model Lexus RX is specified. Dealer service? \"Lexus и РОЛЬФ...\" not car. Warranty likely useful and explicit. Could output one fact. Quote 5 words. Fact short Russian. \"Гарантия 2 года или 100 000 км.\" Quote exact includes emoji? Substring without changes 3-25 words. Could quote \"ГАРАНТИЯ 2 года или 100.000 км. + 1 год сервисной поддержки\". Fact maybe \"На автомобиль дана гарантия 2 года/100 000 км и год сервисной поддержки.\" Is quote exact. Another: paid commercial recycling fee, complete docs. Useful. But does it refer to this vehicle? Listed offer conditions, likely. They explicitly want useful facts from seller description. Need avoid general advertising. \"Коммерческий утилизационный сбор оплачен (полный комплект документов)\" is vehicle-specific. \"Автомобили в наличии с ЭПТС\" plural/general, skip. Could include model Lexus RX? Fact \"Продаётся Lexus RX\" but trivial and no owner/repair etc; could be fact but likely no need. Up to 3. Warranty and util fee and maybe service support bundled in warranty. The offer says +1 year сервисной поддержки. Could combine.\n\nNeed only JSON. Ensure valid JSON, Unicode.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "We need answer only JSON, extract up to 3 facts specifically this car. Description mostly dealer promo, no actual car details except Lexus RX, warranty, util collection, PTS perhaps. Need facts useful: dealer? It is official dealer and guarantee maybe applies. But instruction excludes salon advertising and general promises. \"Гарантия 2 года...\" Could be this car? In context offer, likely fact. \"Коммерческий утилизационный сбор оплачен (полный комплект документов)\" and \"Автомобили в настимости с ЭПТС\" general inventory, not necessarily this car. Need exactly about THIS car. The model Lexus RX is specified. Dealer service? \"Lexus и РОЛЬФ...\" not car. Warranty likely useful and explicit. Could output one fact. Quote 5 words. Fact short Russian. \"Гарантия 2 года или 100 000 км.\" Quote exact includes emoji? Substring without changes 3-25 words. Could quote \"ГАРАНТИЯ 2 года или 100.000 км. + 1 год сервисной поддержки\". Fact maybe \"На автомобиль дана гарантия 2 года/100 000 км и год сервисной поддержки.\" Is quote exact. Another: paid commercial recycling fee, complete docs. Useful. But does it refer to this vehicle? Listed offer conditions, likely. They explicitly want useful facts from seller description. Need avoid general advertising. \"Коммерческий утилизационный сбор оплачен (полный комплект документов)\" is vehicle-specific. \"Автомобили в наличии с ЭПТС\" plural/general, skip. Could include model Lexus RX? Fact \"Продаётся Lexus RX\" but trivial and no owner/repair etc; could be fact but likely no need. Up to 3. Warranty and util fee and maybe service support bundled in warranty. The offer says +1 year сервисной поддержки. Could combine.\n\nNeed only JSON. Ensure valid JSON, Unicode.",
+       "format": "unknown",
+       "index": 0
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 730,
+   "completion_tokens": 540,
+   "total_tokens": 1270,
+   "cost": 0,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 184,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0,
+    "upstream_inference_prompt_cost": 0,
+    "upstream_inference_completions_cost": 0
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 430,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+}

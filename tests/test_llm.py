@@ -108,3 +108,14 @@ def test_llm_proxy_used(settings):
     client = LLMClient(settings)
     assert any(getattr(t, "_pool", None) is not None and "proxy.local" in str(getattr(t._pool, "_proxy_url", ""))
                for t in client.http._mounts.values())
+
+
+def test_live_openrouter_response_22_10(conn, settings, clock):
+    # настоящий ответ minimax/minimax-m3.1-flash:free через OpenRouter, 22.10.2026, описание — живое из базы
+    rec = recorded("openrouter_live_minimax_1133509259.json")
+    calls = []
+    fx = make(conn, settings, clock, "openrouter", rec["response"], calls)
+    facts = fx.facts_for(rec["description"])
+    assert len(facts) == 2 and all(f["quote"] for f in facts)
+    assert "ГАРАНТИЯ 2 года" in facts[0]["quote"]
+    assert len(calls) == 1
